@@ -1,0 +1,17 @@
+# papers folder
+thesis/papers/*
+
+# latex build filex
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.lof
+*.log
+*.lot
+*.out
+*.run.xml
+*.synctex.gz
+*.toc
+*.fdb_latexmk
+*.fls

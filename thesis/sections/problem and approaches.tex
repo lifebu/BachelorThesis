@@ -1,0 +1,44 @@
+%% LaTeX2e class for student theses
+%% sections/content.tex
+%% 
+%% Karlsruhe Institute of Technology
+%% Institute for Program Structures and Data Organization
+%% Chair for Software Design and Quality (SDQ)
+%%
+%% Dr.-Ing. Erik Burger
+%% burger@kit.edu
+%%
+%% Version 1.3.5, 2020-06-26
+
+\chapter{Problem and Approaches}
+\label{ch:ProblemApproaches}
+
+Agent:
+\begin{itemize}[noitemsep,nolistsep]
+    \item performance measure: which one?
+    \item needs information gathering
+    \item uses percepts to find correct action from prior knowledge
+    \item communication is important
+    \item learning while a game is running?
+\end{itemize}
+\medskip
+Multiagent:
+\begin{itemize}[noitemsep,nolistsep]
+    \item multiagent (decentralized planning with coordination) or multibody (centralized planning)?
+    \item multieffector (units can walk and attack) (can be made easier).
+\end{itemize}
+\medskip
+Environment:
+\begin{itemize}[noitemsep,nolistsep]
+    \item partially observable (fog of war).
+    \item cooperative multiagent environment for a given player.
+    \item competitive multiagent environment between players.
+    \item usually deterministic, games may use RNG than it would stochastic.
+    \item stochastic because of partially observability.
+    \item sequentiell  (current actions depend on previous actions).
+    \item static environment (when AI is framelocked), otherwise dynamic
+    \item pseudo-continious environment
+    \item known, but partially observable.
+    \item basically hardest case: partially observable, multiagent, stochastic, sequentiell, dynamic, continuous and unknown.
+\end{itemize}
+

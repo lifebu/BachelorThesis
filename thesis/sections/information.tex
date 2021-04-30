@@ -1,0 +1,280 @@
+%% LaTeX2e class for student theses
+%% sections/content.tex
+%% 
+%% Karlsruhe Institute of Technology
+%% Institute for Program Structures and Data Organization
+%% Chair for Software Design and Quality (SDQ)
+%%
+%% Dr.-Ing. Erik Burger
+%% burger@kit.edu
+%%
+%% Version 1.3.5, 2020-06-26
+
+\chapter{Information to sort}
+\label{ch:Info}
+
+\section{Artificial Intelligence - A modern Approach}
+\subsection{Agents and Environments}
+p.34
+\begin{itemize}[noitemsep,nolistsep]
+	\item \textbf{agent}: anything that perceives its \textbf{environment} through \textbf{sensors} and acting upon that environment using \textbf{actuators}.
+	\item \textbf{percept}: agent’s perceptual inputs at any given instance. Percept sequence is a complete history of perception.
+	\item agents choice of action decided upon the history of perception, but not anything it has not perceived.
+	\item its behavior is described by the \textbf{agent function}, which is internally implemented by the \textbf{agent program}.
+\end{itemize}
+
+\subsection{Rational Agent}
+p.36
+\begin{itemize}[noitemsep,nolistsep]
+	\item \textbf{rational agent}: it does the correct thing. Correctness is determined by a performance measure, which is determined by the changed environment states.
+	\item design \textbf{performance measures} according to what one actually wants in the environment, rather than according to how one thinks the agent should behave.
+	\item rational depends on:
+	\begin{itemize}
+		\item the performance measure that defines the criterion of success
+		\item the agent’s prior knowledge of the environment.
+		\item The actions that the agent can perform.
+		\item The agent’s percept sequence of data.
+	\end{itemize}
+	\item depending on the measures the agent might be rational or not. 
+	\item an \textbf{omniscient agent} knows the actual outcome of its actions and can act accordingly, but this is impossible in reality.
+	\item rationality maximizes expected performance, while perfection (omniscient) maximizes actual performance.
+	\item agents can do actions in order to modify future percepts, called \textbf{information gathering, or exploration}.
+	\item rational agents learn as much as possible from what it perceives.
+	\item his knowledge can be augmented and modified as it gains experience.
+	\item if the agent relies on the prior knowledge of its designer rather than on its own percepts, we say that the agent lacks \textbf{autonomy}.
+	\item it should learn what it can to compensate for partial or incorrect prior knowledge.
+	\item give it some initial knowledge and the ability to learn, so it will become independent of its prior knowledge.
+\end{itemize}
+
+\subsection{Nature of Environments}
+p.40
+\begin{itemize}[noitemsep,nolistsep]
+	\item \textbf{task environments}: the “problems” to which rational agents are the “solutions”.
+	\item Describe the task environment in the following aspects P(Performance measure), E(Environment), A(Actuators), S(Sensors).
+	\item \textbf{fully observable}: the agent’s sensors give it access to the complete state of the environment. All aspects that are relevant to the choice of actions
+	\item \textbf{partially observable}: otherwise. Because of missing sensors or noise.
+	\item no sensors: unobservable
+	\item single-agent environments and multi-agent environments.
+	\item multi-agent can be either competitive (chess) or cooperative (avoiding collisions maximizes performance).
+	\item \textbf{communication} emerges as a rational behavior in multiagent environments.
+	\item randomized behavior is rational because it avoids the pitfalls of predictability.
+	\item \textbf{Deterministic}: next state of environment is completely determined by the current state and the action executed by the agent, otherwise it is \textbf{stochastic}.
+	\item you can ignore uncertainty that arises purely from the actions of other agents in a multiagent environment.
+	\item If the environment is partial observable, it could appear to be stochastic, which implies quantifiable outcomes in terms of probabilities.
+	\item an environment is \textbf{uncertain} if it is not fully observable or not deterministic. 
+	\item \textbf{episodic}: the agent’s experience is divided into atomic episodes. In each the agent receives a percept and performs a single episode. The next episode does not depend on the actions taken in previous episodes, otherwise it is \textbf{sequential}.
+	\item When the environment can change while the agent is deliberating, then the environment is \textbf{dynamic} for that agent otherwise it is \textbf{static}.
+	\item if the environment itself does not change with the passage of time but the agent’s performance score does, then we say the environment is \textbf{semi dynamic}.
+	\item \textbf{discrete/continuous} applies to the state of the environment, to the way time is handled, and to the percepts and actions of the agents.
+	\item \textbf{known vs. unknown}: refers to the agent’s state of knowledge about the “laws of physics” of the environment. Known environment, the outcomes for all actions are given, otherwise the agent needs to learn how it works. An environment can be known, but partially observable (solitaire: I know the rules but still unable to see the cards that have not yet been turned over)
+	\item hardest case: partially observable, multiagent, stochastic, sequential, dynamic, continuous, and unknown
+	\item \textbf{environment class}: multiple environment scenarios to train it for multiple situations.
+	\item you can create an \textbf{environment generator}, that selects environments in which to run the agent.
+\end{itemize}
+
+\subsection{Structure of Agents}
+p.46
+\begin{itemize}[noitemsep,nolistsep]
+	\item agent = architecture (computing device) + program (agent program).
+	\item agent programs take the current percept as input and return an action to the actuators.
+	\item agent program takes the current percept, agent function which takes the entire percept history.
+	\item \textbf{table driven agent}: Uses a table of actions indexed by percept sequences. This table grows way to fast and is therefore not practical.
+\end{itemize}
+
+\underline{Simple reflex agents:}
+\begin{itemize}[noitemsep,nolistsep]
+	\item \textbf{simple reflex agents}: Select the actions on the basis of the current percept, ignoring the rest of the history.
+	\item \textbf{condition-action-rule}: these agents create actions in a specific condition (if-then). These connections can be seen as reflexes.
+	\item uses an \textbf{interpret-input} function as well as a \textbf{rule-match} function.
+	\item they need the environment to be fully observable. They could run into infinite loops.
+	\item you can mitigate this by using randomization for the actions. Which is non-rational for single agent environments.
+\end{itemize}
+
+\underline{Model-based reflex agents:}
+\begin{itemize}[noitemsep,nolistsep]
+	\item keep track of the part of the world an agent cannot see now. It maintains some sort of \textbf{internal state} that depends on the percept history.
+	\item agents needs to know how the world evolves independently of the agent and how the agent’s own actions affect the world.
+	\item with this it creates a \textbf{model} of the world hence it is called model-based agent.
+	\item it needs to update this state given sensor data.
+	\item this model is a \textbf{best guess} and does not determine the entire current state of the environment exactly.
+\end{itemize}
+
+\underline{Goal-based agents:}
+\begin{itemize}[noitemsep,nolistsep]
+	\item an agent needs some sort of \textbf{goal information} that describes situations that are desirable. This can also be combined with the model.
+	\item Usually agents need to do multiple actions to fulfill a goal which requires \textbf{search} and \textbf{planning}.
+	\item this also involves consideration of the future.
+	\item the goal-based agent’s behavior can be easily changed to go to a different destination by using a goal where a reflex agent needs completely now rules.
+\end{itemize}
+
+\underline{Utility-based agents:}
+\begin{itemize}[noitemsep,nolistsep]
+	\item goals provide a crude binary distinction between good and bad states.
+	\item use an internal \textbf{utility function} to create a performance measure.
+	\item if the external performance measure and the internal utility function agree, the agent will act rationally.
+	\item if you have conflicting goals the utility function can specify the appropriate \textbf{tradeoff}.
+	\item if multiple goals cannot be achieved with certainty, utility provides a way to determine the \textbf{likelihood} of success.
+	\item a rational utility-based agent chooses the action that \textbf{maximizes the expected utility}.
+	\item any rational agent must behave as if it possesses a utility function whose expected value it tries to maximize.
+	\item a utility-based agent must model and keep track of its environment.
+\end{itemize}
+
+\underline{Learning Agents:}
+\begin{itemize}[noitemsep,nolistsep]
+	\item it allows the agent to operate in initially unknown environments and to become more competent than its initial knowledge alone might allow.
+	\item 4 conceptual components: \textbf{learning element} (responsible for improvements), \textbf{performance element} (select external action), \textbf{critic} (gives feedback to change the learning element), \textbf{problem generator} (suggesting actions that lead to new and informative experiences).
+	\item critic tells the learning element how well the agent is doing given a performance standard. It tells the agent which percepts are good and which are bad.
+	\item problem generator allows for exploration and suboptimal actions to discover better actions in the long run.
+	\item learning element: simplest case: learning directly from the percept sequence.
+	\item the \textbf{performance standard} distinguishes part of the incoming percept as a reward or penalty that provides direct feedback on the quality of the agent’s behavior.
+\end{itemize}
+
+\underline{How the components of agent programs work:}
+\begin{itemize}[noitemsep,nolistsep]
+	\item \textbf{atomic representation}: Each state of the world is indivisible. Algorithms like search and game-playing, Hidden Markov models and Markov decision models work like this.
+	\item \textbf{factored representation}: splits up each state of a fixed set of variables or attributes which each can have a value. Used in constraint satisfaction algorithms, propositional logic, planning, Bayesian networks.
+	\item \textbf{structured representation}: here the different states have connections to each other. Used in relational databases, first-order logic, first-order probability models, knowledge-based learning and natural language understanding.
+	\item more complex representations are more \textbf{expressive} and can capture everything more concise.
+\end{itemize}
+
+\subsection{Multiagent Planning}
+p.425
+\begin{itemize}[noitemsep,nolistsep]
+	\item each agent tries to achieve is own goals with the help or hindrance of others
+	\item wide degree of problems with various degrees of \textbf{decomposition of the monolithic agent}.
+	\item multiple concurrent effectors => \textbf{multieffector planning} (like type and speaking at the same time).
+	\item effectors are physically decoupled => \textbf{multibody planning}.
+	\item if relevant sensor information foreach body can be pooled centrally or in each body ~ like single-agent problem.
+	\item When communication constraint does not allow that: \textbf{decentralized planning problem}. planning phase is centralized, but execution phase is at least partially decoupled.
+	\item single entity is doing the planning: one goal, that every body shares.
+	\item When bodies do their own planning, they may share identical goals.
+	\item \textbf{multibody}: centralized planning and execution send to each.
+	\item \textbf{multiagent}: decentralized local planning, with coordination needed so they do not do the same thing.
+	\item Usage of \textbf{incentives} (like salaries) so that goals of the central-planner and the individual align.
+\end{itemize}
+
+\underline{Multiple simultaneous actions:}
+\begin{itemize}[noitemsep,nolistsep]
+	\item \textbf{correct plan}: if executed by the actors, achieves the goal. Though multiagent might not agree to execute any particular plan.
+	\item \textbf{joint action}: An Action for each actor defined => joint planning problem with branching factor b\^n (b = number of choices).
+	\item if the actors are \textbf{loosely coupled} you can describe the system so that the problem complexity only scales linearly.
+	\item standard approach: pretend the problems are completely decoupled and then fix up the interactions.
+	\item \textbf{concurrent action list}: which actions must or most not be executed concurrently. (only one at a time)
+\end{itemize}
+
+
+\underline{Multiple agents: cooperation and coordination }
+\begin{itemize}[noitemsep,nolistsep]
+	\item each agent makes its own plan. Assume goals and knowledge base are shared.
+	\item They \textbf{might choose different plans} and therefore collectively not achieve the common goal.
+	\item \textbf{convention}: A constraint on the selection of joint plans. (cars: do not collide is achieved by “stay on the right side of the road”).
+	\item widespread conventions: social laws.
+	\item absence of convention: use communication to achieve common knowledge of a feasible joint plan.
+	\item The agents can try to \textbf{recognize the plan other agents want to execute} and therefore use plan recognition to find the correct plan. This only works if it is unambiguously.
+	\item an \textbf{ant} chooses its role according to the local conditions it observes.
+	\item ants have a convention on the importance of roles.
+	\item ants have some learning mechanism: a colony learns to make more successful and prudent actions over the course of its decades-long life, even though individual ants live only about a year.
+	\item Another Example: \textbf{Boid}
+	\item If all the boids execute their policies, the flock inhibits the emergent behavior of flying as a pseudorigid body with roughly constant density that does not disperse over time.
+	\item \textbf{most difficult multiagent} problems involve both cooperation with members of one’s own team and competition against members of opposing teams, all without centralized control.
+\end{itemize}
+
+\subsection{Game Theory}
+p.666
+
+\subsection{Mechanism Design for Multiple Agents}
+p.679
+
+\subsection{Adversarial Search}
+p.182
+
+\subsection{Probabilistic Reasoning over Time}
+p.587
+
+\subsection{Reinforcement Learning}
+p.830
+
+\subsection{Planning Uncertain Movements (Potential Fields)}
+p.993
+
+\section{Ant Colony Optimization}
+\subsection{Wikipedia Article}
+\href{https://en.wikipedia.org/wiki/Ant_colony_optimization_algorithms}{Ant Colony Optimization Algorithm, Wikipedia}
+\begin{itemize}[noitemsep,nolistsep]
+	\item is used for solving computational problems which can be reduced to finding good paths through graphs.
+	\item artificial ants locate optimal soluions by moving through a parameter space represneting all possible solutions.
+	\item they record their positions and the quality of their solutions for later iterations to find better solutions (pheromones).
+\end{itemize}
+
+\section{UNSORTED}
+Gordon 2000: Ants at Work.
+\\
+Gordon 2007: Control without hierarchy. Nature.
+\\\textbf{Links:}\\
+\\
+\href{https://www.youtube.com/watch?v=X-iSQQgOd1A}{Ant Simulation Video 1}
+\\
+\href{https://www.youtube.com/watch?v=81GQNPJip2Y}{Ant Simulation Video 2}
+\\
+\href{https://www.youtube.com/watch?v=bqtqltqcQhw}{Boids Video}
+\\
+\href{https://en.wikipedia.org/wiki/Distributed_artificial_intelligence}{Distributed Artificial Intelligence, Wikipedia}
+\\
+\href{https://en.wikipedia.org/wiki/Multi-agent_learning}{Multi-agent learning, Wikipedia}
+\\
+\href{https://en.wikipedia.org/wiki/Bees_algorithm}{Bees algorithm, Wikipedia}
+\\
+\href{https://en.wikipedia.org/wiki/Swarm_intelligence}{Swarm Intelligence, Wikipedia}
+
+\section{References/Papers}
+
+$\href{https://ieeexplore.ieee.org/abstract/document/4445757}{A Comprehensive Survey of Multiagent Reinforcement Learning_2008}
+\\
+\href{https://www.sciencedirect.com/science/article/pii/S0888613X02000919}{Ant Colony Optimization for learning Bayesian network}
+\\
+\href{https://link.springer.com/book/10.1007/978-3-030-64096-5}{Distributed Artificial Intelligence_2020}
+\\
+\href{https://link.springer.com/book/10.1007/978-3-030-64096-5}{Distributed Artificial Intelligence_2020}
+\\
+\href{https://link.springer.com/book/10.1007%2F978-981-33-6718-0}{Distributed Cooperative Control and Communication for Multi-agent Systems_2021}
+\\
+\href{https://link.springer.com/article/10.1007/s10994-006-8919-x}{Machine Learning and Games_2006}
+\\
+\href{https://link.springer.com/book/10.1007%2F978-3-030-69322-0}{PRIMA 2020 Principles and Practice of Multi-Agent Systems_2021}
+\\
+\href{https://arxiv.org/abs/1611.00625}{Torchcraft - A Library for Machine Learning Research on Real-Time Strategy Games_2016}
+\\
+\href{https://www.hindawi.com/journals/complexity/2017/3813912/}{The Multiagent Planning Problem_2016}
+\\
+\href{https://link.springer.com/book/10.1007/978-3-642-15461-4}{Swarm Intelligence_2010}
+\\
+\href{https://link.springer.com/book/10.1007/978-3-642-32650-9}{Swarm Intelligence_2012}
+\\
+\href{https://link.springer.com/book/10.1007/978-3-319-09952-1}{Swarm Intelligence_2014}
+\\
+\href{https://link.springer.com/book/10.1007/978-3-319-44427-7}{Swarm Intelligence_2016}
+\\
+\href{https://link.springer.com/book/10.1007/978-3-030-00533-7}{Swarm Intelligence_2018}
+\\
+\href{https://link.springer.com/book/10.1007/978-3-030-60376-2}{Swarm Intelligence_2020}
+\\
+\href{https://ieeexplore.ieee.org/abstract/document/6374186}{Imitative Learning for RTS_2012}
+\\
+\href{https://ojs.aaai.org/index.php/AIIDE/article/view/12922}{Combining Strategic Learning and Tactical Search in RTS Games_2017}
+\\
+\href{https://ieeexplore.ieee.org/abstract/document/8490409}{Deep RTS A Game Environment for Deep Reinforcement Learning in Real-Time Strategy Games_2018}
+\\
+\href{https://dl.acm.org/doi/10.1145/3297156.3297188}{Artificial Intelligence Techniques on Real-time Strategy Games_2018}
+\\
+\href{https://www.diva-portal.org/smash/record.jsf?pid=diva2%3A805249&dswid=2610}{Using Multi-Agent Potential Fields in Real-Time Strategy Games_2008}
+\\
+\href{https://dl.acm.org/doi/abs/10.5555/3306127.3331766}{Evaluating the Effectiveness of Multi-Agent Organisational Paradigms in a Real-Time Strategy Environment, Engineering Multiagent Systems Track_2019}
+\\
+\href{https://dl.acm.org/doi/10.5555/3306127.3332052}{The StarCraft Multi-Agent Challenge_2019}
+\\
+\href{https://dl.acm.org/doi/abs/10.1145/2371316.2371324}{Neuroevolution based multi-agent system for micromanagement in real-time strategy games_2012}
+\\
+\href{https://ojs.aaai.org/index.php/aimagazine/article/view/2478}{A Review of Real-Time Strategy Game AI_2014}
+\\
+\href{https://ieeexplore.ieee.org/document/5035621}{Dealing with fog of war in a Real Time Strategy game environment_2008}
+$
