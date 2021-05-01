@@ -197,6 +197,51 @@ p.830
 \subsection{Planning Uncertain Movements (Potential Fields)}
 p.993
 
+\section{RTSAI - A Review of Real-Time Strategy Game AI - 2014}
+\subsection{Tactical Decision making}
+\begin{itemize}[noitemsep,nolistsep]
+	\item In Practice: FSM mostly used.
+	\item Tactical and micromanagement decisions can be seperated from other aspects of the game.
+	\item learning domain knowledge is feasible
+	\item Less focus in research.
+\end{itemize}
+\underline{Reinforcement Learning}
+\begin{itemize}[noitemsep,nolistsep]
+	\item Reinforcement Learning can be used. 
+	\item requires clever state abstraction to learn effectively.
+	\item RL not used for Strategic aspects as the problem space is larger and the reward function has delays.
+	\item Used to learn an expected reward value for a particular actions.
+	\item Using a hierarchical approach, where a unit is controlled individually with a higher-level group control affecting each individual's decision would decrease the complexity and make approaches more viable.
+\end{itemize}
+\underline{GameTree Search}
+\begin{itemize}[noitemsep,nolistsep]
+	\item Much Simplified scenario with a known deck of strategies and counters.
+	\item Only then can a search algorithm work with skipping uninteresting states and the moves only be described with pairs and counters. (Nash).
+	\item alpha-beta search / prunning.
+	\item 
+\end{itemize}
+
+
+\subsection{AI Techniques that can be used}
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{ c c }
+		Tactical Decision Making & Strategic Decision Making and Plan Recognition\\
+		%\toprule
+		Reinforcement Learning & Case-Based Planning\\
+		Game-Tree Search & Heararchical Planning\\
+		Bayesian Models & Behavior Trees\\
+		Case-Based Reasoning & Goal-Driven Autonomy\\
+		Neural Networks &  Sate Space Planning\\
+		& Evolutionary Algorithms\\
+		& Cognitive Architectures\\
+		& Deductive Reasoning\\
+		& Probabilistic Reasoning\\
+		& Case-Based Reasoning\\
+	\end{tabular}	
+\end{table}
+
+
 \section{Ant Colony Optimization}
 \subsection{Wikipedia Article}
 \href{https://en.wikipedia.org/wiki/Ant_colony_optimization_algorithms}{Ant Colony Optimization Algorithm, Wikipedia}
