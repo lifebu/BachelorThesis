@@ -13,6 +13,61 @@
 \chapter{Information to sort}
 \label{ch:Info}
 
+\section{Books}
+\href{http://aiwisdom.com/ai_genrerts.html}{AI Game Programming Wisdom (1-4)}
+
+\section{MAS - A Comprehensive Survey of Multiagent Reinforcement Learning - 2008}
+\href{https://ieeexplore.ieee.org/abstract/document/4445757}{MAS - A Comprehensive Survey of Multiagent Reinforcement Learning - 2008}
+\underline{Benefits}
+\begin{itemize}[noitemsep,nolistsep]
+	\item can be parallelized.
+	\item can use experience sharing via communication, or with a teacher-learner relationship.
+	\item Failure of one agent can be covered by other agents.
+	\item insertion of new agents => scaleable.
+	\item MARL Complexity: Exponential in number of agents.
+	\item exploration (new knowledge) - exploitation (current knowledge) - Tradeoff.
+	\item They explore about the environment and other agents.
+	\item need for coordination.
+\end{itemize}
+\underline{Application Domains}
+\begin{itemize}[noitemsep,nolistsep]
+	\item simulation better than real-life (better scalability and robustness).
+	\item Distributed Control: for controlling processes (for larger industry plants).
+	\begin{itemize}[noitemsep,nolistsep]
+		\item avenue for future work.
+		\item used for traffic, power or sensory networks.
+		\item could also be used for pendulum systems.
+	\end{itemize}
+	\item Robotic Teams (Multirobot):
+	\begin{itemize}[noitemsep,nolistsep]
+		\item simulated 2D space. 
+		\item navigation: Reach a goal with obstacles. Area sweeping (retrival of objects (also cooperative)).
+		\item pursuit: Capture a prey robot.
+	\end{itemize}
+	\item Automated Trading: Exchange goods on electronic markets with negotiation and auctions.
+	\item Resource Management: Cooperatie team to manage resources or as clients. (routing, load balancing).
+\end{itemize}
+\underline{Practicallity and Future works}
+\begin{itemize}[noitemsep,nolistsep]
+	\item Scalability Problem: Q-functions do not scale well with the size of the state-action space.
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Approximation needed: for discrete large state-action spaces, for continous states and discrete actions or continious state and action.
+		\item Heuristic in nature and only work in a narrow set of problems.
+		\item Could use theoretical results on single-agent approximate RL.
+		\item also could use discovery and exploitation of the decentralized, modular structure of the multiagent task.
+	\end{itemize}
+	\item MARL without prior knowledge is very slow.
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Need humans to teach the agent.
+		\item shaping: first simple task then scale them.
+		\item could use reflex behavior.
+		\item Knowledge about the task structure.
+	\end{itemize}
+	\item Incomplete, uncertain state measurements could be handled with partiall observability techniques (Markov decision process).
+	\item Multiagent Goals needs a stable learning process for the environment and an adaption for the dynamics of other agents.
+	\item using game-theory-based analysis to apply to the dynamics of the environment.
+\end{itemize}
+
 \section{Artificial Intelligence - A modern Approach}
 \subsection{Agents and Environments}
 p.34
@@ -218,9 +273,92 @@ p.993
 	\item Much Simplified scenario with a known deck of strategies and counters.
 	\item Only then can a search algorithm work with skipping uninteresting states and the moves only be described with pairs and counters. (Nash).
 	\item alpha-beta search / prunning.
-	\item 
+	\item These simplification do not work well into a real game because of the lack of unit collisions and accerlations. Really bad at hit-and-run maneuver.
+	\item For StarCraft: The Search will only allow up to eight units per side in a 2player battle before it is too slow.
+\end{itemize}
+\underline{Monte Carlo Planning}
+\begin{itemize}[noitemsep,nolistsep]
+	\item sample decision space using randomly generated plans to find successful ones.
+	\item Monte Calro tree search may be effective at strategic level decision making for RTS Games.
+	\item Using upper confidence bounds applied to trees (UCT). Plays game randomly out to a terminal state.
+\end{itemize}
+\underline{Other Models}
+\begin{itemize}[noitemsep,nolistsep]
+	\item using objectives, opportunities and threats in a bayesian model learned with RL. Paired with hierarchical FSM for different behavior sets for different scenarios.
+	\item Case-Based Reasoning: selects most similar case for reuse, that only is executed when it is able to be executed. Also used reactionary cases (reflexes)
+	\item Neuroevolution: Evolutionary Algorithms for Neural Networks: Each Unit has its own neural network. (rtNEAT). Environmental sources and actions as outputs. How well does it scale for more units?
 \end{itemize}
 
+\subsection{Strategic Decision making}
+\begin{itemize}[noitemsep,nolistsep]
+	\item In Research: Planning Systems. They determine a sequence of actions to be taken.
+	\item Challenging, because of incomplete information.
+	\item Goal: Humanlike level of competence and reduce development efffort for the industry for scripting methods.
+	\item Main Techniques used: case-based planning (CBP), goal-drive autonomy (GDA) and hierarchical planning.
+	\item Kohan 2: Kings of War: Fun AI with Goals and priorities that resulted in a fun opponent. Also easy to update.
+\end{itemize}
+\underline{Case-Based Planning}
+\begin{itemize}[noitemsep,nolistsep]
+	\item finds similar past situations from which to draw potential solutions to the current situation.
+	\item for CBP: Solutions are a set of potential plans or subplans thate are likely to be effective.
+	\item They exhibit poor reactivity at the strategic level and excessive reactivity at the action level.
+	\item Can abstract the states into a state lattice of possible orders (build orders) combined with small set of features and abstracted actions.
+	\item Approaches with using game logs and behaviors, goals and alive conditions.
+	\item During plan execution it may be modified in order to adapt to unforeseen events. Examples use decision tree models. Decision tree predicts the high-level situation which determines the attrributes and their weights for the case selection. The Tree is learnt.
+	\item can be combined with fuzzy sets to abstract state information and abstracting the regions of the map and their state with choke points, military presence, combat intensity, lost units and amounts of each friendly and enemy unit type.
+	\item needs replays (some examples could achieve a 60\% winrate after one replay)
+\end{itemize}
+\underline{hierarchical Planning}
+\begin{itemize}[noitemsep,nolistsep]
+	\item breaking up the problem hierarchically reduces the complexity of the problem, but create new issues in coordination between the different levels 
+	\item hierarchical plans maps well to the hierarchy of goals and subgoals in typical RTS games.
+	\item Hierarchical Task Networks (HTN): contains tasks, their ordering and methods for achieving them. high level tasks can be decomposed up until concrete actions.
+	\item They allow the agent to react dynamically to problems. 
+	\item There has not been much work in learning HTNs for RTS only for simpler domains.
+	\item can also use an active behavior tree which has paralle, sequentiall and conditional behaviors and goals in a tree structure. Here the tree is expanded during the execution by selecting behaviors. 
+	\item Can combine this with other methods like hierarchical CBP.
+\end{itemize}
+\underline{Behavior Trees}
+\begin{itemize}[noitemsep,nolistsep]
+	\item a hierarchy of decision and action nodes, used alot by game designers.
+	\item they can be edited using visual tools, which make the more accessable to non-programmers.
+	\item as they are hierarchical they can cover a wide range of behavior. 
+	\item They have been used to enable direct control of a case-based-planner's behavior: Combining Expert Knowledge and Learning from Demonstration in Real-Time Strategy Games. (seems nice)
+\end{itemize}
+\underline{Goal-Driven Autonomy}
+\begin{itemize}[noitemsep,nolistsep]
+	\item An agent reasons about its goals, identifies when they need to be updated and changes or adds to them as needed for subsequent planning and execution.
+	\item Adresses the high- and low-level reactivity problem experienced by CBP by reasoning about and reacting to why a goal is succeding or failing.
+	\item unexpected situation: record it as a discrepancy, generate an explanantion and form new goals to revise the plan.
+	\item There is a CBR and RL Version of GDA that allows it to learn new domain knowledge which is not needed to be fed to it.
+\end{itemize}
+
+
+\subsection{Open Research Areas}
+\underline{Game AI in Industry}
+\begin{itemize}[noitemsep,nolistsep]
+	\item In Practice: Industry uses older and simpler approaches.
+	\item papers reason that AI Research will be useful for development by reducing the work involved in creating AI opponents, or by allowing game developers to create better AI opponents.
+	\item Planetary Annihilations uses flow fields for path-finding and neural networks for squad unit control.
+	\item industry triesl to create challenging but defeatable opponents that are fun to play against.
+	\item the game is more fun when reasonably challenging.
+	\item the agent tries to win at all cost, but the game industry wants an agent that looses in a more human-like way. it is fun to finding and taking advantage of opportunities and opponent's mistakes.
+	\item usually classic AI techniques are enough to make a fun AI. It can cheat.
+	\item the old techniques are predictable, reliable and easy to test and debug. Academic AI are seen as difficult to customize, tune, or tweak.
+	\item could gain alot by making the AI more Humanlike: capable of cooperation, using surprises, deception, distractions and coordinated attacks, planning effective strategies and changing streategies to become less predictable. (Scott 2002)
+	\item Being predictable and exploitable in the same fashion over multiple games: not fun.
+	\item AI can make mistakes: They need to seem plausable in the context of the game. Something a human would do.
+	\item Replicate Human PLaystyle (Turtle-ing), which gives the AI more presonality. This could be trained and learned from a human player (from demonstration and offline). Copy how player play the game.
+	\item More work to be done how to make complex systems easier to tweak and customize. Produce specific behavior while retaining learning or reasoning capabilities.
+\end{itemize}
+
+\underline{Multiscale AI}
+\begin{itemize}[noitemsep,nolistsep]
+	\item currently bots require multiple abstractions and reasoining mechanics to work in concert. They usually seperate ways of handling tactical and strategic level decision making. Seperately maging resources, construction and reconnaissance.
+	\item each module interacts with each other, so straightforward hierarchy of command is difficult, as high legel systems require direct knowledge of other systems.
+	\item This is called multiscale AI problems.
+	\item Some approaches use high-level commanders and sub-commanders. Commanders further down the hieararchy are increasingly focused on a particular task, but have lesss information about the overall game state, so therefore must rely on their parents to make them act appropriately in the bigger picture. They can use information from their parent in the hieararchy, but they are unable to react and coordinate with other low-level contreollers directly for cooperative actions.
+\end{itemize}
 
 \subsection{AI Techniques that can be used}
 \begin{table}[h!]
@@ -232,7 +370,7 @@ p.993
 		Game-Tree Search & Heararchical Planning\\
 		Bayesian Models & Behavior Trees\\
 		Case-Based Reasoning & Goal-Driven Autonomy\\
-		Neural Networks &  Sate Space Planning\\
+		Neural Networks &  State Space Planning\\
 		& Evolutionary Algorithms\\
 		& Cognitive Architectures\\
 		& Deductive Reasoning\\
@@ -276,12 +414,7 @@ Gordon 2007: Control without hierarchy. Nature.
 \href{https://www.sciencedirect.com/science/article/pii/S0888613X02000919}{ACO - Ant Colony Optimization for learning Bayesian network - 2002}
 
 \subsection{Multiagent Systems (MAS)}
-$
-\href{https://ieeexplore.ieee.org/abstract/document/4445757}{MAS - A Comprehensive Survey of Multiagent Reinforcement Learning - 2008}
-\\
-\href{https://link.springer.com/book/10.1007/978-3-030-64096-5}{MAS - Distributed Artificial Intelligence - 2020}
-\\
-\href{https://link.springer.com/book/10.1007/978-3-030-64096-5}{MAS - Distributed Artificial Intelligence - 2020}
+\href{https://ieeexplore.ieee.org/abstract/document/8352646}{MAS - Multi-Agent Systems - A Survey - 2018}
 \\
 \href{https://link.springer.com/book/10.1007%2F978-981-33-6718-0}{MAS - Distributed Cooperative Control and Communication for Multi-agent Systems - 2021}
 \\
@@ -310,21 +443,26 @@ $
 \href{https://dl.acm.org/doi/abs/10.1145/2371316.2371324}{MAS - Neuroevolution based multi-agent system for micromanagement in real-time strategy games - 2012}
 \\
 \href{https://ieeexplore.ieee.org/document/5035621}{MAS - Dealing with fog of war in a Real Time Strategy game environment - 2008}
-\\
+\begin{itemize}[noitemsep,nolistsep]
+	\item p.3: The Initial set of charges were found using trial and error => can use learning for that.
+	\item using multi-agent potential fields for unit movements.
+\end{itemize}
+
 \href{https://link.springer.com/article/10.1007/s10458-006-7035-4}{MAS - Hierarchical multi-agent reinforcement learning - 2006}
-$
+
 
 \subsection{RTS AI}
-$
+
 \href{https://ojs.aaai.org/index.php/aimagazine/article/view/2478}{RTSAI - A Review of Real-Time Strategy Game AI - 2014}
 \\
 \href{https://dl.acm.org/doi/10.1145/3297156.3297188}{RTSAI - Artificial Intelligence Techniques on Real-time Strategy Games - 2018}
 \\
 \href{https://ieeexplore.ieee.org/abstract/document/7860394}{RTSAI - Informed Monte Carlo Tree Search for Real-Time Strategy games - 2016}
-$
+\\
+\href{https://link.springer.com/chapter/10.1007/978-3-642-23291-6_15}{RTSAI - Case based Reasoning Research (Palmer) - 2011 - CBP - BT}
 
 \subsection{RTS Learning}
-$
+
 \href{https://www.hindawi.com/journals/ijcgt/2009/129075/}{RTSLearn - Combining AI Methods for Learning Bots in a Real-Time Strategy Game - 2008}
 \\
 \href{https://ojs.aaai.org/index.php/AIIDE/article/view/12922}{RTSLearn - Combining Strategic Learning and Tactical Search in RTS Games - 2017}
@@ -342,4 +480,3 @@ $
 \href{https://www.sciencedirect.com/science/article/pii/S187705091501354X}{RTSLearn - Real Time Strategy Games: A Reinforcement Learning Approach - 2015}
 \\
 \href{https://arxiv.org/abs/1611.00625}{RTSLearn - Torchcraft - A Library for Machine Learning Research on Real-Time Strategy Games - 2016}
-$
