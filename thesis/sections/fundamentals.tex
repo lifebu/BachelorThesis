@@ -26,7 +26,7 @@ Topics:
 		\item Particle Swarms (nicht so meins).
 		\item Problems:
 		\begin{itemize}[noitemsep,nolistsep]
-			\item MAS Movement Problems (Potential Fields).
+			\item MAS Movement Problems (Potential Fields). Mean fields?
 			\item ? using MAS for Moving a Multi-Legged Robot (Spider-like) with a navigation problem design as a hierarchical MAS?
 			\item Path Planning Navigation with Heterogeneous Agents? 
 			\item MAS Task Problems: Rendezvous, Pursuit Evasion (Single and one Evader) (Boid?), (MAS - Deep Reinforcement Learning for Robot Swarms - 2019 - KIT)
@@ -43,7 +43,13 @@ Topics:
 			\item Evolutionary Systems: NEAT (MAS - Swarm Intelligence - 2012 - p.98)
 		\end{itemize}
 		\item Graph-Based Visualisation for MAS. (MAS - Swarm Intelligence - 2010). How do you visualize them?
-		\item Adding new Agents to the mix, can you use transfer learning?
+		\item Transfer Learning for MARL/MAS
+		\begin{itemize}[noitemsep,nolistsep]
+			\item Some approaches for parallel transfor of different problems even for MARL Problems.
+			\item So you can transfer even in parallel.
+			\item But they only transfer between similar problems. Which would held if you can create a simpler version of your problem and make it more and more complex.
+			\item Are there transfer learning approaches for MAS/MARL, so that Learning can be transfered between agents? So that if you add agents the complexity isn't as steep?
+		\end{itemize}
 		\item Adaptive Learning for MAS?
 		\item Control System: Either fully self-organizing or completely centralized. Hybrid Control of Swarms (MAS - Swarm Intelligence - 2018 - p.69)
 		\item Simulation of MAS: ARGoS
@@ -51,23 +57,11 @@ Topics:
 		\item Sensory Errors for Foraging, Dynamic Task Partiotioning (MAS - Swarm Intelligence - 2016 - p.124), Task Partitioning Problem (MAS - Swarm Intelligence - 2012 - p.122)
 		\item Task Hierarchy, Multi-Objective
 		\item Random Walks as a search strategy (MAS - Swarm Intelligence - 2016 - p.196)
-		
-	\end{itemize}
-	\item Ant-Colony-Optimization (ACO)
-	\begin{itemize}[noitemsep,nolistsep]
-		\item ACO for learning.
-		\item ACO for classification: (MAS - Swarm Intelligence - 2016 - p.64)
-	\end{itemize}
-	\item General RTS AI Approaches.
-	\begin{itemize}[noitemsep,nolistsep]
-		\item FSM
-		\item Behavior Trees
-		\item GOAP
-	\end{itemize}
-	\item RTS-Learning
-	\begin{itemize}[noitemsep,nolistsep]
-		\item Reinforcement Learning
-		\item Learning Probabilistic Models
-		\item CNN
+		\item Critic: Centralized Critic or Learning individual intrinsic reward (LIIR)
+		\item Standardizing Testing Scenarios (PettingZoo).
+		\item Role concept to for MAS. Agents with similar role share similar behavior.
+		\item Modular Approach to MARL to remedy the poor scalability in the state-space in the number of partner agents.
+		\item Weighting and Partitioning to decrease complexity.
+		\item Hierarchical Groups of MAS where each epoch each Group (5 Agents) exchange Data for learning. And every 10 Epoch the groups exchange data for learning? Randomize these groups? (every few epoch?). Groups of 5 that get reshuffled every 10 Epoch or so.
 	\end{itemize}
 \end{itemize}
