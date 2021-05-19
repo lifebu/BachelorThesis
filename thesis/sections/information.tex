@@ -13,8 +13,6 @@
 \chapter{Information to sort}
 \label{ch:Info}
 
-\section{Books}
-
 \section{MARL - A Comprehensive Survey of Multiagent Reinforcement Learning - 2008}
 \href{https://ieeexplore.ieee.org/abstract/document/4445757}{MARL - A Comprehensive Survey of Multiagent Reinforcement Learning - 2008}
 \\
@@ -66,6 +64,144 @@
 	\item Incomplete, uncertain state measurements could be handled with partiall observability techniques (Markov decision process).
 	\item Multiagent Goals needs a stable learning process for the environment and an adaption for the dynamics of other agents.
 	\item using game-theory-based analysis to apply to the dynamics of the environment.
+\end{itemize}
+
+\section{!MAS - An Introduction to Multi-Agent Systems - 2010}
+\href{https://link.springer.com/chapter/10.1007/978-3-642-14435-6_1}{MAS - An Introduction to Multi-Agent Systems - 2010}
+\\
+\underline{Benefits of using MAS in large systems}
+\begin{itemize}[noitemsep,nolistsep]
+	\item Increase in the speed and efficiency of the operation due to parallel computation and asynchronous operation.
+	\item Graceful degradation whone one or more of the agent fail, thus increasing realibility and robustness of the system.
+	\item Scalability and flexibility - Agents can be added as and when necessary.
+	\item Cost Reduction: Individual agents cost much less than a centralized architecture
+	\item Reusability: Agents with a modular structure can be easily replaced in other systems or be upgraded more easily than a monolithic sysetm.
+\end{itemize}
+\underline{Challenges of using MAS in large systems}
+\begin{itemize}[noitemsep,nolistsep]
+	\item environment: An agents action modify its own environment but also that of its neighbours. therefore they need to predict the action of the other agents so that they can reach a goal. This can be an unstable system. Environment dynamic: Is the effect caused by other agents or by the variation in the environment?
+	\item perception: limited sensing range => each agent only has partial observability for the environment. Therefore the decisions reached might be sub-optimal.
+	\item Abstraction: ???
+	\item conflict resolution: lack of global view => conflict. therefore information on constraints, action preferences and goal prioritoes must be shared between agents. When to communicate what to which agent?
+	\item Inference: Single-Agent: State-Action-Space can be mapped with trial and error. Multi-agent: each agent may or may not interact with each other. If they are heterogenous, they might even compete and have different goals. You need a fitting inference machanism
+\end{itemize}
+\subsection{Classification of MAS}
+\underline{Internal Architecture}
+\begin{itemize}[noitemsep,nolistsep]
+	\item homogeneous: all agents have the same internal architecture (Local Goals, Sensor Capabilities, Internal states, Inference Mechanism and Possible Actions). In a typical distributed environment, overlap of sensory inputs is rarely present
+	\item Heterogeneous: agents may differ in ability, structure and functionality. Because of the dynamics and location the actions chosen might differ between agents. their local goals may contradict the objective of other agents.
+\end{itemize}
+\underline{Agent Organization}
+\begin{itemize}[noitemsep,nolistsep]
+	\item hierarchical: typical: tree-structure. At different heights, different levels of autonomy. data from lower levels flow upwards. Control signal flows from high to low in the hierarchy.
+	\begin{itemize}[noitemsep,nolistsep]
+		\item simple: the decision making authority is a single agent of highest level. BUT: single point of Failure
+		\item uniform: authority is distributed among the various agents, for better efficiency, fault tolerance, graceful degradation. Decisions made by agent with appropriate information. (MAS - TrafficControl - Neural Networks for Continuous Online Learning and Control - 2006)
+	\end{itemize}
+	\item holonic: fractal structure of several holons. Self-repeating. Used for large organizational behaviours in manufacturing and business. 
+	\begin{itemize}[noitemsep,nolistsep]
+		\item An agent that appears as a single entity might be composed of many sub-agents. They are not predetermined, but form through commitments.
+		\item Each holon has a head agent that communicates with the environment or with other agents in the environment. It is selected either randomly, through a rotation policy, or selected by resource availability, communicaton capability.
+		\item Holons can be nested to form Superholons.
+		\item compare to tree: in Holons cross tree interactions and overlapping of holons is allowed.
+		\item pro: abstraction good degree of freedom, good agent autonomy.
+		\item contra: abstraction makes it difficult for other agents to predict the resulting actions of the holon.
+	\end{itemize}
+	\item coalitions: group of agents come together for a short time to increase utility or performance of the individual agents in a group. they cease to exist when the performance goal is achieved.
+	\begin{itemize}[noitemsep,nolistsep]
+		\item coalition may have either a flat or a hierarchical architecture.
+		\item It may have an leading agent to act as a representative. 
+		\item overlap is allowed. this increased complexity of computation of the negotiation strategy.
+		\item You can have one coaltion with all agents => maximum performance of system. Impractical due to restraints on communication and resources.
+		\item minimize amount of colations: because of the cost of creating and dissolving a colation group.
+	\end{itemize}
+	\item teams: agents work together to increase the overall performance of the group, rather than working as individual agents.
+	\begin{itemize}[noitemsep,nolistsep]
+		\item their interactions can be arbitrary and the goals and roals can vary with the performance of the group.
+		\item large team size is not beneficial under all conditions. some compromises must be made.
+		\item large teams offer a better visibility of the environment. but is slower computation wise. Learning-Performance Tradeoff.
+		\item computation cost usually much greater than coalitions.
+	\end{itemize}
+\end{itemize}
+\underline{Communication}
+\begin{itemize}[noitemsep,nolistsep]
+	\item local communication: agents directly communicate similar to message passing. there is no place to store information. creates distributed architecture. used in: (25),(37),(38).
+	\item blackboards: a group of agents share a data repository which is provided for efficient storage.
+	\begin{itemize}[noitemsep,nolistsep]
+		\item can hold design data and control knowledge, accessable by the agents.
+		\item control shell: notfies the agent when relevant data is available.
+		\item single point of failure.
+	\end{itemize}
+	\item agent communication language (ACL): common framework for interaction and information sharing. (40).
+	\begin{itemize}[noitemsep,nolistsep]
+		\item procedural approach: modelled as a sharing of the precedural directives. Shared how an agent does a specific task or the entire working of the agent itself. Script Languages often used. Disadvantage: necessitiy of providing information on the recipient agent, which is in most cases partially known. Also how to merge the scripts into one executable. Not preferred method.
+		\item declarative approach: sharing of statements for definitions, assumptions assertions, axioms etc. Short declarative statements as length increases probability of information corruption. Example: ARPA knowledge sharing effort.
+		\item Best known inner languages: Knowledge Interchange Format. Information exchange is implicitly embedded in KIF. But the package size grows with the increase in embedded information. Solution: High-level Languages like KQML (Knowledge QUery and Manipulation Language)
+	\end{itemize}
+\end{itemize}
+\underline{Decision making in Multi-Agent Systems}
+\begin{itemize}[noitemsep,nolistsep]
+	\item undercainty: effects of a specific actions on the environment and dynamics because of the other agents.
+	\item Methodology to try and find a joint action or equilibrium point which maximizes the reward of every agent.
+	\item Typically modelled with game theory method. Strategic games:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item a set of players (agents)
+		\item Foreach player, there is a set of actions
+		\item Foreach player, the prefeernces over a set of actions profiles
+		\item payoff with the combination of action, a joint-action, that is assumed to be predefined.
+		\item all actions are observable forall agents.
+		\item make the assumption that all participating agents are rational.
+	\end{itemize}
+	\item Nash equilibrium: for a payoff matrix: An action profile (joint-action), where no player can do better by choosing one of the actions differently, given that the other player chose a specific action.
+	\item there might be multiple nash equilibrium, so that there is no dominant solution. Here the coordination of MAS is needed to find a solution.
+	\item Iterated Elimination Method: Strongly dominated actions are iteratively eliminated. This fails if there are no strictly dominated actions available.
+\end{itemize}
+\underline{Coordination}
+\begin{itemize}[noitemsep,nolistsep]
+	\item agents work in parallel, therefore they need to be coordinated or synchronize the actions to ensure stability of the system.
+	\item other reasons: prevent chaos, meet global constraints, utilize distributed resources, prevent conflicts, improve efficiency.
+	\item achievable with constraints on the joint actions or by using informatil collated from neighbouring agents. Used to find the equilibrium action.
+	\item payoff matrix necessary might be difficult to determine. It increases expenentially in the number of agents and action choices.
+	\item dividing the game into subgames: roles (permitted actions is reduced, good for distributed coordination or centralized coordination)
+	\item Coordination via Protocol.
+	\begin{itemize}[noitemsep,nolistsep]
+		\item negotioation to arrive an approdiate solutions.
+		\item Agents assume the role of manager (divide the problem) and contractor (who deals with the subproblems).
+		\item The manager and contractor are working in a bidding system.
+		\item Example: FIPA model
+		\item disadvantage: assumption of the existence of an cooperative agent. It is very communication intensive
+	\end{itemize}
+	\item Coordination via Graphs: Problem is subdivided into easer problems. Assume the payoffs can be linear combinated from the local payoffs of the sub-games. THen just eliminate agents to find the optimal joint.
+	\item Can also use belif models. Internal models of an agent on how he believes the environment works (needs to differentiate between environment and effects of other agents).
+\end{itemize}
+\underline{Learning}
+\begin{itemize}[noitemsep,nolistsep]
+	\item active learning: analysing the observations to creat a belief or internal model of the corresponding situated agent's environment. 
+	\begin{itemize}[noitemsep,nolistsep]
+		\item can be performed by using a deductive, inductive or probabilistic reasoning approach.
+		\item deductive: inference to explain an instance or state-action sequence using his knowledge. It is deduced or inferred from the original knowledge it is nothing new. It could form new parts of the knowledge base. uncertainty is usually disregarded (not good for real-time)
+		\item inductive: learning from observations of state-action pair. Good when environment can be presented in terms of some generalized statements. they use the correlation between observations and the action space.
+		\item probabilistic: assumption: knowledge base or belief model can be represented as probabilities of occurrence of events. observations of the environment is used to predict the internal state of the agent. Good example: Bayesian learning. Difficult for MAS, as the joint probability scales poorly in the number of agents.
+	\end{itemize}
+	\item reactive learning: updating belief without having the actual knowledge of what needs to be learnt.
+	\begin{itemize}[noitemsep,nolistsep]
+		\item useful when the underlying model of the agent or the environment is not known clearly and are black boxes.
+		\item can be ssen in agents which utilize connections systems such as NN.
+		\item can use reactive multi-agent feed forward neural networks.
+		\item they depend on the application domain and are therefore rarely employed in real world scenarios.
+	\end{itemize}
+	\item learning based on consequences:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item learning methods based on evaluation of the goodness of selected action. like in reinforcement learning.
+		\item programming the agents using reward and punishment scalar signals without specifying how the task is to be achieved.
+		\item learnt through trial and error and interaction with the environment.
+		\item usually used when action space is small and descret. Recent developments allow them to work in continious and large state-action space scenarios.
+		\item An agent is usally represented as a Markov Decision Process.
+		\item Expectaation operator optmal policy is the argmax of the Q-value, which uses the bellman equation. Bellman equation is solved iteratively.
+		\item The solution is referred to as q-learning method.
+		\item For MAS the reinforcement learning method has the problem of combinatorial explosion in the state-action pairs.
+		\item The information must be passed between the agents for effective learning.
+	\end{itemize}
 \end{itemize}
 
 \section{Artificial Intelligence - A modern Approach}
@@ -368,4 +504,16 @@ Gordon 2007: Control without hierarchy. Nature.
 \\
 \href{https://ulir.ul.ie/handle/10344/3305}{MAS - Transfer learning in multi-agent systems through paralllel transfer - 2013}
 \\
-\href{https://link.springer.com/chapter/10.1007/978-3-642-14435-6_1}{MAS - An Introduction to Multi-Agent Systems - 2010}
+\href{https://link.springer.com/chapter/10.1007/978-3-540-71618-1_8}{MAS - Co-evolutionary Multi-agent System with Predator-Prey Mechanism for Multi-objective Optimization - 2007}
+\\
+\href{https://ieeexplore.ieee.org/abstract/document/4427756}{MAS - Hierarchical Control in a Multiagent System - 2007}
+\\
+\href{https://link.springer.com/chapter/10.1007/978-3-540-25928-2_6}{MAS - Holonic - A Taxonomy of Autonomy in Multiagent Organisation - 2003}
+\\
+\href{https://dl.acm.org/doi/abs/10.1017/S0269888905000317}{MAS - A survey of multi-agent organizational paradigms - 2004}
+\\
+\href{https://link.springer.com/article/10.1023/A:1008942012299}{MAS - HomoHetero - Multiagent Systems A Survey from a Machine Learning Perspective - 2000}
+
+\subsection{Applications}
+\href{https://ieeexplore.ieee.org/abstract/document/4012019}{MAS - TrafficControl - Neural Networks for Continuous Online Learning and Control - 2006}
+\\
