@@ -397,6 +397,186 @@ p.993
 	\item artificial ants locate optimal soluions by moving through a parameter space represneting all possible solutions.
 	\item they record their positions and the quality of their solutions for later iterations to find better solutions (pheromones).
 \end{itemize}
+\section{Reinforcement Learning}
+\subsection{Algorithmia Blog}
+\href{https://algorithmia.com/blog/introduction-to-reinforcement-learning}{Introduction to Reinforcement Learning}
+\begin{itemize}[noitemsep,nolistsep]
+	\item \textbf{Policy Learning}: Policy is a function: (state) -> (action). (if you approach an enemy and the enemy is stronger than you, turn backwards).
+	\item Can use Neural Nets to approximate complicated functions
+	\item \textbf{Q-Learning / Value Functions}: (state, action) -> (value). It also adds in all of the potential future values that this action might bring you.
+	\item Approximate Q-Learning Functions with Neural Nets: DQN (RL - DQN - Human-level control through deep reinforcement - 2015)
+	\item Newer way to approximate Q-Functions: A3C ( \href{https://medium.com/emergent-future/simple-reinforcement-learning-with-tensorflow-part-8-asynchronous-actor-critic-agents-a3c-c88f72a5e9f2}{Tutorial}, RL - A3C - Asynchronous Methods for Deep Reinforcement Learning - 2016)
+	\item \textbf{Challenges}:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Reinforcement Learning requires a ton of training data, that other algorithms can get to more efficiently.
+		\item RL is a general algorithm. If the problem has a domain-specific solution that might work better than RL. Tradeoff between scope and intensity.
+		\item Most pressing Issue: Design of the reward function. it could get stuck in local optima
+	\end{itemize} 
+\end{itemize}
+\subsection{Freecodecamp}
+\href{https://www.freecodecamp.org/news/an-introduction-to-reinforcement-learning-4339519de419/}{An introduction to Reinforcement Learning}
+\begin{itemize}[noitemsep,nolistsep]
+	\item $State\ S_t, Reward\ R_t, Action\ A_t$
+	\item \textbf{Reward Hypothesis}: All goals can be described by the maximization of the expected cumulative reward: $G_t = \sum_{k=0}^T R_{t+k+1}$
+	\item But as earlier rewards are more probable to happen you need to increase their perceived value. Therefore you need a factor $0 \leq \gamma < 1$.
+	\item Large $\gamma$, Agent cares about long-term reward. Small $\gamma$, Agent cares more about short term reward.
+	\item \textbf{Discounted Accumulative Rewards}: $G_t = \sum_{k=0}^\infty \gamma^k R_{t+k+1},\ where\ \gamma \in [0,1)$ 
+	\item \textbf{Episodic tasks}: starting point and an ending point (terminal state), this creates an episode.
+	\item \textbf{Continuous Tasks}: Tasks that continue forever (no terminal state).
+	\item Learning Methods: Collecting the rewards at the end of the episode for the feature (Monte-Carlo), or Estimate the rewards at each step (Temporal Difference Learning)
+	\item \textbf{Monte-Carlo}: $V(S_t) \leftarrow V(S_t) + \alpha [G_t - V(S_t)]$. Left-Side: $V(S_t)$ Maximum expected Future, Right-Side: $V(S_t)$ Former estimation of maximum expected future. $\alpha$: learning rate.
+	\item \textbf{TD-Learning}: $V(S_t) \leftarrow V(S_t) + \alpha [R_{t+1} + \gamma V(S_{t+1}) - V(S_t)]$. $R_{t+1} + \gamma V(S_{t+1})$ is the TD-Target. TD-Target is an estimation, by updating it via a one-step target.
+	\item \textbf{Exploration/Exploitation Tradeoff}: Exploration (finding more information about the environment), Exploitation (using known information to maximize the reward). The Agent might find better rewards by doing exploration.
+	\item \textbf{Value Based RL}: OPtimize the value function V(s), that tells us the maximum expected future reward.
+	\begin{itemize}[noitemsep,nolistsep]
+		\item The value of each state is the total amount of the reward an agent can expect to accumulate over the future, starting at that state.
+		\item $v_\pi(s) = \mathbb{E}_\pi [\sum_{k=0}^\infty \gamma^k R_{t+k+1} | S_t = s]$. The Expected Reward given an State s.
+		\item The agent takes the state with the biggest expected reward.
+	\end{itemize} 
+	\item \textbf{Policy Based}: optimize the policy function $a = \pi(s)$, without using the value function, a being the action to take, given a state.
+	\begin{itemize}[noitemsep,nolistsep]
+		\item The policy can either be deterministic, or stochastic (output is a distribution probebility over actions.)
+		\item It directly indicates the best action to take for each step.
+	\end{itemize} 
+	\item \textbf{Model Based}: Model the environment. Each environment needs a different model foreach environment.
+	\item Deep Reinforcement Learning: Uses deep neural networks to solve it.
+\end{itemize}
+\href{https://www.freecodecamp.org/news/diving-deeper-into-reinforcement-learning-with-q-learning-c18d0db58efe/}{Diving deeper into Reinforcement Learning with Q-Learning}
+\begin{itemize}[noitemsep,nolistsep]
+	\item \textbf{Q-learning} is value-based RL.
+	\item \textbf{Q(Quality)-Table} gives you foreach action-state pair a value which moves gives the best maximum expected future reward.
+	\item you don't implement a policy, you improve the Q-table to always choose the best action. The values in the table need to be learned.
+	\item Action-Value Function (Q-Function) takes state and action as input and returns the expeced future reward.
+	\item $Q^\pi(s_t,a_t) = \mathbb{E}\ [\sum_{k=0}^\infty \gamma^k R_{t+k+1} | s_t, a_t]$
+	\item As we explore the environment, the Q-table will give us a better and better approximation by iteratively updating Q(s,a) using the \textbf{Bellman Equation}.
+	\item Algorithm process: 1. Initialize Q-Table -> 2. Choose action a -> 3. perform action -> 4. measure reward -> 5. update Q -> goto 2.
+	\begin{itemize}[noitemsep,nolistsep]
+		\item 1. Initialize: e.g. initialize everything 0
+		\item 2-3. choose an action. Use the epsilon greedy strategy. $ 0 \leq \epsilon \leq 1$ defines the exploration rate. It starts of with 1. We start of doing alot of random guesses what actions to choose (exploration). It is like a chance. We reduce the epsilon progressively to do more exploitation of the knowledge we gained.
+		\item 4-5. update q: We update Q with the Bellman equation (given a new state s' and a reward r): $newQ(s,a) = Q(s,a) + \alpha[\Delta Q(s,a)],\ \Delta Q(s,a) = R(s,a) + \gamma \max(Q'(s',a')) - Q(s,a)$
+		\item $\max(Q'(s',a'))$: Maxium expected future reward given the new s' and all possible actions at that new state. The highest Q-value between possible actions from the new state s'.
+	\end{itemize} 
+\end{itemize} 
+\href{https://www.freecodecamp.org/news/an-introduction-to-deep-q-learning-lets-play-doom-54d02d8017d8/}{An introduction to Deep Q-Learning: let’s play Doom}
+\begin{itemize}[noitemsep,nolistsep]
+	\item Instead of using a \textbf{Q-table}, use a Neural Network that takes a state and \textbf{approximates Q-values} for each action based on that state.
+	\item In a videogame states can be associated with frames. you need multiple state inputs (like 4).
+	\item preprocessing is important to reduce the complexity of the states to reduce the computation time needed for training.
+	\item \textbf{temporal limitation}: you need multiple frames to percept motion in the environment.
+	\item using convolutional layers with ELU. Use fully connected layers with ELU and one output layer that produces the Q-value estimataion for each action.
+	\item Making more efficient use of observed experience using experience Replay:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item \textbf{Avoid forgetting previous experiences}: given that we use sequential samples from interactions with our environment, the network tends to forget the previous experiences. You could use previous experiences by learning it multiple times.
+		\item reducing correlation between experiences: every action affects the next state, the sequence of experiences can be highly correlated. If we train in sequential order we might risk the agent bein influenced by it. Two strategies:
+		\item stop learning while interacting with the environment. Play a little randomly to explore the state space. Then recall these experiences and learn from then, then play again with the updated value function.
+		\item This way you have better set of examples. This prevents reinforcing the same action over and over.
+	\end{itemize} 
+	\item $\Delta w = \alpha [(R + \gamma\ max_a \hat{Q}(s',a,w)) - \hat{Q}(s,a,w)]\bigtriangledown_w \hat{Q}(s,a,w)$ 
+	\item $\Delta w = \alpha * TD-Error * Gradient\ of\ our\ Prediction$
+\end{itemize} 
+\href{https://www.freecodecamp.org/news/improvements-in-deep-q-learning-dueling-double-dqn-prioritized-experience-replay-and-fixed-58b130cc5682/}{Improvements in Deep Q Learning: Dueling Double DQN, Prioritized Experience Replay, and fixed Q-targets}
+\begin{itemize}[noitemsep,nolistsep]
+	\item Fixed Q-targets:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item We calculate \textbf{TD-Error} (aka the loss), but we don't have any idea of the real TD-target. Bellman equation states that the TD-Target is the reward of taking that action at that state plus the discounted highest Q-value for the next state.
+		\item But we use the weights for the target and the Q-value and therefore our Q-value and our target value shifts.
+		\item \textbf{Q-Targets}: Using a seperate network with a fixed parameter (w-tilde) for estimating the TD-Target. At every tau step, we copy the parameters from our DQN network to update the target network:
+		\item $\Delta w = \alpha [(R + \gamma\ max_a \hat{Q}(s',a,\tilde{w})) - \hat{Q}(s,a,w)]\bigtriangledown_w \hat{Q}(s,a,w),\ At\ every \tau step: \tilde{w} \leftarrow w$
+	\end{itemize} 
+	\item \textbf{Double DQN}: Handles the problem of the overestimation of Q-values.
+	\begin{itemize}[noitemsep,nolistsep]
+		\item TD-Target = Q-target = reward + discounted max-q.
+		\item How are we sure the best action for the next state ist the action with the highest Q-value, it depends on what actions we tried and what neighbors we explored.
+		\item In the beginning of the training the max-q value will obviously b noisy and can lead to false positives. Learning will be complicated.
+		\item Solution: When computing q-target, use two networks to decouple the action selection from the target Q-value generation
+		\item Use our DQN network to select what is the best action to take for the next state (the action with the highest Q-value). We use our target network to calculate the target Q-value of taking that action at the next state.
+		\item $argmax_a Q(s',a) = DQN\ choose\ action\ for\ next\ state,\ Q(s',argmax_a Q(s',a)) = Target\ network\ calculates\ the\ qvalue.$
+		\item $Q(s,a) = r(s,a) + \gamma Q(s',argmax_a Q(s',a))$
+		\item this helps us reduce the overestimation of q values and helps us train faster and have more stable learning.
+	\end{itemize} 
+	\item \textbf{Dueling DQN (aka DDQN)}: Seperate the estimator into two parts:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Q(s,a) can be decomposed as the sum of: V(s): the value of being at that state. A(s,a): the advantage of taking that action at that state (how much better it is to all other actions).
+		\item With DDQN, we seperate the estimator using two streams one for V(s) and one for A(s,a) and then combine these two streams through a special aggregation layer to get an estimate of Q(s,a). Two streams in the NN.
+		\item By decoupling the estimation we can learn which states are valuable without having to learn the effect of each action at each state.
+		\item Being able to calculate V(s) can be useful for state where their actions do not affect the environment in a relevant way.
+		\item Aggregation: Simply adding both streams will be problemantic for the back propagation, you can force the advantage function estimator to have 0 advantag at the chosen action. To do that, we subtract the average advantage of all actions possible of the state.
+		\item $Q(s,a;\theta,\alpha,\beta) = V(s;\theta,\beta) + (A(s,a;\theta,\alpha) - \frac{1}{\mathcal{A}}\sum_a' A(s,a';\theta,\alpha))$
+		\item $\theta: common\ network\ parameters,\ \alpha: advantage\ stream\ parameters,\ \beta: value\ stream\ parameters,\ the\ sum\ is\ the\ average.$
+		\item This helps us accelerate the training. This helps us find much more relaible Q-values for each action by decoupling the estimation between two streams.
+	\end{itemize} 
+	\item \textbf{Prioritized Experience Replay}: Some experiences may be more important than others for our training, but might occur less frequently.
+	\begin{itemize}[noitemsep,nolistsep]
+		\item If we sample the experiences randomly these rich experiences that occur rarely have practilly no chance to be selected.
+		\item Use a priority. where there is a big difference between our prediction and the TD target, since it means that we have a lot to learn about it.
+		\item We use the absolute value of the magnitude of our TD-error: $p_t = |\delta_t| + e$,\ e = const, that assures that no experience has no 0 probability.
+		\item Put that priority in the experience of each replay buffer to select the experiences.
+		\item Do not go greedy prioritization: overfitting!. Stochastic prioritization: $P(i) = \frac{p_i^a}{\sum_k p_k^a}$,\ a reintroduces some randomness, a = 0 pure uniform randomness, a = 1 only select the experiences with the highest priorities.
+		\item To combat over-fitting by prioritization of high-priority samples use Importance sampling weights (IS): $(\frac{1}{N} * \frac{1}{P(i)})^b$,\  b = controls how much the w affects learning. Close to 0 at the beginning of learning and annealed up to 1 over the duration of training. Because these weights are more important in the end of learning when our q-values begin to converge.
+		\item To sort the replays use an unsorted sumtree
+	\end{itemize} 
+\end{itemize} 
+\href{https://www.freecodecamp.org/news/an-introduction-to-policy-gradients-with-cartpole-and-doom-495b5ef2207f/}{An introduction to Policy Gradients with Cartpole and Doom}
+\begin{itemize}[noitemsep,nolistsep]
+	\item in policy-based methods we directly learn the policy function that maps state to action. we directly parameterize $\pi$
+	\item Deterministic policies are used in deterministic environments. stochastic policy is used when the environment is uncertain. We call this process a Partially Observable Markov Decision Process (POMDP).
+	\item \textbf{Advantage of Policy Gradients}:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item \textbf{convergence}: policy-based methods have better convergence properties. value-based methods might oscillate alot. Policy based methods follow gradients we converge on a local maximum (worst case), or global maximum (best case).
+		\item Policy gradient are more effective in \textbf{high dimensional action spaces}: as Deep Q-learning is that their prediction assign a score for each eaction at each time step, given the current state.
+		\item Policy gradients \textbf{can learn stochastic policies}: value functions can't. In Policy we donÄt need to implement an exploration/explotation trade off. 
+	\end{itemize}
+	\item \textbf{Disadvantages of Policy Gradients}:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Alot of the time, they converge on a \textbf{local maximum} rather than on the global optimum.
+		\item \textbf{Slower convergence}: Then Deep Q-Learning.
+	\end{itemize}
+	\item \textbf{Policy Search}: We have our policy $\pi$ that has a parameter $\theta$. THis pi outputs a probability distribution of actions.
+	\begin{itemize}[noitemsep,nolistsep]
+		\item $\pi_\theta (a|s) = P[a|s]$
+		\item Good policy: theta that maximizes the score function: $J(\theta) = E_{\pi \theta} [\sum \gamma r]$
+		\item \textbf{Steps}: 1st: Measure the quality of policy with a policy score function, 2nd: use policy gradient ascent to find best parameter theta that improves our policy.
+		\item \textbf{1st Step}: The Policy Score function J(theta):
+		\begin{itemize}[noitemsep,nolistsep]
+			\item Episodic environment: Calculate the mean of the return from the first time Step (G1): $J_1(\theta) = E_\pi[G_1 = \sum_{k=0}^\infty \gamma^k R_{1 + k}] = E_\pi (V(s_1))$. We want a policy that optimizes G1, as this will be the best policy.
+			\item Continious Environment: We can use the average value, because we can't rely on a specific start state and their values are now weighted by the probability of the occurrence of the respected state: $J_{avgv}(\theta) = E_\pi(V(s)) = \sum d(s)V(s),\ where\ d(s) = \frac{N(s)}{\sum_s'N(s')}$
+			\item N(s) = Number of occurrences of the state.
+			\item use the average reward per timestap: $J_{avR}(\theta) = E_\pi(r) = \sum_s d(s) \sum_a \pi_\theta(s,a) R_s^a$. sum over a: Probability that I take this action a from that state under this policy, Rsa: immediate reward that I get.
+		\end{itemize}
+		\item \textbf{2nd Step}: Policy gradient ascent.
+		\begin{itemize}[noitemsep,nolistsep]
+			\item To maximize the score function J(theta), we need to do gradient ascent on policy parameters.
+			\item We use gradient ascent as the score function is not an error function (there we would use gradient descent.)
+			\item Goal: $\theta^* = \underset{\theta}{argmax}E_{\pi \theta}[\sum_t R(s_t,a_t)]$, Score function: $J(\theta) = E_\pi[R(\tau)]$
+			\item Problem: How do we estimate the Gradient with respect to theta, when the gradient depends on the unknown effect of policy changes on the state distribution?
+			\item Solution: $\bigtriangledown_\theta J(\theta) = E_\pi [\bigtriangledown_\theta(log \pi (\tau|\theta))R(\tau)], \pi (\tau|\theta): policy\ function, R(\tau): score\ function$
+			\item Update Rule: $\Delta \theta = \alpha * \bigtriangledown_\theta(log \pi (s, a, \theta))R(\tau)$
+			\item R(tau): High value: it means thatn on average we took actions that lead to high rewards. If it is low, we want to push down the probabilities of the actions seen.
+		\end{itemize}
+		\item Policy gradient can be improved with Proximal Policy Gradients (ensure that the deviations from the previous policy stays relatively small) and Actor Critic (a hybrid between value-based algorithms and policy-based algorithms).
+	\end{itemize}
+\end{itemize} 
+\href{https://www.freecodecamp.org/news/an-intro-to-advantage-actor-critic-methods-lets-play-sonic-the-hedgehog-86d6240171d/}{An intro to Advantage Actor Critic methods: let’s play Sonic the Hedgehog!}
+\begin{itemize}[noitemsep,nolistsep]
+	\item \textbf{Actor Critic}: Hybrid method. Use two neural networks: A Critic that measures how good the action takesn is (value-based) and an Actor that controls how our agent behaves (policy-based).
+	\item State of the art: \textbf{Proximal Policy Optimization (PPO)}, is based on Advantage Actor Critic.
+	\item \textbf{Policy Gradient Problem}: Reward is done for-each episode, so small bad decisions will be averaged out. And we won't find an optimal policy.
+	\item Use TD-Learning: $\Delta \theta = \alpha * \bigtriangledown_\theta * (log \pi(S_t,A_t,\theta)) * Q(S_t,A_t)$. We do update each step sou we don't use the total rewards R(t). The Critic model approximates the value function.
+	\item The critic will help to find the policy and update their own way to provide better feedback.
+	\item Actor: $\pi(s,a,\theta)$  Critic: $\hat{q}(s,a,w)$
+	\item Weights: Policy: $\Delta \theta = \alpha \bigtriangledown_\theta(log \pi_\theta(s,a)) * \hat{q}_w(s,a)$, Value: $\Delta w = \beta (R(s,a) + \gamma \hat{q}_w(s_{t+1},a_{t+1}) - \hat{q}_w((s_t,a_t))\ \bigtriangledown_w \hat{q}_w(s_t,a_t)$
+	\item \textbf{Process}: At each time-step: current State St into Actor and Critic. Policy outputs Action At and receives a new State and a reward.
+	\item The Critic computes the value of taking that action at that state and the actor updates is policy parameters (weights) using this q-value.
+	\item To reduce the Variability: Use Advantage function: $A(s,a) = Q(s,a) - V(s)$ Q(s,a): q-value for action a in state s, V(s): average value of that state.
+	\item This function calculates the extra reward I get if I take this action. A(s,a) > 0:  our gradient is pushed in that direction, A(s,a) < 0: our gradient is pushed in the opposite direction.
+	\item Use the TD-Error as an good estimator: $A(s,a) = r + \gamma V(s') - V(s)$
+	\item Strategies: Synchronous: \textbf{A2C} (Advantage Actor Critic), Asynchronous: \textbf{A3C} (Asynchronous Advantage Actor Critic).
+	\item A3C uses different agents in parallel on multiple instances of the environment. Each worker will update the global network asynchronously.
+	\item Problem of A3C: \href{https://lilianweng.github.io/lil-log/2018/04/08/policy-gradient-algorithms.html#a2c}{Link}. Because of asynchronous nature of A3C, some workers will be playing with older version of the parameters, thus the aggregating update will not be optimal. In A2C it waits for each actor to finish before updating the global parameters. Therefore the training will be more cohesive and faster.
+	\item Each worker in A2C will ahve the same set of weights since, contrary to A3C, A2C updates all their workers at the same time. YOu can create multiple versions of environments and then execute them in parallel.
+\end{itemize}
+\href{https://towardsdatascience.com/proximal-policy-optimization-ppo-with-sonic-the-hedgehog-2-and-3-c9c21dbed5e}{Proximal Policy Optimization (PPO) with Sonic the Hedgehog 2 and 3}
+
 
 \section{UNSORTED}
 Gordon 2000: Ants at Work.
@@ -423,6 +603,14 @@ Gordon 2007: Control without hierarchy. Nature.
 \subsection{Ant Colony Optimization (ACO)}
 \href{https://www.sciencedirect.com/science/article/pii/S0888613X02000919}{ACO - Ant Colony Optimization for learning Bayesian network - 2002}
 
+\subsection{Reinforcement Learning}
+\href{https://www.nature.com/articles/nature14236}{RL - DQN - Human-level control through deep reinforcement - 2015}
+\\
+\href{http://proceedings.mlr.press/v48/mniha16.html}{RL - A3C - Asynchronous Methods for Deep Reinforcement Learning - 2016}
+\\
+\href{https://medium.com/emergent-future/simple-reinforcement-learning-with-tensorflow-part-0-q-learning-with-tables-and-neural-networks-d195264329d0}{Multiple blog post for RL (even has A3C)}
+\\
+\href{https://www.researchgate.net/publication/338396174_State-of-the-Art_Reinforcement_Learning_Algorithms}{RL - State-of-the-art Reinforcement LEarning Algorithms - 2020}
 
 \subsection{Multi Agent Reinforcement Learning (MARL)}
 \href{https://dl.acm.org/doi/abs/10.5555/645527.657296}{MARL - Multiagent Reinforcement Learning - Theoretical Framework and an Algorithm - 1998}
@@ -453,7 +641,7 @@ Gordon 2007: Control without hierarchy. Nature.
 \\
 \href{https://arxiv.org/abs/1807.09427}{MARL - Multi-Agent Reinforcement Learning A Report on Challenges and Approaches - 2018}
 \\
-\href{https://proceedings.neurips.cc/paper/2019/hash/07a9d3fed4c5ea6b17e80258dee231fa-Abstract.html}{MARL - LIIR - Learning Individual Intrinsic Reward inMulti-Agent Reinforcement Learning - 2019}
+\href{https://proceedings.neurips.cc/paper/2019/hash/07a9d3fed4c5ea6b17e80258dee231fa-Abstract.html}{MARL - ACrit - LIIR - Learning Individual Intrinsic Reward inMulti-Agent Reinforcement Learning - 2019}
 \\
 \href{https://arxiv.org/abs/2009.14471}{MARL - PettingZoo - Gym for Multi-Agent Reinforcement Learning - 2020}
 \\
@@ -478,7 +666,12 @@ Gordon 2007: Control without hierarchy. Nature.
 \href{https://link.springer.com/article/10.1007/s10458-019-09430-0}{MARL - Agents teaching agents a survey on inter-agent transfer learning - 2019}
 \\
 \href{https://www.jair.org/index.php/jair/article/view/11396}{MARL - A Survey on Transfer Learning for Multiagent Reinforcement Learning Systems  - 2019}
-
+\\
+\href{https://arxiv.org/abs/1706.02275}{MARL - ACrit - Multi-Agent Actor-Critic for Mixed Cooperative-Competitive Environment - 2017}
+\\
+\href{http://proceedings.mlr.press/v97/iqbal19a.html}{MARL - ACrit - Actor-Attention-Critic for Multi-Agent Reinforcement Learning - 2019}
+\\
+\href{https://www.sciencedirect.com/science/article/abs/pii/S092188900300040X}{MARL - Het - An approach to the pursuit problem on a heterogeneous multiagent system using reinforcement learning - 2002}
 
 
 \subsection{Multiagent Systems (MAS)}
