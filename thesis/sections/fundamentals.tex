@@ -66,7 +66,16 @@ Topics:
 		\item holonic agent structure: fractals structure of MAS. holonic and heterogenous? Does this form naturally for extreme heterogenous?
 		\item holonic coalitions?
 	\end{itemize}
+	\item GNN
+	\begin{itemize}[noitemsep,nolistsep]
+		\item How many Hops? Use 2-hop neighborhoods: https://youtu.be/H6oOhElB3yE?t=842 (Realworld networks have a small diameter => cannot afford 3-hops).
+		\item Which GNN Type for MARL? Convolutional, Attentional, Message-passing GNN.
+		\item Where do you apply GNNs? As the communication between the agents (preprocess, communication relevance or state representation), or the actual function to learn with RL? (The Graph needs to emcompass the q-function. The reward.), or a relation graph. 
+		\item Don't learn the graph structure, learn the weights. MAS: Nodes are Agents, Edges are their communications.
+		\item Complete Graph: Weights dynamic threshhold. What an agent can see defined over the weights.
+	\end{itemize}
 \end{itemize}
+
 
 %to look up:
 % Hierarchical MAS/MARL
@@ -75,10 +84,11 @@ Topics:
 %to read:
 %!MAS - An Introduction to Multi-Agent Systems - 2010
 %MARL - A Comprehensive Survey of Multiagent Reinforcement Learning - 2008
-%https://www.freecodecamp.org/news/an-introduction-to-reinforcement-learning-4339519de419/
+%!https://www.freecodecamp.org/news/an-introduction-to-reinforcement-learning-4339519de419/
 %\href{https://medium.com/emergent-future/simple-reinforcement-learning-with-tensorflow-part-0-q-learning-with-tables-and-neural-networks-d195264329d0}{Multiple blog post for RL (even has A3C)}
-%MARL - Multi-Agent Reinforcement Learning A Report on Challenges and Approaches - 2018
-%MAS - Multi-Agent Systems - A Survey - 2018
-%MARL - A Review of Cooperative Multi-Agent Deep Reinforcement Learning - 2019
-%MARL - Multi-Agent Reinforcement Learning A Selective Overview of Theories and Algorithms - 2021
-%??? MARL - A Survey on Transfer Learning for Multiagent Reinforcement Learning Systems  - 2019
+%MARL - Sur - Multi-Agent Reinforcement Learning A Report on Challenges and Approaches - 2018
+%MAS - Sur - Multi-Agent Systems - A Survey - 2018
+%MARL - Sur - A Review of Cooperative Multi-Agent Deep Reinforcement Learning - 2019
+MARL - Sur - Multi-Agent Reinforcement Learning - a critical survey - 2003
+%MARL - Sur - Multi-Agent Reinforcement Learning A Selective Overview of Theories and Algorithms - 2021
+%??? MARL - Sur - A Survey on Transfer Learning for Multiagent Reinforcement Learning Systems  - 2019
