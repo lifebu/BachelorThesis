@@ -420,7 +420,7 @@ p.993
 	\item \textbf{Reward Hypothesis}: All goals can be described by the maximization of the expected cumulative reward: $G_t = \sum_{k=0}^T R_{t+k+1}$
 	\item But as earlier rewards are more probable to happen you need to increase their perceived value. Therefore you need a factor $0 \leq \gamma < 1$.
 	\item Large $\gamma$, Agent cares about long-term reward. Small $\gamma$, Agent cares more about short term reward.
-	\item \textbf{Discounted Accumulative Rewards}: $G_t = \sum_{k=0}^\infty \gamma^k R_{t+k+1},\ where\ \gamma \in [0,1)$ 
+	\item \textbf{Discounted Accumulative Rewards (return)}: $G_t = \sum_{k=0}^\infty \gamma^k R_{t+k+1},\ where\ \gamma \in [0,1)$ 
 	\item \textbf{Episodic tasks}: starting point and an ending point (terminal state), this creates an episode.
 	\item \textbf{Continuous Tasks}: Tasks that continue forever (no terminal state).
 	\item Learning Methods: Collecting the rewards at the end of the episode for the feature (Monte-Carlo), or Estimate the rewards at each step (Temporal Difference Learning)
@@ -592,7 +592,7 @@ p.993
 	\begin{itemize}[noitemsep,nolistsep]
 		\item enviroment state $S_t^e$ is the enviroments private representation. Environment state not visible to the agent.
 		\item agent state $S_t^a$ is the agents internal representation. Used to pick next action. $S_t^a = f(H_t)$
-		\item markov state $A\ state\ S_t\ is\ Markov\ iff:\ \mathbb{P}[S_{t+1} | S_t] = \mathbb{P}[S_{t+1}|S_1,...,S_t]$ . You only need the current state to infer the next state or the future. A helicopter state needs velocity. Otherwise you need the complete history to calculate velocity if it only stored position.
+		\item markov (property) state $A\ state\ S_t\ is\ Markov\ iff:\ \mathbb{P}[S_{t+1} | S_t] = \mathbb{P}[S_{t+1}|S_1,...,S_t]$ . You only need the current state to infer the next state or the future. A helicopter state needs velocity. Otherwise you need the complete history to calculate velocity if it only stored position.
 		\item environment state $S_t^e$ and the history $H_t$ is Markov.
 	\end{itemize} 
 	\item Environments:
@@ -618,7 +618,79 @@ p.993
 	\end{itemize} 
 \end{itemize} 
 \href{https://www.youtube.com/watch?v=lfHX2hHRMVQ&list=PLqYmG7hTraZDM-OYHWgPebj2MfCFzFObQ&index=2}{RL Course by DeepMind - Part 2}
-
+\begin{itemize}[noitemsep,nolistsep]
+	\item Markov Processes:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Markov Decision Processes Describe the environment for RL and is fully observable.
+		\item State Transition: $\mathcal{P}_{ss'} = \mathbb{P}[S_{t+1} = s' | S_t = s]$. 
+		\item This allows a Matrix to be defined: $\begin{pmatrix} \mathcal{P}_{11} & ... & \mathcal{P}_{1n}\\  \vdots &  & \\  \mathcal{P}_{n1} & ... & \mathcal{P}_{nn} \end{pmatrix}$. Each Row sums up to 1
+		\item Markov Process: tuple $\langle \mathcal{S,P} \rangle$. S is a (finite) set os states. and P is a state transition probability matrix.
+	\end{itemize} 
+	\item Markov Reward Processes:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item A MRP is a Markov Processes with the additions: tuple $\langle \mathcal{S,P,R}, \gamma \rangle$.
+		\item R is a reward function $\mathcal{R}_s = \mathbb{E}[R_{t+1}|S_t=s]$ and $\gamma \in [0,1]$ is a discount factor.
+		\item $G_t$ is the total doscounted reward form time-step t. Value function v(s) (see above).
+		\item Bellam Equation: $v(s) = \mathbb{E}[G_t | S_t = s] = \mathbb{E}[R_{t+1} + \gamma G_{t+1} | S_t = s] = \mathbb{E}[R_{t+1} + \gamma v(S_{t+1}) | S_t = s]$
+		\item This allows: $v(s) = \mathcal{R}_s + \gamma \sum_{s' \in S} \mathcal{P}_{ss'}v(s')$
+		\item In Matrix form: $\begin{bmatrix} v(1)\\ \vdots \\ v(n)\end{bmatrix} = \begin{bmatrix} \mathcal{R}_{1}\\ \vdots \\ \mathcal{R}_{n}\end{bmatrix} + \gamma \begin{bmatrix} \mathcal{P}_{11} & ... & \mathcal{P}_{1n}\\  \vdots &  & \\  \mathcal{P}_{n1} & ... & \mathcal{P}_{nn} 
+		\end{bmatrix} \cdot \begin{bmatrix} v(1)\\ \vdots \\ v(n)\end{bmatrix}$. 
+	\end{itemize}
+	\item Markov Decisions Processes:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item A MDP Is a Markov reward Process with a finite set of actions. The State Transition and reward function now also depend on the action chosen.
+		\item stochastic policy: $\pi(a|s) = \mathbb{P}[A_t=a|S_t=s]$. They depend only on the current state. Policies are stationary (time-independent).
+		\item The state sequence given by any policy is itself a markov process (chain) $\langle \mathcal{S,P}^\pi \rangle$. If we add the rewards we got through this policy induced sequence we get a MRP $\langle \mathcal{S,P^\pi,R^\pi,}\gamma\rangle$.
+		\item So: $\mathcal{P}_{s,s'}^\pi = \sum_{a \in \mathcal{A}} \pi(a|s) \mathcal{P}_{s,s'}^a$ and $\mathcal{R}_{s}^\pi = \sum_{a \in \mathcal{A}} \pi(a|s) \mathcal{R}_{s}^a$
+		\item So the transition dynamics and rewards are averaged over what our policy gives us.
+		\item state-value function $v_\pi(s) = \mathbb{E}_\pi[G_t | S_t = s]$
+		\item action-value function $q_\pi(s,a) = \mathbb{E}_\pi [G_t | S_t = s, A_t = a]$.
+		\item bellman equation for state-value functions: $v_\pi(s) =  \mathbb{E}_\pi[R_{t+1} + \gamma v_\pi(S_{t+1}) | S_t = s]$
+		\item bellman equation for action-value functions: $q_\pi(s,a) = \mathbb{E}_\pi [R_{t+1} + \gamma q_\pi(S_{t+1}, A_{t+1})  | S_t = s, A_t = a]$
+		\item V-Step: $v_\pi(s) =  \sum_{a \in \mathcal{A}} \pi(a|s)q_\pi(s,a)$. For a given state we average the actions we can take
+		\item Q-Step: $q_\pi(s,a) = \mathcal{R}_s^a + \gamma \sum_{s' \in \mathcal{S}} \mathcal{P}_{ss'}^a v_\pi(s)$. For a given state how good is it to do a given action we averate the situations we could go to.
+		\item Equation for $v_\pi$: $v_\pi(s) = \sum_{a \in \mathcal{A}}(\mathcal{R}_s^a + \gamma \sum_{s' \in \mathcal{S}} \mathcal{P}_{ss'}^a v_\pi(s))$. state-value relates to the state-value of the next step.
+		\item Equation for $q_\pi$: $p_\pi(s,a) = \mathcal{R}_s^a + \gamma \sum_{s' \in \mathcal{S}} \mathcal{P}_{ss'}^a \sum_{a \in \mathcal{A}} \pi(a|s)q_\pi(s,a)$. q-value relates to the q-value of the next step.
+		\item Bellman Expectation Equation in Matrix form: $v_\pi = \mathcal{R}^\pi + \gamma \mathcal{P}^\pi v_\pi$. Direct Solution $v_\pi = (I - \gamma \mathcal{P}^\pi)^{-1}\mathcal{R}^\pi$. $\mathcal{P}^\pi$ and $\mathcal{R}^\pi$ are averages.
+		\item Optimality 
+		\begin{itemize}[noitemsep,nolistsep]
+			\item optimal state-value function $v_*(s) = \underset{\pi}{max}\ v_\pi(s)$. optimal action-value function $q_*(s,a) = \underset{\pi}{max}\ q_\pi(s,a)$
+			\item discounted reward does not have the problem of infinite loops of positive rewards.
+			\item un-discounted rewards need to fulfill either an average reward (average reward RL) or certain technical conditions must be met so un-discounted MDP are guaranteed to terminate. (well defined).
+			\item partial ordering over policies: $\pi \geq \pi'\ if\ v_\pi(s) \geq v_\pi'(s), \forall s$
+			\item Optimal Policy: For any MDP there exists at least one an optimal policy thate is better or erqual to all other policies: $\pi_* \geq \pi, \forall \pi$
+			\item All optimal policies achieve the optimal value and optimal action-value function.
+			\item optimal policy through optimal q-function $\pi_*(a|s) = \begin{cases} 1 & if\ a = \underset{a \in \mathcal{A}}{argmax}\ q_*(s,a) \\  0 & otherwise \end{cases}$.
+			\item There is always a deterministic optimal policy for any MDP.
+			\item Bellman Optimality Equation for v*. $v_*(s) = \underset{a}{max}\ \mathcal{R}_s^a + \gamma \sum_{s' \in S} \mathcal{P}_{ss'}^a v_*(s')$. This is a 1-step look ahead.
+			\item Bellman Optimality Equation for q*. $q_*(s,a) = \mathcal{R}_s^a + \gamma \sum_{s' \in S} \mathcal{P}_{ss'}^a \underset{a'}{max}\ q_*(s',a')$.
+			\item Bellman Optimality Equation is non-linear. No closed form solution (in general). Needs iterative solution: value-iteration, policy-iteration, Q-learning, Sarsa.
+		\end{itemize}
+	\end{itemize}
+	\item Infinite and continuous MDPs
+	\begin{itemize}[noitemsep,nolistsep]
+		\item countably infinite state and/or action spaces: straightforward
+		\item continuous state and/or action spaces: Closed form for linear quadratic model (LQR)
+		\item continuous time: Requires partial differntial equations (Hamilton-Jacobi-Bellman).
+	\end{itemize}
+	\item Partially observable MDPs
+	\begin{itemize}[noitemsep,nolistsep]
+		\item A POMDP is a tuple $\langle \mathcal{S,A,O,P,R,Z},\gamma \rangle$ with hidden states. Hidden Markov Model with actions.
+		\item $\mathcal{O}$ is a finite set of observations.
+		\item $\mathcal{Z}$ is an observation function, $\mathcal{Z}_{s'o}^a = \mathbb{P}[O_{t+1} = 0 | S_{t+1} = s', A_t = a]$
+		\item History changes $H_t = A_0,O_1,R_1,...,A_{t-1},O_t,R_t$
+		\item Beilief state is a probability over states conditioned on the history $b(h) = (\mathbb{P}[S_t = s^1 | H_t = h],...,\mathbb{P}[S_t = s^n | H_t = h])$
+		\item A POMDP can be reduced to an infinite history tree or an infinite belief state tree.
+	\end{itemize}
+	\item Undiscounted, average reward MDPs
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Ergodic Markov Process: Is recurrent (each state is visited an infinite number of times) and Aperiodic (each state is visited without any systematic period)
+		\item An ergodic Markov process has a limiting stationary distribution $d^\pi(s) = \sum_{s' \in S}d^\pi(s')\mathcal{P}_{s's}$ 
+		\item An MDP is ergodic if the Markov chain induced by any policy is ergodic.
+		\item Average reward per time-step $\rho^\pi = \underset{T \rightarrow \infty}{\lim} \frac{1}{T} \mathbb{E}[\sum_{t=1}^T R_t] $
+		\item extra reward due to starting from satte s: $\tilde{v}_\pi(s) = \mathbb{E}_\pi [\sum_{k=1}^\infty (R_{t+k} - \rho^\pi) | S_t = s]$
+	\end{itemize}
+\end{itemize} 
 
 \section{ALR-Wiki}
 \href{https://www.notion.so/ALR-Student-Wiki-284ed2bb033f4ef494e2429ce0f51b6c}{ALR-Wiki Link}
