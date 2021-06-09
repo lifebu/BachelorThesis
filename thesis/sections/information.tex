@@ -435,7 +435,7 @@ p.993
 	\end{itemize} 
 	\item \textbf{Policy Based}: optimize the policy function $a = \pi(s)$, without using the value function, a being the action to take, given a state.
 	\begin{itemize}[noitemsep,nolistsep]
-		\item The policy can either be deterministic, or stochastic (output is a distribution probebility over actions.)
+		\item The policy can either be deterministic, or stochastic $\pi(a|s) = \mathbb{P}[A=a|S=s]$(output is a distribution probebility over actions.)
 		\item It directly indicates the best action to take for each step.
 	\end{itemize} 
 	\item \textbf{Model Based}: Model the environment. Each environment needs a different model foreach environment.
@@ -577,6 +577,73 @@ p.993
 \end{itemize}
 \href{https://towardsdatascience.com/proximal-policy-optimization-ppo-with-sonic-the-hedgehog-2-and-3-c9c21dbed5e}{Proximal Policy Optimization (PPO) with Sonic the Hedgehog 2 and 3}
 
+\subsection{Deep RL Bootcamp}
+\href{https://sites.google.com/view/deep-rl-bootcamp/lectures}{Deep RL Bootcamp}
+
+\subsection{RL Lectures from Deepmind}
+\href{https://www.youtube.com/watch?v=2pWv7GOvuf0&list=PLqYmG7hTraZDM-OYHWgPebj2MfCFzFObQ}{RL Course by DeepMind}
+\\
+\href{https://www.youtube.com/watch?v=2pWv7GOvuf0&list=PLqYmG7hTraZDM-OYHWgPebj2MfCFzFObQ}{RL Course by DeepMind - Part 1}
+\begin{itemize}[noitemsep,nolistsep]
+	\item Actions may have long term consequences and rewards may be delayed. May need to sacrifice immediate reward to gain more long-term reward.
+	\item $Observation\ O_t, Reward\ R_t, Action\ A_t, History\ H_t\ (sequence\ of\ O_t,\ A_t,\ R_t)$
+	\item $State\ S_t$ (simpler information to determine what happens next, usually function of history: $S_t = f(H_t)$
+	\item State Definitions:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item enviroment state $S_t^e$ is the enviroments private representation. Environment state not visible to the agent.
+		\item agent state $S_t^a$ is the agents internal representation. Used to pick next action. $S_t^a = f(H_t)$
+		\item markov state $A\ state\ S_t\ is\ Markov\ iff:\ \mathbb{P}[S_{t+1} | S_t] = \mathbb{P}[S_{t+1}|S_1,...,S_t]$ . You only need the current state to infer the next state or the future. A helicopter state needs velocity. Otherwise you need the complete history to calculate velocity if it only stored position.
+		\item environment state $S_t^e$ and the history $H_t$ is Markov.
+	\end{itemize} 
+	\item Environments:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item fully observability: agent directly observes environment state $O_t = S_t^a = S_t^e$. This is a Markov decision process (MDP).
+		\item partial observability: $S_t^a \neq S_t^e$. This is a partially observable Markov decision process (POMDP). Agent constructs it's own $S_t^a$.
+		\item partial observability state: complete history $S_t^a = H_t$, beliefs: $S_t^a = (\mathbf{P}[S_t^e = s^1],...,\mathbf{P}[S_t^e = s^n])$, recurrent NN: $S_t^a = \sigma(S_{t-1}^a W_s + O_t W_o)$ (linear transformation)
+	\end{itemize} 
+	\item Inside an RL Agent
+	\begin{itemize}[noitemsep,nolistsep]
+		\item policy (agent's behavior), value function (how good is state-action pair), model (agents representation of the environment).
+		\item model: predicts what the environment will do next. you don't need to do models.
+		\item Transitions: $\mathcal{P}$ predicts next state (dynamics). Rewards $\mathcal{R}$ predicts next immediate reward
+		\item e.g.: $\mathcal{P}_{ss'}^a = \mathbf{P}[S=s'| S=s, A=a],\ \mathcal{R}_s^a = \mathbf{E}[R|S=s, A=a]$
+		\item model-free agent: Policy and/or Value Function and no model.
+		\item model-based agent: Policy and/or Value Function and a model. first build the dynamics of the environmant es with the model
+	\end{itemize} 
+	\item Problems with RL
+	\begin{itemize}[noitemsep,nolistsep]
+		\item RL-Problem: Environment initially unknown and the agent learns by interaction.
+		\item Planning-Problem: Environment-model is known from the start. 
+		\item Prediction: evaluate the future (given a policy) vs. Control: optimise the future (find the pest policy)
+	\end{itemize} 
+\end{itemize} 
+\\
+\href{https://www.youtube.com/watch?v=lfHX2hHRMVQ&list=PLqYmG7hTraZDM-OYHWgPebj2MfCFzFObQ&index=2}{RL Course by DeepMind - Part 2}
+
+
+\section{ALR-Wiki}
+\href{https://www.notion.so/ALR-Student-Wiki-284ed2bb033f4ef494e2429ce0f51b6c}{ALR-Wiki Link}
+\\
+\href{https://www.notion.so/Books-e1b1a91cf80c426da3eddd9fec5bdd38}{ALR-Wiki Books Link}
+\\
+\href{https://www.notion.so/Implementation-Guidelines-0afdb8f58c714f42b3526eb415194c8c}{Implementation Guidelines}
+\\
+\href{https://www.notion.so/ebd32c68f9cd4502a02af10e82e410cd?v=0eab511a5007451baa2c199f0d6c7d35}{Latex Templates}
+\\
+\href{https://www.notion.so/Writing-Checklist-56979e6a0227447f8638d30bcbc33362}{Writing Checklist}
+\\
+\href{https://www.notion.so/Talks-How-to-research-e9b534f4dc09418e82cac8d8e2da4f4d}{How to do Research}
+
+\section{Books}
+\subsection{Deep Learning Book}
+\href{https://www.deeplearningbook.org/}{Deep Learning Book}
+\\
+
+
+\subsection{Reinforcement Learning - An Introduction} 
+\href{http://incompleteideas.net/book/the-book.html}{Reinforcement Learning}
+\\
+a
 
 \section{UNSORTED}
 Gordon 2000: Ants at Work.
@@ -603,109 +670,305 @@ Gordon 2007: Control without hierarchy. Nature.
 \subsection{Ant Colony Optimization (ACO)}
 \href{https://www.sciencedirect.com/science/article/pii/S0888613X02000919}{ACO - Ant Colony Optimization for learning Bayesian network - 2002}
 
+\subsection{Graph Neural Networks}
+\underline{(Base)}
+\href{https://www.youtube.com/watch?v=uF53xsT7mjc}{GNN - Sur - Theoretical Foundations of Graph Neural Networks - 2021}
+\\
+\begin{itemize}[noitemsep,nolistsep]
+	\item Goal: Exact same results for two \textbf{isomorphic graphs} (graphs that are the same the nodes are just arranged differently).
+	\item Nodes: $x_i \in \mathbb{R}^k$ (features of node), feature matrix $\mathbf{X} = (x_1,...x_n)^T \in \mathbb{R}^{k \times n}$
+	\item By stacking the nodes in the matrix you have already ordered them (result should not depend on this).
+	\item Operations that change the nod order: permutation matrices. They ahve exactly one 1 in every row and column, and zeroes everywhere examples. Left Multiplied: permute the rows. $P_{(2,4,1,3)}$: The numbers indicate where the 1 in the row is.
+	\item \textbf{Permutation Invariance}: f is permutation invariant iff: $\forall P \in Permutation: f(PX) = f(X)$. Example: Deep Sets Model $f(X) = \phi(\sum_{i \in V} \psi(x_i))$. This is true for the entire data-set.
+	\item \textbf{Permutation equivariance}: for identification on the node level. Seek functions that don't change the node order. f is permutation equivariant iff: $\forall P \in Permutation: f(PX) = Pf(X)$.
+	\item \textbf{equivariance}: each node's row is unchanged by f. So foreach node we could define: $\forall i: h_i = \psi(x_i).$, the latent features h-i. Stacking h yields: $H=f(x)$. The functions are applied indipendently to each node.
+	\item Stacking equivarent functions with an invariant tail: $f(X) = \phi(\bigoplus_{i \in V}\psi(x_i)). \bigoplus\ is\ permutationinvariant\ aggregator\ (sum,\ avg,\ max)$.
+	\item \textbf{Learning on Graphs}:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Represent Edges with adjacency matrix A: $a_{ij} = \begin{cases} 1& (i,j) \in E \\ 0 & otherwise \end{cases}$. Edge features could be added aswell. permutation x-variance still holds.
+		\item xvariance on graphs: To not change edges: permutate rows and columns. Permutate with $PAP^T$.
+		\item \textbf{Invariance}: $f(PX,PAP^T) = f(X,A)\ (A = Edges,\ X = Nodes)$
+		\item \textbf{Exvariance}: $f(PX,PAP^T) = Pf(X,A)\ (A = Edges,\ X = Nodes)$
+		\item Neighbourhoods: Node i, it's 1-hop neighbors are defined as: $\mathcal{N}_i = \{j: (i,j) \in E \vee (j,i) \in E\}$. (Non-directed edges, node i is in it's own neighbourhood).
+		\item Multiset of features in the neighbourhood: $X_{\mathcal{N}_i} = \{\{ x_j : j \in \mathcal{N}_i \}\}$. With a local function g as operating over this multiset: $g(x_i, X_{N_i})$
+		\item Construct perm-equi function f(X,A) by applying g over all neighbourhoods: $f(\textbf{X,A}) = \begin{pmatrix} g(x_1,X_{\mathcal{N}_1}) \\ g(x_2,X_{\mathcal{N}_1}) \\ \vdots \\ g(x_n,X_{\mathcal{N}_n}) \end{pmatrix}$. g should not depend on the order of the neighbourhood, it should be permu-invari.
+		\item Once you have the latent-Graph via the GNN you can use them in a Node-classification,  Graph-classification, or Link-prediction task.
+	\end{itemize}
+	\item Message Passing in Graphs.
+	\begin{itemize}[noitemsep,nolistsep]
+		\item GNN Layer: Construct f(X,A) via the local function g (known as diffusion, propagation or message passing). F is refered ta as a GNN layer.
+		\item How to define g? Active research!
+		\item Classification thre flavoulrs of CNN:
+		\item Convolutional GNN:
+		\begin{itemize}[noitemsep,nolistsep]
+			\item constants $c_{ij}$. How much does Node i value the features of nodes j. They are coefficients for weighted combinations. The weights usually depend on A.
+			\item $h_i = \phi (x_i, \bigoplus_{j \in \mathcal{N}_i} c_{i,j}\psi(x_j))$. 
+			\item Examples: ChebyNet, GCN (Graph Convolutional Network), SGC (Simplified Graph Convolutional Networks)
+			\item useful for homophilous graphs (similar edges) and scales well.
+		\end{itemize}
+		\item Attentional GNN:
+		\begin{itemize}[noitemsep,nolistsep]
+			\item neighbour features aggregated with implicit weights (via attention a). This weights are learnable.
+			\item $h_i = \phi (x_i, \bigoplus_{j \in \mathcal{N}_i} a(x_i,x_j)\psi(x_j))$. 
+			\item Examples: MoNet, GAT (Graph Attention Network), GaAN (Gated Attention Network).
+			\item useful as a middle ground with respect to capacity and scale. Edges are not strict homophily, but you compute sclarar value in each edge.
+		\end{itemize}
+		\item Message Passing GNN:
+		\begin{itemize}[noitemsep,nolistsep]
+			\item sender and receiver work together to compute arbitrary vectors ("messages") to be sent across edges.
+			\item $h_i = \phi (x_i, \bigoplus_{j \in \mathcal{N}_i} \psi(x_i, x_j)). \psi(x_i, x_j)) = m_{ij}$.  
+			\item Examples: Interaction Networks, MPNN (Message Passing Neural Networks), GraphNets
+			\item most generic GNN. May have scalability or learnability issues. Ideal for reasoning.
+		\end{itemize}
+	\end{itemize}
+	\item Node embedding techniques:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item embedding: Finding an Encoding, so that x-i are now the latent features of h-i.
+		\item a good representation should preserve the graph structure. This leads to the unsupervised objective: $optimise\ h_i\ and\ h_j\ to\ be\ nearby\ iff: (i,j) \in E$. They predict if there is an edge between the nodes.
+		\item Can use binary cross-entropy loss: $\sum_{(i,j) \in E}log \sigma(h_i^Th_j) + \sum_{(i,j) \notin E}log (1 - \sigma(h_i^Th_j))$
+	\end{itemize}
+	\item local objective emulate Convolutional GNNs. Neighbouring nodes tend to highly overlap in n-step neighborhoods. A conv-GNN enforces similar features for neighbouring nodes by design.
+	\item GNN and Natural Language Processing (NLP) correspond alot (nodes similar to words).
+	\item Common assumption if you have no information about how the graph should look like: Assume a complete graph and then let the network infer the actual relations.
+	\item Transformers: are fully connected attentional GNNs.
+	\item Spectral GNNs:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Time Sequences can be imageind as a cyclical grid graph with a convolution over it. A node is a time-step and the convolution looks at the time step and it's immediate neighbors.
+		\item You don't need to know the convolutional operation if you know the eigenvalues with respect to the fourier basis (36:13)
+		\item convolutional GNN: $c_{ij} = (p_k(L))_{ij}$. Use a polynomial function p-k for the Laplacian matrix L = D - A. D being the Degree matrix. p-k is necessary to make the eigenvalue decomposition easier.
+		\item This means there is no spectral GNN and spatial GNN as they can be transformed into each other.
+	\end{itemize}
+	\item Probabilistic Graphical Models:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Nodes are random variables and edges are dependencies between their distributions. THis is an Probabilistic graphical Model (PGMs). This helps you decompose a joint probability distribution.
+		\item Can use Markov Random Fields (MRF) to decompose the joint into a product of edge potentials.
+		\item Mean-field inference.
+		\item PGM corresponds to a message passing GNN.
+	\end{itemize}
+	\item how powerful are GNNs?
+	\begin{itemize}[noitemsep,nolistsep]
+		\item untrained GNNs work well, as they are similar to random hashes. (Weisfeiler-Lemann Test). Also called 1-WL test.
+		\item Though some instances the isomorphism test fails.
+		\item GNNs can only be as powerful as the 1-WL test.
+		\item Can make the strongers by analysing failer cases.
+		\item Continous Features: Sums may not destinguish parts of the graph (2+2 = 4+0).
+	\end{itemize}
+	\item \href{https://youtu.be/uF53xsT7mjc?t=2943}{curr}
+\end{itemize}
+
 \subsection{Reinforcement Learning}
+\href{https://medium.com/emergent-future/simple-reinforcement-learning-with-tensorflow-part-0-q-learning-with-tables-and-neural-networks-d195264329d0}{Multiple blog post for RL (even has A3C)}
+\\
 \href{https://www.nature.com/articles/nature14236}{RL - DQN - Human-level control through deep reinforcement - 2015}
 \\
 \href{http://proceedings.mlr.press/v48/mniha16.html}{RL - A3C - Asynchronous Methods for Deep Reinforcement Learning - 2016}
 \\
-\href{https://medium.com/emergent-future/simple-reinforcement-learning-with-tensorflow-part-0-q-learning-with-tables-and-neural-networks-d195264329d0}{Multiple blog post for RL (even has A3C)}
+\underline{(Sur)veys/Reviews}
 \\
-\href{https://www.researchgate.net/publication/338396174_State-of-the-Art_Reinforcement_Learning_Algorithms}{RL - State-of-the-art Reinforcement LEarning Algorithms - 2020}
+\href{https://www.researchgate.net/publication/338396174_State-of-the-Art_Reinforcement_Learning_Algorithms}{RL - Sur - State-of-the-art Reinforcement LEarning Algorithms - 2020}
+
+\subsection{Multiagent Systems (MAS)}
+\underline{(App)lications}
+\\
+
+\underline{Actor-Critic (AC)}
+\\
+
+\underline{(Base)}
+\\
+\href{https://www.hindawi.com/journals/complexity/2017/3813912/}{MAS - Base - The Multiagent Planning Problem - 2016}
+\\
+
+\underline{(Com)munication}
+\\
+
+\underline{(Con)ference}
+\\
+\href{https://link.springer.com/book/10.1007%2F978-981-33-6718-0}{MAS - Con - Distributed Cooperative Control and Communication for Multi-agent Systems - 2021}
+\\
+\href{https://link.springer.com/book/10.1007%2F978-3-030-69322-0}{MAS - Con - PRIMA 2020 Principles and Practice of Multi-Agent Systems - 2021}
+\\
+\href{https://link.springer.com/book/10.1007/978-3-642-15461-4}{MAS - Con - Swarm Intelligence - 2010}
+\\
+\href{https://link.springer.com/book/10.1007/978-3-642-32650-9}{MAS - Con - Swarm Intelligence - 2012}
+\\
+\href{https://link.springer.com/book/10.1007/978-3-319-09952-1}{MAS - Con - Swarm Intelligence - 2014}
+\\
+\href{https://link.springer.com/book/10.1007/978-3-319-44427-7}{MAS - Con - Swarm Intelligence - 2016}
+\\
+\href{https://link.springer.com/book/10.1007/978-3-030-00533-7}{MAS - Con - Swarm Intelligence - 2018}
+\\
+\href{https://link.springer.com/book/10.1007/978-3-030-60376-2}{MAS - Con - Swarm Intelligence - 2020}
+\\
+
+\underline{(Evo)lutionary}
+\\
+\href{https://link.springer.com/chapter/10.1007/978-3-540-71618-1_8}{MAS - Evo - Co-evolutionary Multi-agent System with Predator-Prey Mechanism for Multi-objective Optimization - 2007}
+\\
+
+\underline{(Het)erogeneous}
+\\
+\href{https://link.springer.com/article/10.1023/A:1008942012299}{MAS - Het - Multiagent Systems A Survey from a Machine Learning Perspective - 2000}
+\\
+
+\underline{(Hie)rarchy}
+\\
+\href{https://ieeexplore.ieee.org/abstract/document/4427756}{MAS - Hie - Hierarchical Control in a Multiagent System - 2007}
+\\
+\href{https://link.springer.com/chapter/10.1007/978-3-540-25928-2_6}{MAS - Hie - Holonic - A Taxonomy of Autonomy in Multiagent Organisation - 2003}
+\\
+
+\underline{Multi-Objective (MO)}
+\\
+
+\underline{(Role)-Based}
+\\
+
+\underline{(Sca)ling}
+\\
+
+\underline{(Sur)veys/Reviews}
+\\
+\href{https://ieeexplore.ieee.org/abstract/document/8352646}{MAS - Multi-Agent Systems - A Survey - 2018}
+\\
+\href{https://dl.acm.org/doi/abs/10.1017/S0269888905000317}{MAS - Sur - A survey of multi-agent organizational paradigms - 2004}
+\\
+
+\underline{(Tra)nsferlearning}
+\\
+\href{https://www.scitepress.org/Papers/2011/31856/}{MAS - Tra - Transfer Learning for Multi-agent Coordination - 2011}
+\\
+\href{https://ulir.ul.ie/handle/10344/3305}{MAS - Tra - Transfer learning in multi-agent systems through paralllel transfer - 2013}
+\\
+
 
 \subsection{Multi Agent Reinforcement Learning (MARL)}
-\href{https://dl.acm.org/doi/abs/10.5555/645527.657296}{MARL - Multiagent Reinforcement Learning - Theoretical Framework and an Algorithm - 1998}
+\underline{(App)lications}
 \\
-\href{https://publikationen.bibliothek.kit.edu/1000118251}{MARL - Deep Reinforcement Learning for Robot Swarms - 2019 - KIT}
+
+\underline{Actor-Critic (AC)}
 \\
-\href{https://link.springer.com/article/10.1007/s10458-006-7035-4}{MARL - Hierarchical multi-agent reinforcement learning - 2006}
+\href{https://ieeexplore.ieee.org/abstract/document/8619581}{MARL - AC - Networked Multi-Agent Reinforcement Learning in Continuous Spaces - 2018}
 \\
-\href{https://arxiv.org/abs/1605.06676}{MARL - Learning to Communicate with Deep Multi-Agent Reinforcement Learning - 2016}
+\href{https://arxiv.org/abs/1706.02275}{MARL - AC - Multi-Agent Actor-Critic for Mixed Cooperative-Competitive Environment - 2017}
 \\
-\href{https://www.cambridge.org/core/journals/knowledge-engineering-review/article/reward-shaping-for-knowledgebased-multiobjective-multiagent-reinforcement-learning/75F1507F7CAC7C6625F87AE7CD344D52}{MARL - Reward shaping for knowledge-based multi-objective multi-agent reinforcement learning - 2017}
+\href{http://proceedings.mlr.press/v97/iqbal19a.html}{MARL - AC - Actor-Attention-Critic for Multi-Agent Reinforcement Learning - 2019}
 \\
-\href{https://link.springer.com/article/10.1007/s10489-020-01755-8}{MARL - GAMA - Graph Attention Multi-agent reinforcement learning algorithm for cooperation - 2020}
+
+\underline{(Base)}
+\href{https://dl.acm.org/doi/abs/10.5555/645527.657296}{MARL - Base - Multiagent Reinforcement Learning - Theoretical Framework and an Algorithm - 1998}
 \\
-\href{https://www.cambridge.org/core/journals/knowledge-engineering-review/article/planbased-reward-shaping-for-multiagent-reinforcement-learning/B173D25B1006B755667616C3A3EB3BE5}{MARL - Plan-based reward shaping for multi-agent reinforcement learning - 2016}
+\href{https://publikationen.bibliothek.kit.edu/1000118251}{MARL - Base - Deep Reinforcement Learning for Robot Swarms - 2019 - KIT}
 \\
-\href{https://www.mdpi.com/2073-8994/10/10/461}{MARL - Multi-Agent Reinforcement Learning Using Linear Fuzzy Model Applied to Cooperative Mobile Robots - 2018}
+\href{https://arxiv.org/abs/2009.14471}{MARL - Base - PettingZoo - Gym for Multi-Agent Reinforcement Learning - 2020}
 \\
-\href{http://ai.stanford.edu/people/shoham/www%20papers/MALearning_ACriticalSurvey_2003_0516.pdf}{MARL - Multi-Agent Reinforcement Learning - a critical survey - 2003}
+\href{https://www.sciencedirect.com/science/article/pii/S0893608099000246}{MARL - Base - Multi-agent reinforcement learning weighting and partitioning - 1999}
 \\
-\href{http://proceedings.mlr.press/v70/foerster17b.html}{MARL - Stabilising Experience Replay for Deep Multi-Agent Reinforcement Learning - 2017}
+
+\underline{(Com)munication}
 \\
-\href{http://proceedings.mlr.press/v80/yang18d.html}{MARL - Mean Field Multi-Agent Reinforcement Learning - 2018}
+\href{https://arxiv.org/abs/1605.06676}{MARL - Com - Learning to Communicate with Deep Multi-Agent Reinforcement Learning - 2016}
 \\
-\href{https://arxiv.org/abs/1911.10635}{MARL - Multi-Agent Reinforcement Learning A Selective Overview of Theories and Algorithms - 2021}
+\href{https://dl.acm.org/doi/abs/10.5555/2484920.2485093}{MARL - Com - Coordinating multi-agent reinforcement learning with limited communication - 2013}
 \\
-\href{https://dl.acm.org/doi/abs/10.5555/2484920.2485093}{MARL - Coordinating multi-agent reinforcement learning with limited communication - 2013}
+
+\underline{(Con)ference}
 \\
-\href{https://arxiv.org/abs/1807.09427}{MARL - Multi-Agent Reinforcement Learning A Report on Challenges and Approaches - 2018}
+
+\underline{(Evo)lutionary}
 \\
-\href{https://proceedings.neurips.cc/paper/2019/hash/07a9d3fed4c5ea6b17e80258dee231fa-Abstract.html}{MARL - ACrit - LIIR - Learning Individual Intrinsic Reward inMulti-Agent Reinforcement Learning - 2019}
+
+\underline{(Het)erogeneous}
 \\
-\href{https://arxiv.org/abs/2009.14471}{MARL - PettingZoo - Gym for Multi-Agent Reinforcement Learning - 2020}
-\\
-\href{https://ieeexplore.ieee.org/abstract/document/8619581}{MARL - Networked Multi-Agent Reinforcement Learning in Continuous Spaces - 2018}
-\\
-\href{https://arxiv.org/abs/1908.03963}{MARL - A Review of Cooperative Multi-Agent Deep Reinforcement Learning - 2019}
-\\
-\href{https://link.springer.com/chapter/10.1007/978-3-642-29946-9_25}{MARL - Transfer Learning in Multi-agent ReinforcementLearning Domains - 2011}
-\\
-\href{https://ieeexplore.ieee.org/abstract/document/8851784}{MARL - Parallel Transfer Learning in Multi-Agent Systems What, when and how to transfer - 2019}
-\\
-\href{http://proceedings.mlr.press/v119/wang20f.html}{MARL - ROMA Multi-Agent Reinforcement Learning with Emergent Roles - 2020}
-\\
-\href{https://link.springer.com/chapter/10.1007/3-540-62934-3_39}{MARL - A modular approach to multi-agent reinforcement learning - 2005}
-\\
-\href{https://www.sciencedirect.com/science/article/pii/S0893608099000246}{MARL - Multi-agent reinforcement learning weighting and partitioning - 1999}
-\\
-\href{https://www.scitepress.org/Papers/2011/31856/}{MAS - Transfer Learning for Multi-agent Coordination - 2011}
-\\
-\href{https://arxiv.org/abs/2002.08030}{MARL - Transfer among Agents An Efficient Multiagent Transfer Learning Framework - 2020}
-\\
-\href{https://link.springer.com/article/10.1007/s10458-019-09430-0}{MARL - Agents teaching agents a survey on inter-agent transfer learning - 2019}
-\\
-\href{https://www.jair.org/index.php/jair/article/view/11396}{MARL - A Survey on Transfer Learning for Multiagent Reinforcement Learning Systems  - 2019}
-\\
-\href{https://arxiv.org/abs/1706.02275}{MARL - ACrit - Multi-Agent Actor-Critic for Mixed Cooperative-Competitive Environment - 2017}
-\\
-\href{http://proceedings.mlr.press/v97/iqbal19a.html}{MARL - ACrit - Actor-Attention-Critic for Multi-Agent Reinforcement Learning - 2019}
+\href{https://proceedings.neurips.cc/paper/2019/hash/07a9d3fed4c5ea6b17e80258dee231fa-Abstract.html}{MARL - Het - LIIR - Learning Individual Intrinsic Reward inMulti-Agent Reinforcement Learning - 2019}
 \\
 \href{https://www.sciencedirect.com/science/article/abs/pii/S092188900300040X}{MARL - Het - An approach to the pursuit problem on a heterogeneous multiagent system using reinforcement learning - 2002}
 
+\underline{(Hie)rarchy}
+\\
+\href{https://link.springer.com/article/10.1007/s10458-006-7035-4}{MARL - Hie - Hierarchical multi-agent reinforcement learning - 2006}
+\\
 
-\subsection{Multiagent Systems (MAS)}
-\href{https://ieeexplore.ieee.org/abstract/document/8352646}{MAS - Multi-Agent Systems - A Survey - 2018}
+\underline{Multi-Objective (MO)}
 \\
-\href{https://link.springer.com/book/10.1007%2F978-981-33-6718-0}{MAS - Distributed Cooperative Control and Communication for Multi-agent Systems - 2021}
+\href{https://www.cambridge.org/core/journals/knowledge-engineering-review/article/reward-shaping-for-knowledgebased-multiobjective-multiagent-reinforcement-learning/75F1507F7CAC7C6625F87AE7CD344D52}{MARL - MO - Reward shaping for knowledge-based multi-objective multi-agent reinforcement learning - 2017}
 \\
-\href{https://link.springer.com/book/10.1007%2F978-3-030-69322-0}{MAS - PRIMA 2020 Principles and Practice of Multi-Agent Systems - 2021}
+
+\underline{(Role)-Based}
 \\
-\href{https://www.hindawi.com/journals/complexity/2017/3813912/}{MAS - The Multiagent Planning Problem - 2016}
+\href{http://proceedings.mlr.press/v119/wang20f.html}{MARL - Role - ROMA Multi-Agent Reinforcement Learning with Emergent Roles - 2020}
 \\
-\href{https://link.springer.com/book/10.1007/978-3-642-15461-4}{MAS - Swarm Intelligence - 2010}
+
+\underline{(Sca)ling}
 \\
-\href{https://link.springer.com/book/10.1007/978-3-642-32650-9}{MAS - Swarm Intelligence - 2012}
+\href{https://link.springer.com/article/10.1007/s10489-020-01755-8}{MARL - Sca - GAMA - Graph Attention Multi-agent reinforcement learning algorithm for cooperation - 2020}
 \\
-\href{https://link.springer.com/book/10.1007/978-3-319-09952-1}{MAS - Swarm Intelligence - 2014}
+\href{https://www.cambridge.org/core/journals/knowledge-engineering-review/article/planbased-reward-shaping-for-multiagent-reinforcement-learning/B173D25B1006B755667616C3A3EB3BE5}{MARL - Sca - Plan-based reward shaping for multi-agent reinforcement learning - 2016}
 \\
-\href{https://link.springer.com/book/10.1007/978-3-319-44427-7}{MAS - Swarm Intelligence - 2016}
+\href{https://www.mdpi.com/2073-8994/10/10/461}{MARL - Sca - Multi-Agent Reinforcement Learning Using Linear Fuzzy Model Applied to Cooperative Mobile Robots - 2018}
 \\
-\href{https://link.springer.com/book/10.1007/978-3-030-00533-7}{MAS - Swarm Intelligence - 2018}
+\href{http://proceedings.mlr.press/v70/foerster17b.html}{MARL - Sca - Stabilising Experience Replay for Deep Multi-Agent Reinforcement Learning - 2017}
 \\
-\href{https://link.springer.com/book/10.1007/978-3-030-60376-2}{MAS - Swarm Intelligence - 2020}
+\href{http://proceedings.mlr.press/v80/yang18d.html}{MARL - Sca - Mean Field Multi-Agent Reinforcement Learning - 2018}
 \\
-\href{https://ulir.ul.ie/handle/10344/3305}{MAS - Transfer learning in multi-agent systems through paralllel transfer - 2013}
+\href{https://link.springer.com/chapter/10.1007/3-540-62934-3_39}{MARL - Sca - A modular approach to multi-agent reinforcement learning - 2005}
 \\
-\href{https://link.springer.com/chapter/10.1007/978-3-540-71618-1_8}{MAS - Co-evolutionary Multi-agent System with Predator-Prey Mechanism for Multi-objective Optimization - 2007}
+
+\underline{(Sur)veys/Reviews}
 \\
-\href{https://ieeexplore.ieee.org/abstract/document/4427756}{MAS - Hierarchical Control in a Multiagent System - 2007}
+\href{http://ai.stanford.edu/people/shoham/www%20papers/MALearning_ACriticalSurvey_2003_0516.pdf}{MARL - Sur - Multi-Agent Reinforcement Learning - a critical survey - 2003}
 \\
-\href{https://link.springer.com/chapter/10.1007/978-3-540-25928-2_6}{MAS - Holonic - A Taxonomy of Autonomy in Multiagent Organisation - 2003}
+\href{https://arxiv.org/abs/1911.10635}{MARL - Sur - Multi-Agent Reinforcement Learning A Selective Overview of Theories and Algorithms - 2021}
 \\
-\href{https://dl.acm.org/doi/abs/10.1017/S0269888905000317}{MAS - A survey of multi-agent organizational paradigms - 2004}
+\href{https://arxiv.org/abs/1807.09427}{MARL - Sur - Multi-Agent Reinforcement Learning A Report on Challenges and Approaches - 2018}
 \\
-\href{https://link.springer.com/article/10.1023/A:1008942012299}{MAS - HomoHetero - Multiagent Systems A Survey from a Machine Learning Perspective - 2000}
+\href{https://arxiv.org/abs/1908.03963}{MARL - Sur - A Review of Cooperative Multi-Agent Deep Reinforcement Learning - 2019}
+\\
+\href{https://www.jair.org/index.php/jair/article/view/11396}{MARL - Sur - A Survey on Transfer Learning for Multiagent Reinforcement Learning Systems  - 2019}
+\\
+
+\underline{(Tra)nsferlearning}
+\\
+\href{https://link.springer.com/chapter/10.1007/978-3-642-29946-9_25}{MARL - Tra - Transfer Learning in Multi-agent ReinforcementLearning Domains - 2011}
+\\
+\href{https://ieeexplore.ieee.org/abstract/document/8851784}{MARL - Tra - Parallel Transfer Learning in Multi-Agent Systems What, when and how to transfer - 2019}
+\\
+\href{https://arxiv.org/abs/2002.08030}{MARL - Tra - Transfer among Agents An Efficient Multiagent Transfer Learning Framework - 2020}
+\\
+\href{https://link.springer.com/article/10.1007/s10458-019-09430-0}{MARL - Tra - Agents teaching agents a survey on inter-agent transfer learning - 2019}
+\\
+
+
+\subsection{GNN for Multi Agent Reinforcement Learning (GNNMARL)}
+% Keywords: Graph Convolutional Network (GCN)
+\underline{(App)lications}
+\href{https://arxiv.org/abs/2011.06175}{GNN - App - Optimizing Large-Scale Fleet Management on a Road Network using Multi-Agent Deep Reinforcement Learning with Graph Neural Network - 2020}
+\\
+
+\underline{UNSORTED!!!!!}
+\href{https://arxiv.org/abs/1811.12557}{GNN - Deep Multi-Agent Reinforcement Learning with Relevance Graphs - 2018}
+\\
+\href{https://arxiv.org/abs/2006.11438}{GNN - Deep Implicit Coordination Graphs for Multi-agent Reinforcement Learning- 2020}
+\\
+\href{https://ojs.aaai.org/index.php/AAAI/article/view/6211}{GNN - Multi-Agent Game Abstraction via Graph Attention Neural Network  - 2020}
+\\
+\href{https://arxiv.org/abs/2003.01040}{GNN - Scaling Up Multiagent Reinforcement Learning for Robotic Systems Learn an Adaptive Sparse Communication Graph - 2020}
+\\
+\href{https://ieeexplore.ieee.org/abstract/document/9413716}{GNN - Graphcomm A Graph Neural Network Based Method for Multi-Agent Reinforcement Learning - 2021}
+\\
+\href{https://arxiv.org/abs/2009.13161}{GNN - Towards Heterogeneous Multi-Agent Reinforcement Learning with Graph Neural Networks - 2020}
+\\
+\href{https://arxiv.org/abs/2008.02616}{GNN - The Emergence of Adversarial Communication in Multi-Agent Reinforcement Learning - 2020}
+\\
+\href{https://arxiv.org/abs/2105.10211}{GNN - Multi-Agent Deep Reinforcement Learning using Attentive Graph Neural Architectures for Real-Time Strategy Games - 2021}
+\\
+\href{https://ieeexplore.ieee.org/abstract/document/9414993}{GNN - Global-Localized Agent Graph Convolution for Multi-Agent Reinforcement Learning - 2021}
+\\
+\href{https://arxiv.org/abs/2012.07617}{GNN - Specializing Inter-Agent Communication in Heterogeneous Multi-Agent Reinforcement Learning using Agent Class Information - 2020}
+\\
+\href{https://dl.acm.org/doi/abs/10.5555/1248547.1248612}{GNN - Collaborative Multiagent Reinforcement Learning by Payoff Propagation - 2006}
+\\
+
 
 \subsection{Applications}
 \href{https://ieeexplore.ieee.org/abstract/document/4012019}{MAS - TrafficControl - Neural Networks for Continuous Online Learning and Control - 2006}
