@@ -583,7 +583,7 @@ p.993
 \subsection{RL Lectures from Deepmind}
 \href{https://www.youtube.com/watch?v=2pWv7GOvuf0&list=PLqYmG7hTraZDM-OYHWgPebj2MfCFzFObQ}{RL Course by DeepMind}
 \\
-\href{https://www.youtube.com/watch?v=2pWv7GOvuf0&list=PLqYmG7hTraZDM-OYHWgPebj2MfCFzFObQ}{RL Course by DeepMind - Part 1}
+\href{https://www.youtube.com/watch?v=2pWv7GOvuf0&list=PLqYmG7hTraZDM-OYHWgPebj2MfCFzFObQ}{RL Course by DeepMind - Part 1: Introduction}
 \begin{itemize}[noitemsep,nolistsep]
 	\item Actions may have long term consequences and rewards may be delayed. May need to sacrifice immediate reward to gain more long-term reward.
 	\item $Observation\ O_t, Reward\ R_t, Action\ A_t, History\ H_t\ (sequence\ of\ O_t,\ A_t,\ R_t)$
@@ -617,7 +617,7 @@ p.993
 		\item Prediction: evaluate the future (given a policy) vs. Control: optimise the future (find the pest policy)
 	\end{itemize} 
 \end{itemize} 
-\href{https://www.youtube.com/watch?v=lfHX2hHRMVQ&list=PLqYmG7hTraZDM-OYHWgPebj2MfCFzFObQ&index=2}{RL Course by DeepMind - Part 2}
+\href{https://www.youtube.com/watch?v=lfHX2hHRMVQ&list=PLqYmG7hTraZDM-OYHWgPebj2MfCFzFObQ&index=2}{RL Course by DeepMind - Part 2: Markov Decision Processes}
 \begin{itemize}[noitemsep,nolistsep]
 	\item Markov Processes:
 	\begin{itemize}[noitemsep,nolistsep]
@@ -691,6 +691,108 @@ p.993
 		\item extra reward due to starting from satte s: $\tilde{v}_\pi(s) = \mathbb{E}_\pi [\sum_{k=1}^\infty (R_{t+k} - \rho^\pi) | S_t = s]$
 	\end{itemize}
 \end{itemize} 
+\href{https://www.youtube.com/watch?v=Nd1-UUMVfz4}{RL Course by DeepMind - Part 3: Planning by Dynamic Programming}
+\begin{itemize}[noitemsep,nolistsep]
+	\item Introduction:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item \textbf{Dynamic} sequential or tomporal component to the problem.
+		\item \textbf{Programming} optimising a "programm", i.e. policy
+		\item can be used when problems can be divided into subproblems they can be solved individually and the result can be combined again.
+		\item property: Optimal substructure, Principle of optimality applies, Optimum by divide-solve-combine. Optimum of the pieces tell you about optimum of your problem.
+		\item property: Overlapping subproblems. They occur multiple times. Can cache and reuse Solutions.
+		\item MDP satisfy both these properties because of the bellman equation and the value function that stores and reuses solutions.
+		\item Dynamic Programming can be used for planning in an MDP. Planning: We already learned everything, now we need to solve the problem.
+		\item Plan to solve prediction problem: Given MDP and policy, output: value function of the policy.
+		\item Plan to solve control problem: Given MDP, output: optimal value function and therefore policy.
+	\end{itemize}
+	\item Policy Evaluation:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Iterative Policy Evaulation by using Bellman expectation backup. $v_1 (0 = no\ reward\ anywhere) \rightarrow v_2 \rightarrow ... \rightarrow v_\pi$.
+		\item Synchronous backup: $At\ each\ iter\ k+1\ \forall s \in S$: Update $v_{k+1}(s)\ from\ v_k(s')$. s' is sucessor state of s.
+		\item For each state make a 1step look-ahead with the bellman equation that uses the current value function as input. The result is the value for this state for the next value function. Then go over each state to have all the values for the next value function.
+		\item Asynchronous Backup later.
+		\item This converges to the best value function (proven later).
+		\item $v_{k+1}(s) = \sum_{a \in \mathcal{A}}\pi(a|s)(\mathcal{R}_s^a + \gamma \sum_{s' \in S}\mathcal{P}_{ss'}^a v_k(s'))$. $\mathbf{v^{k+1} = \mathcal{R}^\pi + \gamma \mathcal{P}^\pi + v^k}$.
+	\end{itemize}
+	\item Policy Iteration:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item start of with arbitray value function. It doesn't matter where you start you will always end with the optimal policy as an MDP always has atleast one.
+		\item Improve Policy: Step 1: \textbf{Evaluate} a given policy: $v_\pi(s) = \mathbb{E}[R_{t+1} + \gamma R_{t+2}+ ... | S_t = s]$. Create value function of that policy. This needs multiple iterations of the bellman expectation backup.
+		\item Improve Policy: Step 2: \textbf{Improve} the policy by acting greedily with respect to value function: $\pi' = greedy(v_\pi)$
+		\item In general you need to iterate between these two steps. policy iteration always converges to $\pi^*$.
+		\item acting greedily always makes the policy deterministic. Acting Greedily $\pi'(s) = \underset{a \in \mathcal{A}}{argmax} q_\pi (s,a)$
+		\item the total reward if we acted greedily is at least as much as before we greedified it. $v_\pi(s) \leq v_{\pi'}(s)$.
+		\item When improvements stops you have satisfied the bellman optimality equation. Therefore the policy we end up with is $v_*(s)$ and is optimal.
+		\item Modified Policy Iteration:
+		\begin{itemize}[noitemsep,nolistsep]
+			\item you may not need to iterate until the value function is fixed as a crude approximation would already lead to the same greedy policy as the one you get after the value function is fixed. you may be able to save iterations.
+			\item with an $\epsilon$-convergenc of value function or early stopping after k iterations. Both still converge on the optimal policy.
+			\item Why not update policy every iteration (k = 1): this is equivalent to value iteration (next section).
+		\end{itemize}
+	\end{itemize}
+	\item Value Iteration:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item if my first action i choose is optimal and the policy i use after that is optimal, then the policy is optimal.
+		\item Principle of Optimality: A policy $\pi(a|s)$ achieves the optimal value from state s, $v_\pi(s) = v_*(s)$ iff: For any state $s'$ reachable from s $\pi$ achieves the optimal value from state $s',\ v_\pi(s') = v_*(s')$.
+		\item using the bellman optimality equation:
+		\item If we know the solution to subproblems $v_*(s')$. Then solution $v_*(s)$ an be found by one-step lookahead: $v_*(s) \leftarrow \underset{a \in \mathcal{A}}{max}\ \mathcal{R}_s^a + \gamma \sum_{s' \in S} \mathcal{P}_{ss'}^a v_*(s')$
+		\item value iteration: apply these updates iteratively. The values propagate through the states and we end up with the optimal value function.
+		\item Intuition: start with final rewards (one step before goal) and work backwards. We use this here through our entire statespace.
+		\item Iterative Value Iteration by using Bellman optimality backup. $v_1 (0 = no\ reward\ anywhere) \rightarrow v_2 \rightarrow ... \rightarrow v_*$.
+		\item Synchronous backup: $At\ each\ iter\ k+1\ \forall s \in S$: Update $v_{k+1}(s)\ from\ v_k(s')$. s' is sucessor state of s.
+		\item Intermediate values functions in this iterative process may not correspond to any valid policy.
+		\item $v_{k+1}(s) = \underset{a \in \mathcal{A}}{max}\ (\mathcal{R}_s^a + \gamma \sum_{s' \in S}\mathcal{P}_{ss'}^a v_k(s'))$. $\mathbf{v^{k+1} = \underset{a \in \mathcal{A}}{max}\ (\mathcal{R}^a + \gamma \mathcal{P}^a + v_k})$.
+		\item Prediction-Problem: Use Bellman Expectation Equation in the Iterative Policy Evaluation Algorithm.
+		\item Control-Problem: Use Bellman Expectation Equation and Greedy Policy Improvement in the Policy Iteration Algorithm.
+		\item Control-Problem: Use Bellman Optimality Equation in the Value Iteration Algorithm.
+		\item Complexity for $v_\pi(s)$, $\mathcal{O}(mn^2)$. Complexity for $q_\pi(s,a)$, $\mathcal{O}(m^2n^2)$. For m actions and n states.
+	\end{itemize}
+	\item Extensions to Dynamic Programming:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Asynchronous Dynamic Programming:
+		\begin{itemize}[noitemsep,nolistsep]
+			\item Once you created the new value for the new value function you can use this for the other states instead of having to do all states on the old values first. Can reduce computation. If you slected all states at least sometimes you are guaranteed to converge.
+			\item \textbf{In-Place Dynamic Programming}: Synchronous: you have two copies of the value function (new and old) in in-place you overwrite the old values in your one copy of the value function.
+			\item \textbf{Prioritised Sweeping}: Some measure how important how it is to update a state with the Bellman error $|\underset{a \in \mathcal{A}}{max}\ (\mathcal{R}_s^a + \gamma \sum_{s' \in S}\mathcal{P}_{ss'}^a v(s')) - v(s)|$
+			\item this uses a priority queue. Backup the state with the largest remaining Bellman error.
+			\item \textbf{Real-Time Dynamic Programming}: only select the states that the agent actually visits. Collect real samples and look which states to update.
+		\end{itemize}
+		\item Full-width and sample backups:
+		\begin{itemize}[noitemsep,nolistsep]
+			\item DP uses full-width backups: Every step we consider all possible branching factor (considering all actions and all states). For that we need to know the dynamics.
+			\item So we use just sample particular trajectory.
+			\item Use Sample backups. Using sample rewards and sample transitions instead of complete reward function and transition dynamics.
+			\item Advantages: Model-free, Breaks curse of dimensionality, Cost of backup is constant.
+		\end{itemize}
+		\item Approximate Dynamic Programming:
+		\begin{itemize}[noitemsep,nolistsep]
+			\item ???
+		\end{itemize}
+	\end{itemize}
+	\item Contraction Mapping:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item ??? Shows that they convert to the optimal. the solution is unique
+	\end{itemize}
+\end{itemize}
+\href{https://www.youtube.com/watch?v=PnHCvfgC_ZA}{RL Course by DeepMind - Part 4: Model-Free Prediction}
+\begin{itemize}[noitemsep,nolistsep]
+	\item Introduction
+	\begin{itemize}[noitemsep,nolistsep]
+		\item 
+	\end{itemize}
+	\item Monte-Carlo Learning
+	\begin{itemize}[noitemsep,nolistsep]
+		\item 
+	\end{itemize}
+	\item Temporal-Difference Learning
+	\begin{itemize}[noitemsep,nolistsep]
+		\item 
+	\end{itemize}
+	\item $TD(\lambda)$
+	\begin{itemize}[noitemsep,nolistsep]
+		\item 
+	\end{itemize}
+\end{itemize}
 
 \section{ALR-Wiki}
 \href{https://www.notion.so/ALR-Student-Wiki-284ed2bb033f4ef494e2429ce0f51b6c}{ALR-Wiki Link}
