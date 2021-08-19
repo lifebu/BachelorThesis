@@ -5,200 +5,26 @@
 \chapter{Notepad}
 \label{ch:Notepad}
 
-\section{MARL - A Comprehensive Survey of Multiagent Reinforcement Learning - 2008}
-\href{https://ieeexplore.ieee.org/abstract/document/4445757}{MARL - A Comprehensive Survey of Multiagent Reinforcement Learning - 2008}
-\\
-\underline{Benefits}
-\begin{itemize}[noitemsep,nolistsep]
-	\item can be parallelized.
-	\item can use experience sharing via communication, or with a teacher-learner relationship.
-	\item Failure of one agent can be covered by other agents.
-	\item insertion of new agents => scaleable.
-	\item MARL Complexity: Exponential in number of agents.
-	\item exploration (new knowledge) - exploitation (current knowledge) - Tradeoff.
-	\item They explore about the environment and other agents.
-	\item need for coordination.
-\end{itemize}
-\underline{Application Domains}
-\begin{itemize}[noitemsep,nolistsep]
-	\item simulation better than real-life (better scalability and robustness).
-	\item Distributed Control: for controlling processes (for larger industry plants).
-	\begin{itemize}[noitemsep,nolistsep]
-		\item avenue for future work.
-		\item used for traffic, power or sensory networks.
-		\item could also be used for pendulum systems.
-	\end{itemize}
-	\item Robotic Teams (Multirobot):
-	\begin{itemize}[noitemsep,nolistsep]
-		\item simulated 2D space. 
-		\item navigation: Reach a goal with obstacles. Area sweeping (retrival of objects (also cooperative)).
-		\item pursuit: Capture a prey robot.
-	\end{itemize}
-	\item Automated Trading: Exchange goods on electronic markets with negotiation and auctions.
-	\item Resource Management: Cooperatie team to manage resources or as clients. (routing, load balancing).
-\end{itemize}
-\underline{Practicallity and Future works}
-\begin{itemize}[noitemsep,nolistsep]
-	\item Scalability Problem: Q-functions do not scale well with the size of the state-action space.
-	\begin{itemize}[noitemsep,nolistsep]
-		\item Approximation needed: for discrete large state-action spaces, for continous states and discrete actions or continious state and action.
-		\item Heuristic in nature and only work in a narrow set of problems.
-		\item Could use theoretical results on single-agent approximate RL.
-		\item also could use discovery and exploitation of the decentralized, modular structure of the multiagent task.
-	\end{itemize}
-	\item MARL without prior knowledge is very slow.
-	\begin{itemize}[noitemsep,nolistsep]
-		\item Need humans to teach the agent.
-		\item shaping: first simple task then scale them.
-		\item could use reflex behavior.
-		\item Knowledge about the task structure.
-	\end{itemize}
-	\item Incomplete, uncertain state measurements could be handled with partiall observability techniques (Markov decision process).
-	\item Multiagent Goals needs a stable learning process for the environment and an adaption for the dynamics of other agents.
-	\item using game-theory-based analysis to apply to the dynamics of the environment.
-\end{itemize}
+Reference for short forms: \\
+(App): Applications
+(AC): Actor-Critic
+(Base): Basic Papers
+(Book): Book
+(Com): Communication
+(Con): Conference
+(Evo): Evolutionary
+(Het): Heterogeneous
+(Hie): Hierarchy
+(MO): Multi-Objective
+(Role): Role-Based
+(Sca): Scaling
+(Sur): Survey/Reviews
+(Tra): Transfer Learning\\
+! means done.
 
-\section{!MAS - An Introduction to Multi-Agent Systems - 2010}
-\href{https://link.springer.com/chapter/10.1007/978-3-642-14435-6_1}{MAS - An Introduction to Multi-Agent Systems - 2010}
-\\
-\underline{Benefits of using MAS in large systems}
-\begin{itemize}[noitemsep,nolistsep]
-	\item Increase in the speed and efficiency of the operation due to parallel computation and asynchronous operation.
-	\item Graceful degradation whone one or more of the agent fail, thus increasing realibility and robustness of the system.
-	\item Scalability and flexibility - Agents can be added as and when necessary.
-	\item Cost Reduction: Individual agents cost much less than a centralized architecture
-	\item Reusability: Agents with a modular structure can be easily replaced in other systems or be upgraded more easily than a monolithic sysetm.
-\end{itemize}
-\underline{Challenges of using MAS in large systems}
-\begin{itemize}[noitemsep,nolistsep]
-	\item environment: An agents action modify its own environment but also that of its neighbours. therefore they need to predict the action of the other agents so that they can reach a goal. This can be an unstable system. Environment dynamic: Is the effect caused by other agents or by the variation in the environment?
-	\item perception: limited sensing range => each agent only has partial observability for the environment. Therefore the decisions reached might be sub-optimal.
-	\item Abstraction: ???
-	\item conflict resolution: lack of global view => conflict. therefore information on constraints, action preferences and goal prioritoes must be shared between agents. When to communicate what to which agent?
-	\item Inference: Single-Agent: State-Action-Space can be mapped with trial and error. Multi-agent: each agent may or may not interact with each other. If they are heterogenous, they might even compete and have different goals. You need a fitting inference machanism
-\end{itemize}
-\subsection{Classification of MAS}
-\underline{Internal Architecture}
-\begin{itemize}[noitemsep,nolistsep]
-	\item homogeneous: all agents have the same internal architecture (Local Goals, Sensor Capabilities, Internal states, Inference Mechanism and Possible Actions). In a typical distributed environment, overlap of sensory inputs is rarely present
-	\item Heterogeneous: agents may differ in ability, structure and functionality. Because of the dynamics and location the actions chosen might differ between agents. their local goals may contradict the objective of other agents.
-\end{itemize}
-\underline{Agent Organization}
-\begin{itemize}[noitemsep,nolistsep]
-	\item hierarchical: typical: tree-structure. At different heights, different levels of autonomy. data from lower levels flow upwards. Control signal flows from high to low in the hierarchy.
-	\begin{itemize}[noitemsep,nolistsep]
-		\item simple: the decision making authority is a single agent of highest level. BUT: single point of Failure
-		\item uniform: authority is distributed among the various agents, for better efficiency, fault tolerance, graceful degradation. Decisions made by agent with appropriate information. (MAS - TrafficControl - Neural Networks for Continuous Online Learning and Control - 2006)
-	\end{itemize}
-	\item holonic: fractal structure of several holons. Self-repeating. Used for large organizational behaviours in manufacturing and business. 
-	\begin{itemize}[noitemsep,nolistsep]
-		\item An agent that appears as a single entity might be composed of many sub-agents. They are not predetermined, but form through commitments.
-		\item Each holon has a head agent that communicates with the environment or with other agents in the environment. It is selected either randomly, through a rotation policy, or selected by resource availability, communicaton capability.
-		\item Holons can be nested to form Superholons.
-		\item compare to tree: in Holons cross tree interactions and overlapping of holons is allowed.
-		\item pro: abstraction good degree of freedom, good agent autonomy.
-		\item contra: abstraction makes it difficult for other agents to predict the resulting actions of the holon.
-	\end{itemize}
-	\item coalitions: group of agents come together for a short time to increase utility or performance of the individual agents in a group. they cease to exist when the performance goal is achieved.
-	\begin{itemize}[noitemsep,nolistsep]
-		\item coalition may have either a flat or a hierarchical architecture.
-		\item It may have an leading agent to act as a representative. 
-		\item overlap is allowed. this increased complexity of computation of the negotiation strategy.
-		\item You can have one coaltion with all agents => maximum performance of system. Impractical due to restraints on communication and resources.
-		\item minimize amount of colations: because of the cost of creating and dissolving a colation group.
-	\end{itemize}
-	\item teams: agents work together to increase the overall performance of the group, rather than working as individual agents.
-	\begin{itemize}[noitemsep,nolistsep]
-		\item their interactions can be arbitrary and the goals and roals can vary with the performance of the group.
-		\item large team size is not beneficial under all conditions. some compromises must be made.
-		\item large teams offer a better visibility of the environment. but is slower computation wise. Learning-Performance Tradeoff.
-		\item computation cost usually much greater than coalitions.
-	\end{itemize}
-\end{itemize}
-\underline{Communication}
-\begin{itemize}[noitemsep,nolistsep]
-	\item local communication: agents directly communicate similar to message passing. there is no place to store information. creates distributed architecture. used in: (25),(37),(38).
-	\item blackboards: a group of agents share a data repository which is provided for efficient storage.
-	\begin{itemize}[noitemsep,nolistsep]
-		\item can hold design data and control knowledge, accessable by the agents.
-		\item control shell: notfies the agent when relevant data is available.
-		\item single point of failure.
-	\end{itemize}
-	\item agent communication language (ACL): common framework for interaction and information sharing. (40).
-	\begin{itemize}[noitemsep,nolistsep]
-		\item procedural approach: modelled as a sharing of the precedural directives. Shared how an agent does a specific task or the entire working of the agent itself. Script Languages often used. Disadvantage: necessitiy of providing information on the recipient agent, which is in most cases partially known. Also how to merge the scripts into one executable. Not preferred method.
-		\item declarative approach: sharing of statements for definitions, assumptions assertions, axioms etc. Short declarative statements as length increases probability of information corruption. Example: ARPA knowledge sharing effort.
-		\item Best known inner languages: Knowledge Interchange Format. Information exchange is implicitly embedded in KIF. But the package size grows with the increase in embedded information. Solution: High-level Languages like KQML (Knowledge QUery and Manipulation Language)
-	\end{itemize}
-\end{itemize}
-\underline{Decision making in Multi-Agent Systems}
-\begin{itemize}[noitemsep,nolistsep]
-	\item undercainty: effects of a specific actions on the environment and dynamics because of the other agents.
-	\item Methodology to try and find a joint action or equilibrium point which maximizes the reward of every agent.
-	\item Typically modelled with game theory method. Strategic games:
-	\begin{itemize}[noitemsep,nolistsep]
-		\item a set of players (agents)
-		\item Foreach player, there is a set of actions
-		\item Foreach player, the prefeernces over a set of actions profiles
-		\item payoff with the combination of action, a joint-action, that is assumed to be predefined.
-		\item all actions are observable forall agents.
-		\item make the assumption that all participating agents are rational.
-	\end{itemize}
-	\item Nash equilibrium: for a payoff matrix: An action profile (joint-action), where no player can do better by choosing one of the actions differently, given that the other player chose a specific action.
-	\item there might be multiple nash equilibrium, so that there is no dominant solution. Here the coordination of MAS is needed to find a solution.
-	\item Iterated Elimination Method: Strongly dominated actions are iteratively eliminated. This fails if there are no strictly dominated actions available.
-\end{itemize}
-\underline{Coordination}
-\begin{itemize}[noitemsep,nolistsep]
-	\item agents work in parallel, therefore they need to be coordinated or synchronize the actions to ensure stability of the system.
-	\item other reasons: prevent chaos, meet global constraints, utilize distributed resources, prevent conflicts, improve efficiency.
-	\item achievable with constraints on the joint actions or by using informatil collated from neighbouring agents. Used to find the equilibrium action.
-	\item payoff matrix necessary might be difficult to determine. It increases expenentially in the number of agents and action choices.
-	\item dividing the game into subgames: roles (permitted actions is reduced, good for distributed coordination or centralized coordination)
-	\item Coordination via Protocol.
-	\begin{itemize}[noitemsep,nolistsep]
-		\item negotioation to arrive an approdiate solutions.
-		\item Agents assume the role of manager (divide the problem) and contractor (who deals with the subproblems).
-		\item The manager and contractor are working in a bidding system.
-		\item Example: FIPA model
-		\item disadvantage: assumption of the existence of an cooperative agent. It is very communication intensive
-	\end{itemize}
-	\item Coordination via Graphs: Problem is subdivided into easer problems. Assume the payoffs can be linear combinated from the local payoffs of the sub-games. THen just eliminate agents to find the optimal joint.
-	\item Can also use belif models. Internal models of an agent on how he believes the environment works (needs to differentiate between environment and effects of other agents).
-\end{itemize}
-\underline{Learning}
-\begin{itemize}[noitemsep,nolistsep]
-	\item active learning: analysing the observations to creat a belief or internal model of the corresponding situated agent's environment. 
-	\begin{itemize}[noitemsep,nolistsep]
-		\item can be performed by using a deductive, inductive or probabilistic reasoning approach.
-		\item deductive: inference to explain an instance or state-action sequence using his knowledge. It is deduced or inferred from the original knowledge it is nothing new. It could form new parts of the knowledge base. uncertainty is usually disregarded (not good for real-time)
-		\item inductive: learning from observations of state-action pair. Good when environment can be presented in terms of some generalized statements. they use the correlation between observations and the action space.
-		\item probabilistic: assumption: knowledge base or belief model can be represented as probabilities of occurrence of events. observations of the environment is used to predict the internal state of the agent. Good example: Bayesian learning. Difficult for MAS, as the joint probability scales poorly in the number of agents.
-	\end{itemize}
-	\item reactive learning: updating belief without having the actual knowledge of what needs to be learnt.
-	\begin{itemize}[noitemsep,nolistsep]
-		\item useful when the underlying model of the agent or the environment is not known clearly and are black boxes.
-		\item can be ssen in agents which utilize connections systems such as NN.
-		\item can use reactive multi-agent feed forward neural networks.
-		\item they depend on the application domain and are therefore rarely employed in real world scenarios.
-	\end{itemize}
-	\item learning based on consequences:
-	\begin{itemize}[noitemsep,nolistsep]
-		\item learning methods based on evaluation of the goodness of selected action. like in reinforcement learning.
-		\item programming the agents using reward and punishment scalar signals without specifying how the task is to be achieved.
-		\item learnt through trial and error and interaction with the environment.
-		\item usually used when action space is small and descret. Recent developments allow them to work in continious and large state-action space scenarios.
-		\item An agent is usally represented as a Markov Decision Process.
-		\item Expectaation operator optmal policy is the argmax of the Q-value, which uses the bellman equation. Bellman equation is solved iteratively.
-		\item The solution is referred to as q-learning method.
-		\item For MAS the reinforcement learning method has the problem of combinatorial explosion in the state-action pairs.
-		\item The information must be passed between the agents for effective learning.
-	\end{itemize}
-\end{itemize}
-
-\section{Artificial Intelligence - A modern Approach}
-\subsection{Agents and Environments}
-p.34
+\section{Artificial Intelligence}
+\subsection{!Artificial Intelligence - A modern Approach}
+\underline{Agents and Environments (p.34)}
 \begin{itemize}[noitemsep,nolistsep]
 	\item \textbf{agent}: anything that perceives its \textbf{environment} through \textbf{sensors} and acting upon that environment using \textbf{actuators}.
 	\item \textbf{percept}: agent’s perceptual inputs at any given instance. Percept sequence is a complete history of perception.
@@ -206,8 +32,7 @@ p.34
 	\item its behavior is described by the \textbf{agent function}, which is internally implemented by the \textbf{agent program}.
 \end{itemize}
 
-\subsection{Rational Agent}
-p.36
+\underline{Rational Agent (p.36)}
 \begin{itemize}[noitemsep,nolistsep]
 	\item \textbf{rational agent}: it does the correct thing. Correctness is determined by a performance measure, which is determined by the changed environment states.
 	\item design \textbf{performance measures} according to what one actually wants in the environment, rather than according to how one thinks the agent should behave.
@@ -229,8 +54,7 @@ p.36
 	\item give it some initial knowledge and the ability to learn, so it will become independent of its prior knowledge.
 \end{itemize}
 
-\subsection{Nature of Environments}
-p.40
+\underline{Nature of Environments (p.40)}
 \begin{itemize}[noitemsep,nolistsep]
 	\item \textbf{task environments}: the “problems” to which rational agents are the “solutions”.
 	\item Describe the task environment in the following aspects P(Performance measure), E(Environment), A(Actuators), S(Sensors).
@@ -255,8 +79,7 @@ p.40
 	\item you can create an \textbf{environment generator}, that selects environments in which to run the agent.
 \end{itemize}
 
-\subsection{Structure of Agents}
-p.46
+\underline{Structure of Agents (p.46)}
 \begin{itemize}[noitemsep,nolistsep]
 	\item agent = architecture (computing device) + program (agent program).
 	\item agent programs take the current percept as input and return an action to the actuators.
@@ -264,7 +87,7 @@ p.46
 	\item \textbf{table driven agent}: Uses a table of actions indexed by percept sequences. This table grows way to fast and is therefore not practical.
 \end{itemize}
 
-\underline{Simple reflex agents:}
+\underline{Simple reflex agents}
 \begin{itemize}[noitemsep,nolistsep]
 	\item \textbf{simple reflex agents}: Select the actions on the basis of the current percept, ignoring the rest of the history.
 	\item \textbf{condition-action-rule}: these agents create actions in a specific condition (if-then). These connections can be seen as reflexes.
@@ -273,7 +96,7 @@ p.46
 	\item you can mitigate this by using randomization for the actions. Which is non-rational for single agent environments.
 \end{itemize}
 
-\underline{Model-based reflex agents:}
+\underline{Model-based reflex agents}
 \begin{itemize}[noitemsep,nolistsep]
 	\item keep track of the part of the world an agent cannot see now. It maintains some sort of \textbf{internal state} that depends on the percept history.
 	\item agents needs to know how the world evolves independently of the agent and how the agent’s own actions affect the world.
@@ -282,7 +105,7 @@ p.46
 	\item this model is a \textbf{best guess} and does not determine the entire current state of the environment exactly.
 \end{itemize}
 
-\underline{Goal-based agents:}
+\underline{Goal-based agents}
 \begin{itemize}[noitemsep,nolistsep]
 	\item an agent needs some sort of \textbf{goal information} that describes situations that are desirable. This can also be combined with the model.
 	\item Usually agents need to do multiple actions to fulfill a goal which requires \textbf{search} and \textbf{planning}.
@@ -290,7 +113,7 @@ p.46
 	\item the goal-based agent’s behavior can be easily changed to go to a different destination by using a goal where a reflex agent needs completely now rules.
 \end{itemize}
 
-\underline{Utility-based agents:}
+\underline{Utility-based agents}
 \begin{itemize}[noitemsep,nolistsep]
 	\item goals provide a crude binary distinction between good and bad states.
 	\item use an internal \textbf{utility function} to create a performance measure.
@@ -302,7 +125,7 @@ p.46
 	\item a utility-based agent must model and keep track of its environment.
 \end{itemize}
 
-\underline{Learning Agents:}
+\underline{Learning Agents}
 \begin{itemize}[noitemsep,nolistsep]
 	\item it allows the agent to operate in initially unknown environments and to become more competent than its initial knowledge alone might allow.
 	\item 4 conceptual components: \textbf{learning element} (responsible for improvements), \textbf{performance element} (select external action), \textbf{critic} (gives feedback to change the learning element), \textbf{problem generator} (suggesting actions that lead to new and informative experiences).
@@ -312,7 +135,7 @@ p.46
 	\item the \textbf{performance standard} distinguishes part of the incoming percept as a reward or penalty that provides direct feedback on the quality of the agent’s behavior.
 \end{itemize}
 
-\underline{How the components of agent programs work:}
+\underline{How the components of agent programs work}
 \begin{itemize}[noitemsep,nolistsep]
 	\item \textbf{atomic representation}: Each state of the world is indivisible. Algorithms like search and game-playing, Hidden Markov models and Markov decision models work like this.
 	\item \textbf{factored representation}: splits up each state of a fixed set of variables or attributes which each can have a value. Used in constraint satisfaction algorithms, propositional logic, planning, Bayesian networks.
@@ -320,72 +143,21 @@ p.46
 	\item more complex representations are more \textbf{expressive} and can capture everything more concise.
 \end{itemize}
 
-\subsection{Multiagent Planning}
-p.425
-\begin{itemize}[noitemsep,nolistsep]
-	\item each agent tries to achieve is own goals with the help or hindrance of others
-	\item wide degree of problems with various degrees of \textbf{decomposition of the monolithic agent}.
-	\item multiple concurrent effectors => \textbf{multieffector planning} (like type and speaking at the same time).
-	\item effectors are physically decoupled => \textbf{multibody planning}.
-	\item if relevant sensor information foreach body can be pooled centrally or in each body ~ like single-agent problem.
-	\item When communication constraint does not allow that: \textbf{decentralized planning problem}. planning phase is centralized, but execution phase is at least partially decoupled.
-	\item single entity is doing the planning: one goal, that every body shares.
-	\item When bodies do their own planning, they may share identical goals.
-	\item \textbf{multibody}: centralized planning and execution send to each.
-	\item \textbf{multiagent}: decentralized local planning, with coordination needed so they do not do the same thing.
-	\item Usage of \textbf{incentives} (like salaries) so that goals of the central-planner and the individual align.
-\end{itemize}
-
-\underline{Multiple simultaneous actions:}
-\begin{itemize}[noitemsep,nolistsep]
-	\item \textbf{correct plan}: if executed by the actors, achieves the goal. Though multiagent might not agree to execute any particular plan.
-	\item \textbf{joint action}: An Action for each actor defined => joint planning problem with branching factor b\^n (b = number of choices).
-	\item if the actors are \textbf{loosely coupled} you can describe the system so that the problem complexity only scales linearly.
-	\item standard approach: pretend the problems are completely decoupled and then fix up the interactions.
-	\item \textbf{concurrent action list}: which actions must or most not be executed concurrently. (only one at a time)
-\end{itemize}
-
-
-\underline{Multiple agents: cooperation and coordination }
-\begin{itemize}[noitemsep,nolistsep]
-	\item each agent makes its own plan. Assume goals and knowledge base are shared.
-	\item They \textbf{might choose different plans} and therefore collectively not achieve the common goal.
-	\item \textbf{convention}: A constraint on the selection of joint plans. (cars: do not collide is achieved by “stay on the right side of the road”).
-	\item widespread conventions: social laws.
-	\item absence of convention: use communication to achieve common knowledge of a feasible joint plan.
-	\item The agents can try to \textbf{recognize the plan other agents want to execute} and therefore use plan recognition to find the correct plan. This only works if it is unambiguously.
-	\item an \textbf{ant} chooses its role according to the local conditions it observes.
-	\item ants have a convention on the importance of roles.
-	\item ants have some learning mechanism: a colony learns to make more successful and prudent actions over the course of its decades-long life, even though individual ants live only about a year.
-	\item Another Example: \textbf{Boid}
-	\item If all the boids execute their policies, the flock inhibits the emergent behavior of flying as a pseudorigid body with roughly constant density that does not disperse over time.
-	\item \textbf{most difficult multiagent} problems involve both cooperation with members of one’s own team and competition against members of opposing teams, all without centralized control.
-\end{itemize}
-
-\subsection{Game Theory}
-p.666
-
-\subsection{Adversarial Search}
-p.182
-
-\subsection{Probabilistic Reasoning over Time}
-p.587
-
-\subsection{Planning Uncertain Movements (Potential Fields)}
-p.993
-
-
-
 \section{Ant Colony Optimization}
-\subsection{Wikipedia Article}
+
+\subsection{!Wikipedia Article}
 \href{https://en.wikipedia.org/wiki/Ant_colony_optimization_algorithms}{Ant Colony Optimization Algorithm, Wikipedia}
 \begin{itemize}[noitemsep,nolistsep]
 	\item is used for solving computational problems which can be reduced to finding good paths through graphs.
 	\item artificial ants locate optimal soluions by moving through a parameter space represneting all possible solutions.
 	\item they record their positions and the quality of their solutions for later iterations to find better solutions (pheromones).
 \end{itemize}
+
+\subsection{Ant Colony Optimization (ACO)}
+\href{https://www.sciencedirect.com/science/article/pii/S0888613X02000919}{ACO - Ant Colony Optimization for learning Bayesian network - 2002}
+
 \section{Reinforcement Learning}
-\subsection{Algorithmia Blog}
+\subsection{!Algorithmia Blog}
 \href{https://algorithmia.com/blog/introduction-to-reinforcement-learning}{Introduction to Reinforcement Learning}
 \begin{itemize}[noitemsep,nolistsep]
 	\item \textbf{Policy Learning}: Policy is a function: (state) -> (action). (if you approach an enemy and the enemy is stronger than you, turn backwards).
@@ -400,7 +172,8 @@ p.993
 		\item Most pressing Issue: Design of the reward function. it could get stuck in local optima
 	\end{itemize} 
 \end{itemize}
-\subsection{Freecodecamp}
+
+\subsection{!Freecodecamp}
 \href{https://www.freecodecamp.org/news/an-introduction-to-reinforcement-learning-4339519de419/}{An introduction to Reinforcement Learning}
 \begin{itemize}[noitemsep,nolistsep]
 	\item $State\ S_t, Reward\ R_t, Action\ A_t$
@@ -564,10 +337,7 @@ p.993
 \end{itemize}
 \href{https://towardsdatascience.com/proximal-policy-optimization-ppo-with-sonic-the-hedgehog-2-and-3-c9c21dbed5e}{Proximal Policy Optimization (PPO) with Sonic the Hedgehog 2 and 3}
 
-\subsection{Deep RL Bootcamp}
-\href{https://sites.google.com/view/deep-rl-bootcamp/lectures}{Deep RL Bootcamp}
-
-\subsection{RL Lectures from Deepmind}
+\subsection{!RL Lectures from Deepmind}
 \href{https://www.davidsilver.uk/teaching/}{RL Course by DeepMind}
 \\
 \href{https://www.youtube.com/watch?v=2pWv7GOvuf0&list=PLqYmG7hTraZDM-OYHWgPebj2MfCFzFObQ}{RL Course by DeepMind - Part 1: Introduction}
@@ -1295,59 +1065,418 @@ p.993
 	\end{itemize}
 \end{itemize}
 
-\section{ALR-Wiki}
-\href{https://www.notion.so/ALR-Student-Wiki-284ed2bb033f4ef494e2429ce0f51b6c}{ALR-Wiki Link}
-\\
-\href{https://www.notion.so/Books-e1b1a91cf80c426da3eddd9fec5bdd38}{ALR-Wiki Books Link}
-\\
-\href{https://www.notion.so/Implementation-Guidelines-0afdb8f58c714f42b3526eb415194c8c}{Implementation Guidelines}
-\\
-\href{https://www.notion.so/ebd32c68f9cd4502a02af10e82e410cd?v=0eab511a5007451baa2c199f0d6c7d35}{Latex Templates}
-\\
-\href{https://www.notion.so/Writing-Checklist-56979e6a0227447f8638d30bcbc33362}{Writing Checklist}
-\\
-\href{https://www.notion.so/Talks-How-to-research-e9b534f4dc09418e82cac8d8e2da4f4d}{How to do Research}
+\subsection{Reinforcement Learning - An Introduction} 
+\href{http://incompleteideas.net/book/the-book.html}{Reinforcement Learning}
+\subsection{Medium Blog Post}
+\href{https://medium.com/emergent-future/simple-reinforcement-learning-with-tensorflow-part-0-q-learning-with-tables-and-neural-networks-d195264329d0}{Medium Blog Post}
 
-\section{Books}
+\subsection{RL - Base - DQN - Human-level control through deep reinforcement - 2015}
+\href{https://www.nature.com/articles/nature14236}{RL - Base - DQN - Human-level control through deep reinforcement - 2015}
+
+\subsection{RL - Base - A3C - Asynchronous Methods for Deep Reinforcement Learning - 2016}
+\href{http://proceedings.mlr.press/v48/mniha16.html}{RL - Base - A3C - Asynchronous Methods for Deep Reinforcement Learning - 2016}
+
+\subsection{RL - Sur - State-of-the-art Reinforcement Learning Algorithms - 2020}
+\href{https://www.researchgate.net/publication/338396174_State-of-the-Art_Reinforcement_Learning_Algorithms}{RL - Sur - State-of-the-art Reinforcement Learning Algorithms - 2020}
+
+\section{Deep Learning}
+\subsection{Probabilistic Deep Learning Book}
+\href{https://probml.github.io/pml-book/book1.html}{Probabilistic Deep Learning Book}
+\\
+
 \subsection{Deep Learning Book}
 \href{https://www.deeplearningbook.org/}{Deep Learning Book}
 \\
 
+\section{Deep Reinforcement Learning}
+\subsection{Deep RL Bootcamp}
+\href{https://sites.google.com/view/deep-rl-bootcamp/lectures}{Deep RL Bootcamp}
 
-\subsection{Reinforcement Learning - An Introduction} 
-\href{http://incompleteideas.net/book/the-book.html}{Reinforcement Learning}
+\section{Multi-Agent Systems}
+\subsection{!MAS - An Introduction to Multi-Agent Systems - 2010}
+\href{https://link.springer.com/chapter/10.1007/978-3-642-14435-6_1}{MAS - An Introduction to Multi-Agent Systems - 2010}
 \\
-a
+\underline{Benefits of using MAS in large systems}
+\begin{itemize}[noitemsep,nolistsep]
+	\item Increase in the speed and efficiency of the operation due to parallel computation and asynchronous operation.
+	\item Graceful degradation whone one or more of the agent fail, thus increasing realibility and robustness of the system.
+	\item Scalability and flexibility - Agents can be added as and when necessary.
+	\item Cost Reduction: Individual agents cost much less than a centralized architecture
+	\item Reusability: Agents with a modular structure can be easily replaced in other systems or be upgraded more easily than a monolithic sysetm.
+\end{itemize}
+\underline{Challenges of using MAS in large systems}
+\begin{itemize}[noitemsep,nolistsep]
+	\item environment: An agents action modify its own environment but also that of its neighbours. therefore they need to predict the action of the other agents so that they can reach a goal. This can be an unstable system. Environment dynamic: Is the effect caused by other agents or by the variation in the environment?
+	\item perception: limited sensing range => each agent only has partial observability for the environment. Therefore the decisions reached might be sub-optimal.
+	\item Abstraction: ???
+	\item conflict resolution: lack of global view => conflict. therefore information on constraints, action preferences and goal prioritoes must be shared between agents. When to communicate what to which agent?
+	\item Inference: Single-Agent: State-Action-Space can be mapped with trial and error. Multi-agent: each agent may or may not interact with each other. If they are heterogenous, they might even compete and have different goals. You need a fitting inference machanism
+\end{itemize}
+\underline{Classification: Internal Architecture}
+\begin{itemize}[noitemsep,nolistsep]
+	\item homogeneous: all agents have the same internal architecture (Local Goals, Sensor Capabilities, Internal states, Inference Mechanism and Possible Actions). In a typical distributed environment, overlap of sensory inputs is rarely present
+	\item Heterogeneous: agents may differ in ability, structure and functionality. Because of the dynamics and location the actions chosen might differ between agents. their local goals may contradict the objective of other agents.
+\end{itemize}
+\underline{Classification: Agent Organization}
+\begin{itemize}[noitemsep,nolistsep]
+	\item hierarchical: typical: tree-structure. At different heights, different levels of autonomy. data from lower levels flow upwards. Control signal flows from high to low in the hierarchy.
+	\begin{itemize}[noitemsep,nolistsep]
+		\item simple: the decision making authority is a single agent of highest level. BUT: single point of Failure
+		\item uniform: authority is distributed among the various agents, for better efficiency, fault tolerance, graceful degradation. Decisions made by agent with appropriate information. (MAS - TrafficControl - Neural Networks for Continuous Online Learning and Control - 2006)
+	\end{itemize}
+	\item holonic: fractal structure of several holons. Self-repeating. Used for large organizational behaviours in manufacturing and business. 
+	\begin{itemize}[noitemsep,nolistsep]
+		\item An agent that appears as a single entity might be composed of many sub-agents. They are not predetermined, but form through commitments.
+		\item Each holon has a head agent that communicates with the environment or with other agents in the environment. It is selected either randomly, through a rotation policy, or selected by resource availability, communicaton capability.
+		\item Holons can be nested to form Superholons.
+		\item compare to tree: in Holons cross tree interactions and overlapping of holons is allowed.
+		\item pro: abstraction good degree of freedom, good agent autonomy.
+		\item contra: abstraction makes it difficult for other agents to predict the resulting actions of the holon.
+	\end{itemize}
+	\item coalitions: group of agents come together for a short time to increase utility or performance of the individual agents in a group. they cease to exist when the performance goal is achieved.
+	\begin{itemize}[noitemsep,nolistsep]
+		\item coalition may have either a flat or a hierarchical architecture.
+		\item It may have an leading agent to act as a representative. 
+		\item overlap is allowed. this increased complexity of computation of the negotiation strategy.
+		\item You can have one coaltion with all agents => maximum performance of system. Impractical due to restraints on communication and resources.
+		\item minimize amount of colations: because of the cost of creating and dissolving a colation group.
+	\end{itemize}
+	\item teams: agents work together to increase the overall performance of the group, rather than working as individual agents.
+	\begin{itemize}[noitemsep,nolistsep]
+		\item their interactions can be arbitrary and the goals and roals can vary with the performance of the group.
+		\item large team size is not beneficial under all conditions. some compromises must be made.
+		\item large teams offer a better visibility of the environment. but is slower computation wise. Learning-Performance Tradeoff.
+		\item computation cost usually much greater than coalitions.
+	\end{itemize}
+\end{itemize}
+\underline{Classification: Communication}
+\begin{itemize}[noitemsep,nolistsep]
+	\item local communication: agents directly communicate similar to message passing. there is no place to store information. creates distributed architecture. used in: (25),(37),(38).
+	\item blackboards: a group of agents share a data repository which is provided for efficient storage.
+	\begin{itemize}[noitemsep,nolistsep]
+		\item can hold design data and control knowledge, accessable by the agents.
+		\item control shell: notfies the agent when relevant data is available.
+		\item single point of failure.
+	\end{itemize}
+	\item agent communication language (ACL): common framework for interaction and information sharing. (40).
+	\begin{itemize}[noitemsep,nolistsep]
+		\item procedural approach: modelled as a sharing of the precedural directives. Shared how an agent does a specific task or the entire working of the agent itself. Script Languages often used. Disadvantage: necessitiy of providing information on the recipient agent, which is in most cases partially known. Also how to merge the scripts into one executable. Not preferred method.
+		\item declarative approach: sharing of statements for definitions, assumptions assertions, axioms etc. Short declarative statements as length increases probability of information corruption. Example: ARPA knowledge sharing effort.
+		\item Best known inner languages: Knowledge Interchange Format. Information exchange is implicitly embedded in KIF. But the package size grows with the increase in embedded information. Solution: High-level Languages like KQML (Knowledge QUery and Manipulation Language)
+	\end{itemize}
+\end{itemize}
+\underline{Classification: Decision making in Multi-Agent Systems}
+\begin{itemize}[noitemsep,nolistsep]
+	\item undercainty: effects of a specific actions on the environment and dynamics because of the other agents.
+	\item Methodology to try and find a joint action or equilibrium point which maximizes the reward of every agent.
+	\item Typically modelled with game theory method. Strategic games:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item a set of players (agents)
+		\item Foreach player, there is a set of actions
+		\item Foreach player, the prefeernces over a set of actions profiles
+		\item payoff with the combination of action, a joint-action, that is assumed to be predefined.
+		\item all actions are observable forall agents.
+		\item make the assumption that all participating agents are rational.
+	\end{itemize}
+	\item Nash equilibrium: for a payoff matrix: An action profile (joint-action), where no player can do better by choosing one of the actions differently, given that the other player chose a specific action.
+	\item there might be multiple nash equilibrium, so that there is no dominant solution. Here the coordination of MAS is needed to find a solution.
+	\item Iterated Elimination Method: Strongly dominated actions are iteratively eliminated. This fails if there are no strictly dominated actions available.
+\end{itemize}
+\underline{Classification: Coordination}
+\begin{itemize}[noitemsep,nolistsep]
+	\item agents work in parallel, therefore they need to be coordinated or synchronize the actions to ensure stability of the system.
+	\item other reasons: prevent chaos, meet global constraints, utilize distributed resources, prevent conflicts, improve efficiency.
+	\item achievable with constraints on the joint actions or by using informatil collated from neighbouring agents. Used to find the equilibrium action.
+	\item payoff matrix necessary might be difficult to determine. It increases expenentially in the number of agents and action choices.
+	\item dividing the game into subgames: roles (permitted actions is reduced, good for distributed coordination or centralized coordination)
+	\item Coordination via Protocol.
+	\begin{itemize}[noitemsep,nolistsep]
+		\item negotioation to arrive an approdiate solutions.
+		\item Agents assume the role of manager (divide the problem) and contractor (who deals with the subproblems).
+		\item The manager and contractor are working in a bidding system.
+		\item Example: FIPA model
+		\item disadvantage: assumption of the existence of an cooperative agent. It is very communication intensive
+	\end{itemize}
+	\item Coordination via Graphs: Problem is subdivided into easer problems. Assume the payoffs can be linear combinated from the local payoffs of the sub-games. THen just eliminate agents to find the optimal joint.
+	\item Can also use belif models. Internal models of an agent on how he believes the environment works (needs to differentiate between environment and effects of other agents).
+\end{itemize}
+\underline{Classification: Learning}
+\begin{itemize}[noitemsep,nolistsep]
+	\item active learning: analysing the observations to creat a belief or internal model of the corresponding situated agent's environment. 
+	\begin{itemize}[noitemsep,nolistsep]
+		\item can be performed by using a deductive, inductive or probabilistic reasoning approach.
+		\item deductive: inference to explain an instance or state-action sequence using his knowledge. It is deduced or inferred from the original knowledge it is nothing new. It could form new parts of the knowledge base. uncertainty is usually disregarded (not good for real-time)
+		\item inductive: learning from observations of state-action pair. Good when environment can be presented in terms of some generalized statements. they use the correlation between observations and the action space.
+		\item probabilistic: assumption: knowledge base or belief model can be represented as probabilities of occurrence of events. observations of the environment is used to predict the internal state of the agent. Good example: Bayesian learning. Difficult for MAS, as the joint probability scales poorly in the number of agents.
+	\end{itemize}
+	\item reactive learning: updating belief without having the actual knowledge of what needs to be learnt.
+	\begin{itemize}[noitemsep,nolistsep]
+		\item useful when the underlying model of the agent or the environment is not known clearly and are black boxes.
+		\item can be ssen in agents which utilize connections systems such as NN.
+		\item can use reactive multi-agent feed forward neural networks.
+		\item they depend on the application domain and are therefore rarely employed in real world scenarios.
+	\end{itemize}
+	\item learning based on consequences:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item learning methods based on evaluation of the goodness of selected action. like in reinforcement learning.
+		\item programming the agents using reward and punishment scalar signals without specifying how the task is to be achieved.
+		\item learnt through trial and error and interaction with the environment.
+		\item usually used when action space is small and descret. Recent developments allow them to work in continious and large state-action space scenarios.
+		\item An agent is usally represented as a Markov Decision Process.
+		\item Expectaation operator optmal policy is the argmax of the Q-value, which uses the bellman equation. Bellman equation is solved iteratively.
+		\item The solution is referred to as q-learning method.
+		\item For MAS the reinforcement learning method has the problem of combinatorial explosion in the state-action pairs.
+		\item The information must be passed between the agents for effective learning.
+	\end{itemize}
+\end{itemize}
 
-\section{UNSORTED}
-Gordon 2000: Ants at Work.
-\\
-Gordon 2007: Control without hierarchy. Nature.
-\\\textbf{Links:}\\
-\\
-\href{https://www.youtube.com/watch?v=X-iSQQgOd1A}{Ant Simulation Video 1}
-\\
-\href{https://www.youtube.com/watch?v=81GQNPJip2Y}{Ant Simulation Video 2}
-\\
-\href{https://www.youtube.com/watch?v=bqtqltqcQhw}{Boids Video}
-\\
-\href{https://en.wikipedia.org/wiki/Distributed_artificial_intelligence}{Distributed Artificial Intelligence, Wikipedia}
-\\
-\href{https://en.wikipedia.org/wiki/Multi-agent_learning}{Multi-agent learning, Wikipedia}
-\\
-\href{https://en.wikipedia.org/wiki/Bees_algorithm}{Bees algorithm, Wikipedia}
-\\
-\href{https://en.wikipedia.org/wiki/Swarm_intelligence}{Swarm Intelligence, Wikipedia}
+\subsection{!Artificial Intelligence - A modern Approach}
+\underline{Multiagent Planning (p.425)}
+\begin{itemize}[noitemsep,nolistsep]
+	\item each agent tries to achieve is own goals with the help or hindrance of others
+	\item wide degree of problems with various degrees of \textbf{decomposition of the monolithic agent}.
+	\item multiple concurrent effectors => \textbf{multieffector planning} (like type and speaking at the same time).
+	\item effectors are physically decoupled => \textbf{multibody planning}.
+	\item if relevant sensor information foreach body can be pooled centrally or in each body ~ like single-agent problem.
+	\item When communication constraint does not allow that: \textbf{decentralized planning problem}. planning phase is centralized, but execution phase is at least partially decoupled.
+	\item single entity is doing the planning: one goal, that every body shares.
+	\item When bodies do their own planning, they may share identical goals.
+	\item \textbf{multibody}: centralized planning and execution send to each.
+	\item \textbf{multiagent}: decentralized local planning, with coordination needed so they do not do the same thing.
+	\item Usage of \textbf{incentives} (like salaries) so that goals of the central-planner and the individual align.
+\end{itemize}
 
+\underline{Multiple simultaneous actions}
+\begin{itemize}[noitemsep,nolistsep]
+	\item \textbf{correct plan}: if executed by the actors, achieves the goal. Though multiagent might not agree to execute any particular plan.
+	\item \textbf{joint action}: An Action for each actor defined => joint planning problem with branching factor b\^n (b = number of choices).
+	\item if the actors are \textbf{loosely coupled} you can describe the system so that the problem complexity only scales linearly.
+	\item standard approach: pretend the problems are completely decoupled and then fix up the interactions.
+	\item \textbf{concurrent action list}: which actions must or most not be executed concurrently. (only one at a time)
+\end{itemize}
 
-\section{References \& Papers}
-\subsection{Ant Colony Optimization (ACO)}
-\href{https://www.sciencedirect.com/science/article/pii/S0888613X02000919}{ACO - Ant Colony Optimization for learning Bayesian network - 2002}
+\underline{Multiple agents: cooperation and coordination}
+\begin{itemize}[noitemsep,nolistsep]
+	\item each agent makes its own plan. Assume goals and knowledge base are shared.
+	\item They \textbf{might choose different plans} and therefore collectively not achieve the common goal.
+	\item \textbf{convention}: A constraint on the selection of joint plans. (cars: do not collide is achieved by “stay on the right side of the road”).
+	\item widespread conventions: social laws.
+	\item absence of convention: use communication to achieve common knowledge of a feasible joint plan.
+	\item The agents can try to \textbf{recognize the plan other agents want to execute} and therefore use plan recognition to find the correct plan. This only works if it is unambiguously.
+	\item an \textbf{ant} chooses its role according to the local conditions it observes.
+	\item ants have a convention on the importance of roles.
+	\item ants have some learning mechanism: a colony learns to make more successful and prudent actions over the course of its decades-long life, even though individual ants live only about a year.
+	\item Another Example: \textbf{Boid}
+	\item If all the boids execute their policies, the flock inhibits the emergent behavior of flying as a pseudorigid body with roughly constant density that does not disperse over time.
+	\item \textbf{most difficult multiagent} problems involve both cooperation with members of one’s own team and competition against members of opposing teams, all without centralized control.
+\end{itemize}
 
-\subsection{Graph Neural Networks}
-\underline{(Base)}
-\href{https://www.youtube.com/watch?v=uF53xsT7mjc}{GNN - Sur - Theoretical Foundations of Graph Neural Networks - 2021}
+\subsection{MAS - App - Neural Networks for Continuous Online Learning and Control - 2006}
+\href{https://ieeexplore.ieee.org/abstract/document/4012019}{MAS - App - Neural Networks for Continuous Online Learning and Control - 2006}
+
+\subsection{MAS - Base - The Multiagent Planning Problem - 2016}
+\href{https://www.hindawi.com/journals/complexity/2017/3813912/}{MAS - Base - The Multiagent Planning Problem - 2016}
+
+\subsection{MAS - Con - Distributed Cooperative Control and Communication for Multi-agent Systems - 2021}
+\href{https://link.springer.com/book/10.1007%2F978-981-33-6718-0}{MAS - Con - Distributed Cooperative Control and Communication for Multi-agent Systems - 2021}
+
+\subsection{MAS - Con - PRIMA 2020 Principles and Practice of Multi-Agent Systems - 2021}
+\href{https://link.springer.com/book/10.1007%2F978-3-030-69322-0}{MAS - Con - PRIMA 2020 Principles and Practice of Multi-Agent Systems - 2021}
+
+\subsection{MAS - Con - Swarm Intelligence - 2010}
+\href{https://link.springer.com/book/10.1007/978-3-642-15461-4}{MAS - Con - Swarm Intelligence - 2010}
+
+\subsection{MAS - Con - Swarm Intelligence - 2012}
+\href{https://link.springer.com/book/10.1007/978-3-642-32650-9}{MAS - Con - Swarm Intelligence - 2012}
+
+\subsection{MAS - Con - Swarm Intelligence - 2014}
+\href{https://link.springer.com/book/10.1007/978-3-319-09952-1}{MAS - Con - Swarm Intelligence - 2014}
+
+\subsection{MAS - Con - Swarm Intelligence - 2016}
+\href{https://link.springer.com/book/10.1007/978-3-319-44427-7}{MAS - Con - Swarm Intelligence - 2016}
+
+\subsection{MAS - Con - Swarm Intelligence - 2018}
+\href{https://link.springer.com/book/10.1007/978-3-030-00533-7}{MAS - Con - Swarm Intelligence - 2018}
+
+\subsection{MAS - Con - Swarm Intelligence - 2020}
+\href{https://link.springer.com/book/10.1007/978-3-030-60376-2}{MAS - Con - Swarm Intelligence - 2020}
+
+\subsection{MAS - Evo - Co-evolutionary Multi-agent System with Predator-Prey Mechanism for Multi-objective Optimization - 2007}
+\href{https://link.springer.com/chapter/10.1007/978-3-540-71618-1_8}{MAS - Evo - Co-evolutionary Multi-agent System with Predator-Prey Mechanism for Multi-objective Optimization - 2007}
+
+\subsection{MAS - Het - Multiagent Systems A Survey from a Machine Learning Perspective - 2000}
+\href{https://link.springer.com/article/10.1023/A:1008942012299}{MAS - Het - Multiagent Systems A Survey from a Machine Learning Perspective - 2000}
+
+\subsection{MAS - Hie - Hierarchical Control in a Multiagent System - 2007}
+\href{https://ieeexplore.ieee.org/abstract/document/4427756}{MAS - Hie - Hierarchical Control in a Multiagent System - 2007}
+
+\subsection{MAS - Hie - Holonic - A Taxonomy of Autonomy in Multiagent Organisation - 2003}
+\href{https://link.springer.com/chapter/10.1007/978-3-540-25928-2_6}{MAS - Hie - Holonic - A Taxonomy of Autonomy in Multiagent Organisation - 2003}
+
+\subsection{MAS - Multi-Agent Systems - A Survey - 2018}
+\href{https://ieeexplore.ieee.org/abstract/document/8352646}{MAS - Multi-Agent Systems - A Survey - 2018}
+
+\subsection{MAS - Sur - A survey of multi-agent organizational paradigms - 2004}
+\href{https://dl.acm.org/doi/abs/10.1017/S0269888905000317}{MAS - Sur - A survey of multi-agent organizational paradigms - 2004}
+
+\subsection{MAS - Tra - Transfer Learning for Multi-agent Coordination - 2011}
+\href{https://www.scitepress.org/Papers/2011/31856/}{MAS - Tra - Transfer Learning for Multi-agent Coordination - 2011}
+
+\subsection{MAS - Tra - Transfer learning in multi-agent systems through paralllel transfer - 2013}
+\href{https://ulir.ul.ie/handle/10344/3305}{MAS - Tra - Transfer learning in multi-agent systems through paralllel transfer - 2013}
+
+\section{Game Theory}
+\subsection{Artificial Intelligence - A modern Approach}
+\underline{Game Theory (p.666)}
+
+\underline{Stochastic Games (p.177)}
+
+\underline{Partial Observable Games (p.180)}
+
+\section{Multi-Agent Reinforcement Learning}
+\subsection{!MARL - A Comprehensive Survey of Multiagent Reinforcement Learning - 2008}
+\href{https://ieeexplore.ieee.org/abstract/document/4445757}{MARL - A Comprehensive Survey of Multiagent Reinforcement Learning - 2008}
 \\
+\underline{Benefits}
+\begin{itemize}[noitemsep,nolistsep]
+	\item can be parallelized.
+	\item can use experience sharing via communication, or with a teacher-learner relationship.
+	\item Failure of one agent can be covered by other agents.
+	\item insertion of new agents => scaleable.
+	\item MARL Complexity: Exponential in number of agents.
+	\item exploration (new knowledge) - exploitation (current knowledge) - Tradeoff.
+	\item They explore about the environment and other agents.
+	\item need for coordination.
+\end{itemize}
+\underline{Application Domains}
+\begin{itemize}[noitemsep,nolistsep]
+	\item simulation better than real-life (better scalability and robustness).
+	\item Distributed Control: for controlling processes (for larger industry plants).
+	\begin{itemize}[noitemsep,nolistsep]
+		\item avenue for future work.
+		\item used for traffic, power or sensory networks.
+		\item could also be used for pendulum systems.
+	\end{itemize}
+	\item Robotic Teams (Multirobot):
+	\begin{itemize}[noitemsep,nolistsep]
+		\item simulated 2D space. 
+		\item navigation: Reach a goal with obstacles. Area sweeping (retrival of objects (also cooperative)).
+		\item pursuit: Capture a prey robot.
+	\end{itemize}
+	\item Automated Trading: Exchange goods on electronic markets with negotiation and auctions.
+	\item Resource Management: Cooperatie team to manage resources or as clients. (routing, load balancing).
+\end{itemize}
+\underline{Practicallity and Future works}
+\begin{itemize}[noitemsep,nolistsep]
+	\item Scalability Problem: Q-functions do not scale well with the size of the state-action space.
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Approximation needed: for discrete large state-action spaces, for continous states and discrete actions or continious state and action.
+		\item Heuristic in nature and only work in a narrow set of problems.
+		\item Could use theoretical results on single-agent approximate RL.
+		\item also could use discovery and exploitation of the decentralized, modular structure of the multiagent task.
+	\end{itemize}
+	\item MARL without prior knowledge is very slow.
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Need humans to teach the agent.
+		\item shaping: first simple task then scale them.
+		\item could use reflex behavior.
+		\item Knowledge about the task structure.
+	\end{itemize}
+	\item Incomplete, uncertain state measurements could be handled with partiall observability techniques (Markov decision process).
+	\item Multiagent Goals needs a stable learning process for the environment and an adaption for the dynamics of other agents.
+	\item using game-theory-based analysis to apply to the dynamics of the environment.
+\end{itemize}
+
+\subsection{MARL - AC - Networked Multi-Agent Reinforcement Learning in Continuous Spaces - 2018}
+\href{https://ieeexplore.ieee.org/abstract/document/8619581}{MARL - AC - Networked Multi-Agent Reinforcement Learning in Continuous Spaces - 2018}
+
+\subsection{MARL - AC - Multi-Agent Actor-Critic for Mixed Cooperative-Competitive Environment - 2017}
+\href{https://arxiv.org/abs/1706.02275}{MARL - AC - Multi-Agent Actor-Critic for Mixed Cooperative-Competitive Environment - 2017}
+
+\subsection{MARL - AC - Actor-Attention-Critic for Multi-Agent Reinforcement Learning - 2019}
+\href{http://proceedings.mlr.press/v97/iqbal19a.html}{MARL - AC - Actor-Attention-Critic for Multi-Agent Reinforcement Learning - 2019}
+
+\subsection{MARL - Base - Multiagent Reinforcement Learning - Theoretical Framework and an Algorithm - 1998}
+\href{https://dl.acm.org/doi/abs/10.5555/645527.657296}{MARL - Base - Multiagent Reinforcement Learning - Theoretical Framework and an Algorithm - 1998}
+
+\subsection{MARL - Base - Deep Reinforcement Learning for Robot Swarms - 2019 - KIT}
+\href{https://publikationen.bibliothek.kit.edu/1000118251}{MARL - Base - Deep Reinforcement Learning for Robot Swarms - 2019 - KIT}
+
+\subsection{MARL - Base - PettingZoo - Gym for Multi-Agent Reinforcement Learning - 2020}
+\href{https://arxiv.org/abs/2009.14471}{MARL - Base - PettingZoo - Gym for Multi-Agent Reinforcement Learning - 2020}
+
+\subsection{MARL - Base - Multi-agent reinforcement learning weighting and partitioning - 1999}
+\href{https://www.sciencedirect.com/science/article/pii/S0893608099000246}{MARL - Base - Multi-agent reinforcement learning weighting and partitioning - 1999}
+
+\subsection{MARL - Com - Learning to Communicate with Deep Multi-Agent Reinforcement Learning - 2016}
+\href{https://arxiv.org/abs/1605.06676}{MARL - Com - Learning to Communicate with Deep Multi-Agent Reinforcement Learning - 2016}
+
+\subsection{MARL - Com - Coordinating multi-agent reinforcement learning with limited communication - 2013}
+\href{https://dl.acm.org/doi/abs/10.5555/2484920.2485093}{MARL - Com - Coordinating multi-agent reinforcement learning with limited communication - 2013}
+
+\subsection{MARL - Het - LIIR - Learning Individual Intrinsic Reward inMulti-Agent Reinforcement Learning - 2019}
+\href{https://proceedings.neurips.cc/paper/2019/hash/07a9d3fed4c5ea6b17e80258dee231fa-Abstract.html}{MARL - Het - LIIR - Learning Individual Intrinsic Reward inMulti-Agent Reinforcement Learning - 2019}
+
+\subsection{MARL - Het - An approach to the pursuit problem on a heterogeneous multiagent system using reinforcement learning - 2002}
+\href{https://www.sciencedirect.com/science/article/abs/pii/S092188900300040X}{MARL - Het - An approach to the pursuit problem on a heterogeneous multiagent system using reinforcement learning - 2002}
+
+\subsection{MARL - Hie - Hierarchical multi-agent reinforcement learning - 2006}
+\href{https://link.springer.com/article/10.1007/s10458-006-7035-4}{MARL - Hie - Hierarchical multi-agent reinforcement learning - 2006}
+
+\subsection{MARL - MO - Reward shaping for knowledge-based multi-objective multi-agent reinforcement learning - 2017}
+\href{https://www.cambridge.org/core/journals/knowledge-engineering-review/article/reward-shaping-for-knowledgebased-multiobjective-multiagent-reinforcement-learning/75F1507F7CAC7C6625F87AE7CD344D52}{MARL - MO - Reward shaping for knowledge-based multi-objective multi-agent reinforcement learning - 2017}
+
+\subsection{MARL - Role - ROMA Multi-Agent Reinforcement Learning with Emergent Roles - 2020}
+\href{http://proceedings.mlr.press/v119/wang20f.html}{MARL - Role - ROMA Multi-Agent Reinforcement Learning with Emergent Roles - 2020}
+
+\subsection{MARL - Sca - GAMA - Graph Attention Multi-agent reinforcement learning algorithm for cooperation - 2020}
+\href{https://link.springer.com/article/10.1007/s10489-020-01755-8}{MARL - Sca - GAMA - Graph Attention Multi-agent reinforcement learning algorithm for cooperation - 2020}
+
+\subsection{MARL - Sca - Plan-based reward shaping for multi-agent reinforcement learning - 2016}
+\href{https://www.cambridge.org/core/journals/knowledge-engineering-review/article/planbased-reward-shaping-for-multiagent-reinforcement-learning/B173D25B1006B755667616C3A3EB3BE5}{MARL - Sca - Plan-based reward shaping for multi-agent reinforcement learning - 2016}
+
+\subsection{MARL - Sca - Multi-Agent Reinforcement Learning Using Linear Fuzzy Model Applied to Cooperative Mobile Robots - 2018}
+\href{https://www.mdpi.com/2073-8994/10/10/461}{MARL - Sca - Multi-Agent Reinforcement Learning Using Linear Fuzzy Model Applied to Cooperative Mobile Robots - 2018}
+
+\subsection{MARL - Sca - Stabilising Experience Replay for Deep Multi-Agent Reinforcement Learning - 2017}
+\href{http://proceedings.mlr.press/v70/foerster17b.html}{MARL - Sca - Stabilising Experience Replay for Deep Multi-Agent Reinforcement Learning - 2017}
+
+\subsection{MARL - Sca - Mean Field Multi-Agent Reinforcement Learning - 2018}
+\href{http://proceedings.mlr.press/v80/yang18d.html}{MARL - Sca - Mean Field Multi-Agent Reinforcement Learning - 2018}
+
+\subsection{MARL - Sca - A modular approach to multi-agent reinforcement learning - 2005}
+\href{https://link.springer.com/chapter/10.1007/3-540-62934-3_39}{MARL - Sca - A modular approach to multi-agent reinforcement learning - 2005}
+
+\subsection{MARL - Sur - Multi-Agent Reinforcement Learning - a critical survey - 2003}
+\href{http://ai.stanford.edu/people/shoham/www%20papers/MALearning_ACriticalSurvey_2003_0516.pdf}{MARL - Sur - Multi-Agent Reinforcement Learning - a critical survey - 2003}
+
+\subsection{MARL - Sur - Multi-Agent Reinforcement Learning A Selective Overview of Theories and Algorithms - 2021}
+\href{https://arxiv.org/abs/1911.10635}{MARL - Sur - Multi-Agent Reinforcement Learning A Selective Overview of Theories and Algorithms - 2021}
+
+\subsection{MARL - Sur - Multi-Agent Reinforcement Learning A Report on Challenges and Approaches - 2018}
+\href{https://arxiv.org/abs/1807.09427}{MARL - Sur - Multi-Agent Reinforcement Learning A Report on Challenges and Approaches - 2018}
+
+\subsection{MARL - Sur - A Review of Cooperative Multi-Agent Deep Reinforcement Learning - 2019}
+\href{https://arxiv.org/abs/1908.03963}{MARL - Sur - A Review of Cooperative Multi-Agent Deep Reinforcement Learning - 2019}
+
+\subsection{MARL - Sur - A Survey on Transfer Learning for Multiagent Reinforcement Learning Systems  - 2019}
+\href{https://www.jair.org/index.php/jair/article/view/11396}{MARL - Sur - A Survey on Transfer Learning for Multiagent Reinforcement Learning Systems  - 2019}
+
+\subsection{MARL - Tra - Transfer Learning in Multi-agent ReinforcementLearning Domains - 2011}
+\href{https://link.springer.com/chapter/10.1007/978-3-642-29946-9_25}{MARL - Tra - Transfer Learning in Multi-agent ReinforcementLearning Domains - 2011}
+
+\subsection{MARL - Tra - Parallel Transfer Learning in Multi-Agent Systems What, when and how to transfer - 2019}
+\href{https://ieeexplore.ieee.org/abstract/document/8851784}{MARL - Tra - Parallel Transfer Learning in Multi-Agent Systems What, when and how to transfer - 2019}
+
+\subsection{MARL - Tra - Transfer among Agents An Efficient Multiagent Transfer Learning Framework - 2020}
+\href{https://arxiv.org/abs/2002.08030}{MARL - Tra - Transfer among Agents An Efficient Multiagent Transfer Learning Framework - 2020}
+
+\subsection{MARL - Tra - Agents teaching agents a survey on inter-agent transfer learning - 2019}
+\href{https://link.springer.com/article/10.1007/s10458-019-09430-0}{MARL - Tra - Agents teaching agents a survey on inter-agent transfer learning - 2019}
+
+\section{Graph Neural Networks}
+\subsection{!Theoretical Foundations of Graph Neural Networks - 2021}
+\href{https://www.youtube.com/watch?v=uF53xsT7mjc}{Theoretical Foundations of Graph Neural Networks - 2021}
 \begin{itemize}[noitemsep,nolistsep]
 	\item Goal: Exact same results for two \textbf{isomorphic graphs} (graphs that are the same the nodes are just arranged differently).
 	\item Nodes: $x_i \in \mathbb{R}^k$ (features of node), feature matrix $\mathbf{X} = (x_1,...x_n)^T \in \mathbb{R}^{k \times n}$
@@ -1430,224 +1559,54 @@ Gordon 2007: Control without hierarchy. Nature.
 	\item \href{https://youtu.be/uF53xsT7mjc?t=2943}{curr}
 \end{itemize}
 
-\subsection{Reinforcement Learning}
-\href{https://medium.com/emergent-future/simple-reinforcement-learning-with-tensorflow-part-0-q-learning-with-tables-and-neural-networks-d195264329d0}{Multiple blog post for RL (even has A3C)}
-\\
-\href{https://www.nature.com/articles/nature14236}{RL - DQN - Human-level control through deep reinforcement - 2015}
-\\
-\href{http://proceedings.mlr.press/v48/mniha16.html}{RL - A3C - Asynchronous Methods for Deep Reinforcement Learning - 2016}
-\\
-\underline{(Sur)veys/Reviews}
-\\
-\href{https://www.researchgate.net/publication/338396174_State-of-the-Art_Reinforcement_Learning_Algorithms}{RL - Sur - State-of-the-art Reinforcement LEarning Algorithms - 2020}
+\subsection{Probabilistic Deep Learning Book}
+\href{https://probml.github.io/pml-book/book1.html}{Probabilistic Deep Learning Book}
 
-\subsection{Multiagent Systems (MAS)}
-\underline{(App)lications}
-\\
+\subsection{Geometric Deap Learning}
+\href{https://www.youtube.com/watch?v=w6Pw4MOzMuo}{Geometric Deap Learning Youtube}
 
-\underline{Actor-Critic (AC)}
-\\
-
-\underline{(Base)}
-\\
-\href{https://www.hindawi.com/journals/complexity/2017/3813912/}{MAS - Base - The Multiagent Planning Problem - 2016}
-\\
-
-\underline{(Com)munication}
-\\
-
-\underline{(Con)ference}
-\\
-\href{https://link.springer.com/book/10.1007%2F978-981-33-6718-0}{MAS - Con - Distributed Cooperative Control and Communication for Multi-agent Systems - 2021}
-\\
-\href{https://link.springer.com/book/10.1007%2F978-3-030-69322-0}{MAS - Con - PRIMA 2020 Principles and Practice of Multi-Agent Systems - 2021}
-\\
-\href{https://link.springer.com/book/10.1007/978-3-642-15461-4}{MAS - Con - Swarm Intelligence - 2010}
-\\
-\href{https://link.springer.com/book/10.1007/978-3-642-32650-9}{MAS - Con - Swarm Intelligence - 2012}
-\\
-\href{https://link.springer.com/book/10.1007/978-3-319-09952-1}{MAS - Con - Swarm Intelligence - 2014}
-\\
-\href{https://link.springer.com/book/10.1007/978-3-319-44427-7}{MAS - Con - Swarm Intelligence - 2016}
-\\
-\href{https://link.springer.com/book/10.1007/978-3-030-00533-7}{MAS - Con - Swarm Intelligence - 2018}
-\\
-\href{https://link.springer.com/book/10.1007/978-3-030-60376-2}{MAS - Con - Swarm Intelligence - 2020}
-\\
-
-\underline{(Evo)lutionary}
-\\
-\href{https://link.springer.com/chapter/10.1007/978-3-540-71618-1_8}{MAS - Evo - Co-evolutionary Multi-agent System with Predator-Prey Mechanism for Multi-objective Optimization - 2007}
-\\
-
-\underline{(Het)erogeneous}
-\\
-\href{https://link.springer.com/article/10.1023/A:1008942012299}{MAS - Het - Multiagent Systems A Survey from a Machine Learning Perspective - 2000}
-\\
-
-\underline{(Hie)rarchy}
-\\
-\href{https://ieeexplore.ieee.org/abstract/document/4427756}{MAS - Hie - Hierarchical Control in a Multiagent System - 2007}
-\\
-\href{https://link.springer.com/chapter/10.1007/978-3-540-25928-2_6}{MAS - Hie - Holonic - A Taxonomy of Autonomy in Multiagent Organisation - 2003}
-\\
-
-\underline{Multi-Objective (MO)}
-\\
-
-\underline{(Role)-Based}
-\\
-
-\underline{(Sca)ling}
-\\
-
-\underline{(Sur)veys/Reviews}
-\\
-\href{https://ieeexplore.ieee.org/abstract/document/8352646}{MAS - Multi-Agent Systems - A Survey - 2018}
-\\
-\href{https://dl.acm.org/doi/abs/10.1017/S0269888905000317}{MAS - Sur - A survey of multi-agent organizational paradigms - 2004}
-\\
-
-\underline{(Tra)nsferlearning}
-\\
-\href{https://www.scitepress.org/Papers/2011/31856/}{MAS - Tra - Transfer Learning for Multi-agent Coordination - 2011}
-\\
-\href{https://ulir.ul.ie/handle/10344/3305}{MAS - Tra - Transfer learning in multi-agent systems through paralllel transfer - 2013}
-\\
-
-
-\subsection{Multi Agent Reinforcement Learning (MARL)}
-\underline{(App)lications}
-\\
-
-\underline{Actor-Critic (AC)}
-\\
-\href{https://ieeexplore.ieee.org/abstract/document/8619581}{MARL - AC - Networked Multi-Agent Reinforcement Learning in Continuous Spaces - 2018}
-\\
-\href{https://arxiv.org/abs/1706.02275}{MARL - AC - Multi-Agent Actor-Critic for Mixed Cooperative-Competitive Environment - 2017}
-\\
-\href{http://proceedings.mlr.press/v97/iqbal19a.html}{MARL - AC - Actor-Attention-Critic for Multi-Agent Reinforcement Learning - 2019}
-\\
-
-\underline{(Base)}
-\href{https://dl.acm.org/doi/abs/10.5555/645527.657296}{MARL - Base - Multiagent Reinforcement Learning - Theoretical Framework and an Algorithm - 1998}
-\\
-\href{https://publikationen.bibliothek.kit.edu/1000118251}{MARL - Base - Deep Reinforcement Learning for Robot Swarms - 2019 - KIT}
-\\
-\href{https://arxiv.org/abs/2009.14471}{MARL - Base - PettingZoo - Gym for Multi-Agent Reinforcement Learning - 2020}
-\\
-\href{https://www.sciencedirect.com/science/article/pii/S0893608099000246}{MARL - Base - Multi-agent reinforcement learning weighting and partitioning - 1999}
-\\
-
-\underline{(Com)munication}
-\\
-\href{https://arxiv.org/abs/1605.06676}{MARL - Com - Learning to Communicate with Deep Multi-Agent Reinforcement Learning - 2016}
-\\
-\href{https://dl.acm.org/doi/abs/10.5555/2484920.2485093}{MARL - Com - Coordinating multi-agent reinforcement learning with limited communication - 2013}
-\\
-
-\underline{(Con)ference}
-\\
-
-\underline{(Evo)lutionary}
-\\
-
-\underline{(Het)erogeneous}
-\\
-\href{https://proceedings.neurips.cc/paper/2019/hash/07a9d3fed4c5ea6b17e80258dee231fa-Abstract.html}{MARL - Het - LIIR - Learning Individual Intrinsic Reward inMulti-Agent Reinforcement Learning - 2019}
-\\
-\href{https://www.sciencedirect.com/science/article/abs/pii/S092188900300040X}{MARL - Het - An approach to the pursuit problem on a heterogeneous multiagent system using reinforcement learning - 2002}
-
-\underline{(Hie)rarchy}
-\\
-\href{https://link.springer.com/article/10.1007/s10458-006-7035-4}{MARL - Hie - Hierarchical multi-agent reinforcement learning - 2006}
-\\
-
-\underline{Multi-Objective (MO)}
-\\
-\href{https://www.cambridge.org/core/journals/knowledge-engineering-review/article/reward-shaping-for-knowledgebased-multiobjective-multiagent-reinforcement-learning/75F1507F7CAC7C6625F87AE7CD344D52}{MARL - MO - Reward shaping for knowledge-based multi-objective multi-agent reinforcement learning - 2017}
-\\
-
-\underline{(Role)-Based}
-\\
-\href{http://proceedings.mlr.press/v119/wang20f.html}{MARL - Role - ROMA Multi-Agent Reinforcement Learning with Emergent Roles - 2020}
-\\
-
-\underline{(Sca)ling}
-\\
-\href{https://link.springer.com/article/10.1007/s10489-020-01755-8}{MARL - Sca - GAMA - Graph Attention Multi-agent reinforcement learning algorithm for cooperation - 2020}
-\\
-\href{https://www.cambridge.org/core/journals/knowledge-engineering-review/article/planbased-reward-shaping-for-multiagent-reinforcement-learning/B173D25B1006B755667616C3A3EB3BE5}{MARL - Sca - Plan-based reward shaping for multi-agent reinforcement learning - 2016}
-\\
-\href{https://www.mdpi.com/2073-8994/10/10/461}{MARL - Sca - Multi-Agent Reinforcement Learning Using Linear Fuzzy Model Applied to Cooperative Mobile Robots - 2018}
-\\
-\href{http://proceedings.mlr.press/v70/foerster17b.html}{MARL - Sca - Stabilising Experience Replay for Deep Multi-Agent Reinforcement Learning - 2017}
-\\
-\href{http://proceedings.mlr.press/v80/yang18d.html}{MARL - Sca - Mean Field Multi-Agent Reinforcement Learning - 2018}
-\\
-\href{https://link.springer.com/chapter/10.1007/3-540-62934-3_39}{MARL - Sca - A modular approach to multi-agent reinforcement learning - 2005}
-\\
-
-\underline{(Sur)veys/Reviews}
-\\
-\href{http://ai.stanford.edu/people/shoham/www%20papers/MALearning_ACriticalSurvey_2003_0516.pdf}{MARL - Sur - Multi-Agent Reinforcement Learning - a critical survey - 2003}
-\\
-\href{https://arxiv.org/abs/1911.10635}{MARL - Sur - Multi-Agent Reinforcement Learning A Selective Overview of Theories and Algorithms - 2021}
-\\
-\href{https://arxiv.org/abs/1807.09427}{MARL - Sur - Multi-Agent Reinforcement Learning A Report on Challenges and Approaches - 2018}
-\\
-\href{https://arxiv.org/abs/1908.03963}{MARL - Sur - A Review of Cooperative Multi-Agent Deep Reinforcement Learning - 2019}
-\\
-\href{https://www.jair.org/index.php/jair/article/view/11396}{MARL - Sur - A Survey on Transfer Learning for Multiagent Reinforcement Learning Systems  - 2019}
-\\
-
-\underline{(Tra)nsferlearning}
-\\
-\href{https://link.springer.com/chapter/10.1007/978-3-642-29946-9_25}{MARL - Tra - Transfer Learning in Multi-agent ReinforcementLearning Domains - 2011}
-\\
-\href{https://ieeexplore.ieee.org/abstract/document/8851784}{MARL - Tra - Parallel Transfer Learning in Multi-Agent Systems What, when and how to transfer - 2019}
-\\
-\href{https://arxiv.org/abs/2002.08030}{MARL - Tra - Transfer among Agents An Efficient Multiagent Transfer Learning Framework - 2020}
-\\
-\href{https://link.springer.com/article/10.1007/s10458-019-09430-0}{MARL - Tra - Agents teaching agents a survey on inter-agent transfer learning - 2019}
-\\
-
-
-\subsection{GNN for Multi Agent Reinforcement Learning (GNNMARL)}
-% Keywords: Graph Convolutional Network (GCN)
-\underline{(App)lications}
+\subsection{GNN - App - Optimizing Large-Scale Fleet Management on a Road Network using Multi-Agent Deep Reinforcement Learning with Graph Neural Network - 2020}
 \href{https://arxiv.org/abs/2011.06175}{GNN - App - Optimizing Large-Scale Fleet Management on a Road Network using Multi-Agent Deep Reinforcement Learning with Graph Neural Network - 2020}
-\\
 
-\underline{UNSORTED!!!!!}
+\subsection{GNN - Deep Multi-Agent Reinforcement Learning with Relevance Graphs - 2018}
 \href{https://arxiv.org/abs/1811.12557}{GNN - Deep Multi-Agent Reinforcement Learning with Relevance Graphs - 2018}
-\\
+
+\subsection{GNN - Deep Implicit Coordination Graphs for Multi-agent Reinforcement Learning- 2020}
 \href{https://arxiv.org/abs/2006.11438}{GNN - Deep Implicit Coordination Graphs for Multi-agent Reinforcement Learning- 2020}
-\\
+
+\subsection{GNN - Multi-Agent Game Abstraction via Graph Attention Neural Network  - 2020}
 \href{https://ojs.aaai.org/index.php/AAAI/article/view/6211}{GNN - Multi-Agent Game Abstraction via Graph Attention Neural Network  - 2020}
-\\
+
+\subsection{GNN - Scaling Up Multiagent Reinforcement Learning for Robotic Systems Learn an Adaptive Sparse Communication Graph - 2020}
 \href{https://arxiv.org/abs/2003.01040}{GNN - Scaling Up Multiagent Reinforcement Learning for Robotic Systems Learn an Adaptive Sparse Communication Graph - 2020}
-\\
+
+\subsection{GNN - Graphcomm A Graph Neural Network Based Method for Multi-Agent Reinforcement Learning - 2021}
 \href{https://ieeexplore.ieee.org/abstract/document/9413716}{GNN - Graphcomm A Graph Neural Network Based Method for Multi-Agent Reinforcement Learning - 2021}
-\\
+
+\subsection{GNN - Towards Heterogeneous Multi-Agent Reinforcement Learning with Graph Neural Networks - 2020}
 \href{https://arxiv.org/abs/2009.13161}{GNN - Towards Heterogeneous Multi-Agent Reinforcement Learning with Graph Neural Networks - 2020}
-\\
+
+\subsection{GNN - The Emergence of Adversarial Communication in Multi-Agent Reinforcement Learning - 2020}
 \href{https://arxiv.org/abs/2008.02616}{GNN - The Emergence of Adversarial Communication in Multi-Agent Reinforcement Learning - 2020}
-\\
+
+\subsection{GNN - Multi-Agent Deep Reinforcement Learning using Attentive Graph Neural Architectures for Real-Time Strategy Games - 2021}
 \href{https://arxiv.org/abs/2105.10211}{GNN - Multi-Agent Deep Reinforcement Learning using Attentive Graph Neural Architectures for Real-Time Strategy Games - 2021}
-\\
+
+\subsection{GNN - Global-Localized Agent Graph Convolution for Multi-Agent Reinforcement Learning - 2021}
 \href{https://ieeexplore.ieee.org/abstract/document/9414993}{GNN - Global-Localized Agent Graph Convolution for Multi-Agent Reinforcement Learning - 2021}
-\\
+
+\subsection{GNN - Specializing Inter-Agent Communication in Heterogeneous Multi-Agent Reinforcement Learning using Agent Class Information - 2020}
 \href{https://arxiv.org/abs/2012.07617}{GNN - Specializing Inter-Agent Communication in Heterogeneous Multi-Agent Reinforcement Learning using Agent Class Information - 2020}
-\\
+
+\subsection{GNN - Collaborative Multiagent Reinforcement Learning by Payoff Propagation - 2006}
 \href{https://dl.acm.org/doi/abs/10.5555/1248547.1248612}{GNN - Collaborative Multiagent Reinforcement Learning by Payoff Propagation - 2006}
-\\
+
+\subsection{Write up for GCNs - 2016}
 \href{https://tkipf.github.io/graph-convolutional-networks/}{Write up for GCNs - 2016}
-\\
+
+\subsection{GNN - Sur - A Comprehensive Survey on Graph Neural Networks - 2019}
 \href{https://arxiv.org/abs/1901.00596}{GNN - Sur - A Comprehensive Survey on Graph Neural Networks - 2019}
-\\
 
 
-\subsection{Applications}
-\href{https://ieeexplore.ieee.org/abstract/document/4012019}{MAS - TrafficControl - Neural Networks for Continuous Online Learning and Control - 2006}
-\\
+
+
