@@ -1,0 +1,91 @@
+% !TeX spellcheck = en_US
+% !TeX encoding = UTF-8
+% !TeX root = ../thesis.tex
+
+\chapter{Fundamentals}
+
+Topics:
+\begin{itemize}[noitemsep,nolistsep]
+	\item multiagent/multibody Systems (MAS).
+	\begin{itemize}[noitemsep,nolistsep]
+		\item MAS Reinforcement Learning
+		\begin{itemize}[noitemsep,nolistsep]
+			\item They use stochastic games (Markov Games) as generalization of Markov Decision Processes.
+		\end{itemize}
+		\item Hierarchical MAS, Hierarchical Reinforcement Learning for MAS.
+		\item MAS with Cooperation and Competition.
+		\item Particle Swarms (nicht so meins).
+		\item Problems:
+		\begin{itemize}[noitemsep,nolistsep]
+			\item MAS Movement Problems (Potential Fields). Mean fields?
+			\item ? using MAS for Moving a Multi-Legged Robot (Spider-like) with a navigation problem design as a hierarchical MAS?
+			\item Path Planning Navigation with Heterogeneous Agents? 
+			\item MAS Task Problems: Rendezvous, Pursuit Evasion (Single and one Evader) (Boid?), (MAS - Deep Reinforcement Learning for Robot Swarms - 2019 - KIT)
+			\item Multi-Agent Path Finding (MAPF). Scalability for this: For fixed space they get into each others way.
+			\item Collective Foraging: (Ants-kinda). Problem when communication only happens in an area, use local information exchange groups. Information Transfer. (MAS - Swarm Intelligence - 2020), Preferential Foraging (MAS - Swarm Intelligence - 2018 - p.289)
+			\item Coverage: Multi-robot Information Gathering / Scouting. (MAS - Swarm Intelligence - 2020), Pattern Formation (MAS - Swarm Intelligence - 2016 - p.14)
+			\item Coalition: Heterogeneous Group of Agents. They have different skills / attrributes that affect the environment. Like an Ant Caste System? Some Agents have better sensors? Only some agents have some sensors? What if the specialization is taken to the extreme? (MAS - Swarm Intelligence - 2020). Limited Visibility Sensors (MAS - Swarm Intelligence - 2018 - p.56). Going from a homogeneous group of agents, to randomized specialities, to extrem specializations. How does it change? Mixed with an Hierarchical Approach? They need to find groups to work together? Some are fast (but cannot see much, there is an insect that cannot see while running), Some have good sensors. Communication range? Genetic Diversity, Task-Allocation and Task-Switching (MAS - Swarm Intelligence - 2016 - p.109)
+			\item Collective Gradient Perception: Using Abilities of other Agents to take advantage of the whole group. (Flocking) (MAS - Swarm Intelligence - 2020)
+			\item Indirect Communication through changing states in the environment (birds transport something via cable). Also like using Pheromone Trails (Quality-Sensitive Foraging through virtual pheromone trails). (MAS - Swarm Intelligence - 2018 - p.15 - p.147)
+			\item Control Architecture: Behavior Trees, FSM. (MAS - Swarm Intelligence - 2018 - p.42)
+			\item Maze-Like Environment with Ant Algorithms (MAS - Swarm Intelligence - 2018 - p.162) 
+			\item Search and Rescue? (Kinda like Foraging?)
+			\item Disruption: Disrupting Aspects of the Swarm and how they react to it, Swarm Attack: (MAS - Swarm Intelligence - 2018 - p.225), Coherence of Collective Decision Making (MAS - Swarm Intelligence - 2018 - p.264)
+			\item Evolutionary Systems: NEAT (MAS - Swarm Intelligence - 2012 - p.98)
+		\end{itemize}
+		\item Graph-Based Visualisation for MAS. (MAS - Swarm Intelligence - 2010). How do you visualize them?
+		\item Transfer Learning for MARL/MAS
+		\begin{itemize}[noitemsep,nolistsep]
+			\item Some approaches for parallel transfor of different problems even for MARL Problems.
+			\item So you can transfer even in parallel.
+			\item But they only transfer between similar problems. Which would held if you can create a simpler version of your problem and make it more and more complex.
+			\item Are there transfer learning approaches for MAS/MARL, so that Learning can be transfered between agents? So that if you add agents the complexity isn't as steep?
+		\end{itemize}
+		\item Adaptive Learning for MAS?
+		\item Control System: Either fully self-organizing or completely centralized. Hybrid Control of Swarms (MAS - Swarm Intelligence - 2018 - p.69)
+		\item Simulation of MAS: ARGoS
+		\item Best-of-n Problem: Swarm selects best option out of n alternatives. (MAS - Swarm Intelligence - 2018 - p.251)
+		\item Sensory Errors for Foraging, Dynamic Task Partiotioning (MAS - Swarm Intelligence - 2016 - p.124), Task Partitioning Problem (MAS - Swarm Intelligence - 2012 - p.122)
+		\item Task Hierarchy, Multi-Objective
+		\item Random Walks as a search strategy (MAS - Swarm Intelligence - 2016 - p.196)
+		\item Critic: Centralized Critic or Learning individual intrinsic reward (LIIR)
+		\item Standardizing Testing Scenarios (PettingZoo).
+		\item Role concept to for MAS. Agents with similar role share similar behavior.
+		\item Modular Approach to MARL to remedy the poor scalability in the state-space in the number of partner agents.
+		\item Weighting and Partitioning to decrease complexity.
+		\item Hierarchical Groups of MAS where each epoch each Group (5 Agents) exchange Data for learning. And every 10 Epoch the groups exchange data for learning? Randomize these groups? (every few epoch?). Groups of 5 that get reshuffled every 10 Epoch or so.
+		\item holonic agent structure: fractals structure of MAS. holonic and heterogenous? Does this form naturally for extreme heterogenous?
+		\item holonic coalitions?
+	\end{itemize}
+	\item GNN
+	\begin{itemize}[noitemsep,nolistsep]
+		\item How many Hops? Use 2-hop neighborhoods: https://youtu.be/H6oOhElB3yE?t=842 (Realworld networks have a small diameter => cannot afford 3-hops).
+		\item Which GNN Type for MARL? Convolutional, Attentional, Message-passing GNN.
+		\item Where do you apply GNNs? As the communication between the agents (preprocess, communication relevance or state representation), or the actual function to learn with RL? (The Graph needs to emcompass the q-function. The reward.), or a relation graph. 
+		\item Don't learn the graph structure, learn the weights. MAS: Nodes are Agents, Edges are their communications.
+		\item Complete Graph: Weights dynamic threshhold. What an agent can see defined over the weights.
+	\end{itemize}
+	\item RL
+	\begin{itemize}[noitemsep,nolistsep]
+		\item un-discounted rewards need to fulfill either an average reward (average reward RL) or certain technical conditions must be met so un-discounted MDP are guaranteed to terminate. (well defined). How does this work?
+		\item Uncertainty in MDP: Use bayesian to not solve one MDP but a distribution of MDP. Use the uncertainty in your representation of the MDP itself non explicit uncertainty. States could have different discount factors to model your uncertainty of informations you have of the environment.
+		\item transformations for a risk-sensitive MDP into a risk-unaware MDP.
+	\end{itemize}
+\end{itemize}
+
+
+%to look up:
+% Hierarchical MAS/MARL
+% heterogenous MAS/MARL
+% holonic MAS/MARL
+%to read:
+%!MAS - An Introduction to Multi-Agent Systems - 2010
+%MARL - A Comprehensive Survey of Multiagent Reinforcement Learning - 2008
+%!https://www.freecodecamp.org/news/an-introduction-to-reinforcement-learning-4339519de419/
+%\href{https://medium.com/emergent-future/simple-reinforcement-learning-with-tensorflow-part-0-q-learning-with-tables-and-neural-networks-d195264329d0}{Multiple blog post for RL (even has A3C)}
+%MARL - Sur - Multi-Agent Reinforcement Learning A Report on Challenges and Approaches - 2018
+%MAS - Sur - Multi-Agent Systems - A Survey - 2018
+%MARL - Sur - A Review of Cooperative Multi-Agent Deep Reinforcement Learning - 2019
+%MARL - Sur - Multi-Agent Reinforcement Learning - a critical survey - 2003
+%MARL - Sur - Multi-Agent Reinforcement Learning A Selective Overview of Theories and Algorithms - 2021
+%??? MARL - Sur - A Survey on Transfer Learning for Multiagent Reinforcement Learning Systems  - 2019

@@ -1,6 +1,3 @@
-# papers folder
-thesis/papers/*
-
 # latex build filex
 *.aux
 *.bbl
