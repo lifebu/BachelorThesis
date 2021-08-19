@@ -373,20 +373,15 @@ p.425
 \subsection{Game Theory}
 p.666
 
-\subsection{Mechanism Design for Multiple Agents}
-p.679
-
 \subsection{Adversarial Search}
 p.182
 
 \subsection{Probabilistic Reasoning over Time}
 p.587
 
-\subsection{Reinforcement Learning}
-p.830
-
 \subsection{Planning Uncertain Movements (Potential Fields)}
 p.993
+
 
 
 \section{Ant Colony Optimization}
@@ -581,7 +576,7 @@ p.993
 \href{https://sites.google.com/view/deep-rl-bootcamp/lectures}{Deep RL Bootcamp}
 
 \subsection{RL Lectures from Deepmind}
-\href{https://www.youtube.com/watch?v=2pWv7GOvuf0&list=PLqYmG7hTraZDM-OYHWgPebj2MfCFzFObQ}{RL Course by DeepMind}
+\href{https://www.davidsilver.uk/teaching/}{RL Course by DeepMind}
 \\
 \href{https://www.youtube.com/watch?v=2pWv7GOvuf0&list=PLqYmG7hTraZDM-OYHWgPebj2MfCFzFObQ}{RL Course by DeepMind - Part 1: Introduction}
 \begin{itemize}[noitemsep,nolistsep]
@@ -776,21 +771,535 @@ p.993
 \end{itemize}
 \href{https://www.youtube.com/watch?v=PnHCvfgC_ZA}{RL Course by DeepMind - Part 4: Model-Free Prediction}
 \begin{itemize}[noitemsep,nolistsep]
+	\item Monte-Carlo Learning
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Monte Carlo (MC) learns from complete episodes (no bootsraping) and is model free.
+		\item \textbf{First-Visit Monte-Carlo Policy Evaluation}:
+		\begin{itemize}[noitemsep,nolistsep]
+			\item The first time-step t that state s is visited in this particular episode (might be visited more than once).
+			\item Increment counter $N(s) \leftarrow N(s) + 1$, and total return $S(s) \leftarrow S(s) + G_t$, Estimation $V(s) = S(s)/N(s)$.
+			\item Law of large numbers: $V(s) \rightarrow v_\pi(s)\ as\ N(s) \rightarrow \infty$
+		\end{itemize}
+		\item \textbf{Every-Visit Monte-Carlo Policy Evaluation}:
+		\begin{itemize}[noitemsep,nolistsep]
+			\item every time-step t that state s is visited in this particular episode (might be visited more than once).
+			\item Increment counter $N(s) \leftarrow N(s) + 1$, and total return $S(s) \leftarrow S(s) + G_t$, Estimation $V(s) = S(s)/N(s)$.
+			\item Law of large numbers: $V(s) \rightarrow v_\pi(s)\ as\ N(s) \rightarrow \infty$
+		\end{itemize}
+		\item Incremental Mean with sequence of means ($\mu_1,\mu_2,...$)  $\mu_k = \frac{1}{k}\sum_{j=1}^k x_j = \mu_{k-1} + \frac{1}{k}(x_k - \mu_{k-1})$
+		\item \textbf{Incremental Monte-Carlo Updates}: Counter is incremented the same, but $V(S_t) \leftarrow V(S_t) + \frac{1}{N(S_t)} (G_t - V(S_t))$.
+		\item non-stationary Problem, forget old episodes: $V(S_t) \leftarrow V(S_t) + \alpha (G_t - V(S_t))$
+	\end{itemize}
+	\item Temporal-Difference Learning
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Temporal-Difference Learning (TD) learns from incomplete episodes (bootstrapping) and is model free.
+		\item TD(0): Update by one step do not use the actual return but the estimated return $R_{t+1} + \gamma V(S_{t+1})$ which is called the TD Target.
+		\item $V(S_t) \leftarrow V(S_t) + \alpha (R_{t+1} + \gamma V(S_{t+1}) - V(S_t))$
+		\item TD error: $\delta_t = R_{t+1} + \gamma V(S_{t+1}) - V(S_t)$
+		\item TD can learn before knowing the final outcome (every step, MC must wait until end of episode).
+		\item TD can learn without the final outcome from incomplete sequences and therefore works in continuing (non-terminating) environments (MC only for episodic).
+	\end{itemize}
+	\item TD vs MC
+		\begin{itemize}[noitemsep,nolistsep]
+		\item Return $G_t$ is unbiased. TD Target is a biased estimate of $v_\pi (S_t)$
+		\item TD has low variance, some bias, MC has high variance, zero bias.  the State is noisy but the bias from V is not equal to $v_\pi$.
+		\item MC also works for POMDP but TD(0) does not. But it's estimates with MC might not be good. 
+		\item MC also updates the intermediate values not only the state we start with.
+		\item MC and TD converge $V(s) \rightarrow v_\pi(s)$ as experience $\rightarrow \infty$
+		\item MC converges to solution with minimum mean-squared error $\sum_{k=1}^K \sum_{t=1}^{T_k} (G_t^k - V(s_t^k))^2$ and exploits the Markov property (usually more effective there).
+		\item TD(0) converges to solution of max lilekihood markov model and does not exploits the Markov property (usually more effective in non-Markov).
+		\item MC: One full trajectory (that terminates), TD-0: One Step along the way. Dynamic Programming: One-Step Lookahead to compute the full expectation where you need to know the dynamics for the environment.
+		\item Bootstrapping: update involves an estimate, Sampling: update samples an expectation.
+	\end{itemize}
+	\item $TD(\lambda)$
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Let TD target look n steps into the future. $n = 1$ is TD(0), $n = \infty$ is MC (or n is termination).
+		\item n-step return: $G_t^{(n)} = \sum_{k = 1}^{n} \gamma^{k-1} R_{t+k} + \gamma^nV(S_{t+n})$
+		\item n-step TD-learning $V(S_t) \leftarrow V(S_t) + \alpha(G_t^{(n)} - V(S_t))$
+		\item Forward-view:
+		\begin{itemize}[noitemsep,nolistsep]
+			\item Forward View of TD($\gamma$): Using weights to average the n-step returns $(1-\gamma)\gamma^{n-1}$.
+			\item Forward Return: $G_t^\lambda = (1-\lambda)\sum_{n=1}^\infty \lambda^{n-1}G_t^{(n)}$.
+			\item Forward-view TD($\gamma$): $V(S_t) \leftarrow V(S_t) + \alpha (G_t^gamma - V(S_t))$.
+			\item Update value function towards the $\lambda$-return. It looks into the future.
+		\end{itemize}
+		\item Backward-view:
+		\begin{itemize}[noitemsep,nolistsep]
+			\item online (backward) update: do updates immediately. offline updates: Do the update at the end of the episode.
+			\item Eligibility Traces: Combines recency and frequency of events as the cause of states $E_0(s) = 0,\ E_t(s) = \gamma \lambda E_{t-1}(s) + \textbf{1}(S_t = s)$
+			\item TD-Error $\delta_t = R_{t+1} + \gamma V(S_{t+1}) - V(S_t)$
+			\item update: $V(S) \leftarrow V(s) + \alpha \delta_t E_t(s)$
+		\end{itemize}
+		\item TD-0 is TD(lambda) with lambda = 0. TD(1) is similar to every-visit MC.
+	\end{itemize}
+\end{itemize}
+\href{https://www.youtube.com/watch?v=0g4j2k_Ggc4}{RL Course by DeepMind - Part 5: Model-Free Control}
+\begin{itemize}[noitemsep,nolistsep]
+	\item Introduction
+	\begin{itemize}[noitemsep,nolistsep]
+		\item On-policy: Learn about policy $\pi$ from experience sampled from $\pi$. Off-policy: Learn about policy $\pi$ from experiences sampled from $\mu$.
+	\end{itemize}
+	\item On-Policy Monte-Carlo Control
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Greedy MC policy evaluation: $\pi'(s) = \underset{a \in \mathcal{A}}{argmax}\ Q(s,a)$ 
+		\item Policy Improvement with e-Greedy: probability $1 - \epsilon$ choose greedy, probability $\epsilon$ choose random.
+		\item $\pi(a|s) = \begin{cases} \epsilon/m + 1 - \epsilon & if a^* = \underset{a \in \mathcal{A}}{argmax}\ Q(s,a) \\ \epsilon/m & otherwise \end{cases}$
+		\item the stochasticity of the e-greedy policy improvement ensures that we at some reate et least explore everythings in the environment.
+		\item greedy action selection for model is a problem as you might only explore the most immediate reward/greedy and get stuck on a local maximum. epsion-greedy: it is guaranteed that you make progress.
+		\item after one episode you can already update the value function to something slightly better might aswell use this.
+		\item GLIE Monte-Carlo Control:
+		\begin{itemize}[noitemsep,nolistsep]
+			\item Greedy in the Limit with Infinite Exploration (GLIE).
+			\item All state-action pairs are explored infinitely many times.
+			\item Then the policy converges on a greedy policy.
+			\item epsilon-greedy is GLIE if epsislon is redecued to zero at $\epsilon_k = \frac{1}{k}$.
+			\item kth Episode sampled from $\pi$.
+			\item $\forall S_t\ and\ A_t: N(S_t,A_t) \leftarrow N(S_t,A_t) + 1,\ Q(S_t,A_t) \leftarrow Q(S_t,A_t) + \frac{1}{N(S_t,A_t)}(G_t - Q(S_t,A_t))$
+			\item GLIE Monte-Carlo Control converges to the optimal action-value function $Q(s,a) \rightarrow q_*(s,a)$
+		\end{itemize}
+	\end{itemize}
+	\item On-Policy Temporal-Difference Learning
+	\begin{itemize}[noitemsep,nolistsep]
+		\item TD has the following advantages over MC: Lower variance, online, imcomplete sequences.
+		\item On-Policy Control with Sarsa: Policy Evaluation Sarsa ($\lambda$), $Q \approx q_\pi$, Policy improvement: $\epsilon$-greedy policy improvement.
+		\item Sarsa converges to th eoptimal action-value function iff: GLIE sequence of policies $\pi_t(a|s)$ and for the step-sizes $\alpha: \sum_{t=1}^\infty \alpha_t = \infty,\ \sum_{t=1}^\infty \alpha_t^2 < \infty$
+		\item n-Step Sarsa:
+		\begin{itemize}[noitemsep,nolistsep]
+			\item n-step Q-return $q_t^{(n)} = R_{t+1} + \gamma R_{t+2} + ... + \gamma^{n-1}R_{t+n} + \gamma^n Q(S_{t+n})$
+			\item Update $Q(S_t,A_t) \leftarrow Q(S_t,A_t) + \alpha(q_t^{(n)} - Q(S_t,A_t))$
+			\item Forward weight $q_t^\lambda = (1-\lambda)\sum_{n=1}^\infty \lambda^{n-1}q_t^{(n)}$
+			\item Forward Sarsa $Q(S_t,A_t) = \leftarrow Q(S_t,A_t) + \alpha(q_t^\lambda - Q(S_t,A_t))$
+			\item Eligibility Traces $E_0(s,a) = 0,\ E_t(s,a) = \gamma \lambda E_{t-1}(s,a) + \textbf{1}(S_t = s, A_t = a)$
+			\item Backward Sarsa $\delta_t = R_{t+1} + \gamma Q(S_{t+1}, A_{t+1}) - Q(S_t,A_t),
+			\ Q(s,a) \leftarrow Q(s,a) + \alpha \delta_t E_t(s,a)$
+		\end{itemize}
+	\end{itemize}
+	\item Off-Policy Learning
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Evaluate target policy $\pi(a|s)$, while following behaviour policy $\mu(a|s)$
+		\item Learn about optimal policy while following exploratory policy.
+		\item Importance Sampling:
+		\begin{itemize}[noitemsep,nolistsep]
+			\item Estiamte the expectation of a different distribution $\mathbb{E}_{X \approx P}[f(X)] = \sum P(X)f(X) = \mathbb{E}_{X \approx Q}\lbrack \frac{P(X)}{Q(X)}f(X)\rbrack   $
+			\item Weight return $G_t$ according to similiarity between policies
+			\item Monte-Carlo $G_t^{\pi / \mu} = \frac{\pi(A_t|S_t)}{\mu(A_t|S_t)} \frac{\pi(A_{t+1}|S_{t+1})}{\mu(A_{t+1}|S_{t+1})} ... \frac{\pi(A_T|S_T)}{\mu(A_T|S_T)}$
+			\item Update value towards corrected return $V(S_t) \leftarrow V(S_t) + \alpha (G_t^{\pi / \mu}- V(S_t))$
+			\item TD $V(S_t) \leftarrow V(S_t) + \alpha (\frac{\pi(A_t|S_t)}{\mu(A_t|S_t)}(R_{t+1} + \gamma V(S_{t+1})) - V(S_t))$
+		\end{itemize}
+		\item Q-Learning control: Learning of action-values without importance sampling.
+		\begin{itemize}[noitemsep,nolistsep]
+			\item Next action is chosen using behaviour policy $A_{t+1} \sim \mu(\cdot |S_t)$ but consider an alternative $A' \sim \pi(\cdot|S_t)$
+			\item target policy $\pi$ is greedy w.r.t. Q(s,a) $\pi(S_{t+1}) = \underset{a'}{argmax}\ Q(S_{t+1}, a')$
+			\item the behaviour policy $\mu$ is e.g. $\epsilon$-greedy w.r.t Q(s,a)
+			\item Update $Q(S,A) \leftarrow Q(S,A) + \alpha (R + \gamma \underset{a'}{max}\ Q(S',a') - Q(S,A))$
+			\item Q-learning control converges to the optimal action-value function
+		\end{itemize}
+	\end{itemize}
+\end{itemize}
+\begin{center}
+	\begin{tabular}{ m{9em} |c|c } 
+	  & Full Backup (DP) & Sample Backup (TD) \\ 
+	 \hline
+	 Bellman Expectation Equation for $v_\pi(s)$ & Iterative Policy Evaluation & TD Learning \\ 
+	 \hline
+	 Bellman Expectation Equation for $q_\pi(s,a)$ & Q-policy Iteration & Sarsa \\ 
+	 \hline
+	 Bellman Expectation Equation for $q_*(s,a)$ & Q-value Iteration & Q-Learning \\ 
+	 \hline
+	\end{tabular}
+\end{center}
+\href{https://www.youtube.com/watch?v=UoPei5o4fps}{RL Course by DeepMind - Part 6: Value Function Approximation}
+\begin{itemize}[noitemsep,nolistsep]
+	\item Introduction
+	\begin{itemize}[noitemsep,nolistsep]
+		\item For Large scale MDPs a lookup table is not feasible and it is to slow to learn. Therefore use function approximation.
+		\item Generalise from seen states to unseen states and Update parameter w using MC or TD learning.
+		\item Types $Input: s,\ Output: \hat{v}(s,\mathbf{w})$, $Input: s, a\ Output: \hat{v}(s,a, \mathbf{w})$, $Input: s,\ Output: \hat{q}(s,a_1,\mathbf{w}),...,\hat{q}(s,a_m,\mathbf{w})$
+	\end{itemize}
+	\item Incremental Methods
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Use gradient of a differentiable function $J(\mathbf{w})$ to adjust the weights $\Delta \mathbf{w} = -\frac{1}{2}\alpha \bigtriangledown_\mathbf{w} J(\mathbf{w})$.
+		\item Goal: minimise mean-squared error between approximation $\hat{v}$ and true function $v_\pi$, $J(\mathbf{w}) = \mathbb{E}_\pi [(v_\pi(S) - \hat{v}(S,\mathbf{w}))^2]$
+		\item Stochastic gradient descent uses samples $\Delta \mathbf{w} = \alpha (v_\pi(S) - \hat{v}(S,\mathbf{w})) \bigtriangledown_w \hat{v}(S,\mathbf{w})$
+		\item Linear Function Approximation
+		\begin{itemize}[noitemsep,nolistsep]
+			\item Represent state by a feature vector $x(S) = \begin{pmatrix} x_1(S)\\ \vdots \\ x_n(S) \end{pmatrix}$
+			\item value function by linear combination of features $\hat{v}(S,w) = x(S)^Tw = \sum_{j=1}^n x_j(S)w_j$
+			\item Objective function $J(w) = \mathbb{E}_\pi [(v_\pi(S) - x(S)^Tw)^2]$
+			\item Update rule $\bigtriangledown_w \hat{v}(S,w) = x(S),\ \Delta w = \alpha (v_\pi(S) - \hat{v}(S,w))x(S)$
+			\item Table loolip for features $x^{table}(S) = \begin{pmatrix} \mathbf{1} (S = s_1)\\ \vdots \\ \mathbf{1} (S = s_n) \end{pmatrix}$
+			\item Table function $\hat{v}(S,w) = \begin{pmatrix} \mathbf{1} (S = s_1)\\ \vdots \\ \mathbf{1} (S = s_n) \end{pmatrix} \cdot \begin{pmatrix} w_1\\ \vdots \\ w_n \end{pmatrix}$
+		\end{itemize}
+		\item Incremental Prediction Algorithm
+		\begin{itemize}[noitemsep,nolistsep]
+			\item As the target $v_\pi(s)$ is not given to us we need a supstitude, a target.
+			\item MC-Target $v_\pi(s) = G_t$, TD(0)-Target $v_\pi(s) = TD-Target = R_{t+1} + \gamma \hat{v}(S_{t+1},w)$, TD(lambda) $v_\pi(s) = G_t^\lambda$
+			\item MC: G-t is unbiased, but noisy. We get supervised learning to "training data" $\langle S_1,G_1 \rangle, ... \langle S_T,G_T \rangle$
+			\item MC: converges to local optimum epen on non-linear functions.
+			\item TD(0): TD-target is biased sample. We still get supervised learning similar to MC.
+			\item TD(0): converges (close) to global optimum.
+			\item TD(lambda): Better
+		\end{itemize}
+		\item Incremental Control Algorithm
+		\begin{itemize}[noitemsep,nolistsep]
+			\item Evaluation: Approximate policy evaluation, Improvement $\epsilon$-greedy policy improvement.
+			\item Approximate action-value function $\hat{q}(S,A,w) \approx q_\pi(S,A)$
+			\item Minimise Mean-Squared error $J(w) = \mathbb{E}_\pi [(q_\pi(S,A) - \hat{q}(S,A,w))^2]$
+			\item Use Stochastic Gradient Descent: $\Delta w = \alpha(q_\pi(S,A) - \hat{q}(S,A,w)) \nabla_w \hat{q}(S,A,w)$
+			\item Linear: use feature vector to represent action-value function by linear combination $x(S,A)$ (Feature Vector).
+			\item Linear: Stochastic Gradient Descent: $\Delta w = \alpha(q_\pi(S,A) - \hat{q}(S,A,w)) x(S,A)$
+			\item Targets: For MC: $G_t$, TD(0): $R_{t+1} + \gamma\hat{q}(S_{t+1},A_{t+1},w)$, Forward-TD(lambda): $q_t^\lambda$
+		\end{itemize}
+	\end{itemize}
+	\item Batch Methods
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Batch samples to find best fitting value function for our training data (batch).
+		\item The Batch samples are the experiences so far.
+		\item Least Squares Prediction
+		\begin{itemize}[noitemsep,nolistsep]
+			\item Given: Approximation $\hat{v}(s,w)$ and Oracle $v_\pi(s)$
+			\item Dataset of state-value pairs: $\mathcal{D} = \{\langle s_1,v_1^\pi\rangle, \langle s_T,v_T^\pi\rangle\}$
+			\item Least-squars minimizes sum-squared error between approximation and target oracle.
+			\item $LS(w) = \sum_{t=1}^T(v_t^\pi - \hat{v}(s_t,w))^2 = \mathbb{E}_\mathcal{D} [(v^\pi - \hat{v}(s,w))^2]$
+			\item This Dataset can be called experience replay
+			\item Stoachstic Gradient Decent: 1st: Sample state,value from experience, 2nd: apply $\Delta w = \alpha (v^\pi - \hat{v}(s,w))\nabla_w \hat{v}(s,w)$
+			\item Stochastic Gradient Descent converges to $w^\pi = \underset{w}{argmin}\ LS(w)$
+			\item DQN uses experience replay and fixed Q-targets
+		\end{itemize}
+		\item Linear Least Squares Prediction.
+		\begin{itemize}[noitemsep,nolistsep]
+			\item In Linear cases the normal prediction takes longer than necessary, so the following approach solves it directly:
+			\item $w = (\sum_{t=1}^T x(s_t)x(s_t)^T)^{-1} \sum_{t=1}^T x(s_t)v_t^\pi$
+			\item Direct solution scales $O(N^3)$ for N features.
+			\item In practice we do not know $v_t^\pi$, therefore we use Monte-Carlo, TD(0), or TD(lambda) as approximation.
+		\end{itemize}
+		\item Least Squares Policy Prediction
+		\begin{itemize}[noitemsep,nolistsep]
+			\item policy evaluation: use least squares Q-learning.
+			\item q-learning Update: $\delta = R_{t+1} + \gamma \hat{q}(S_{t+1},\pi(S_{t+1}), w) - \hat{q}(S_t,A_t,w),\ \Delta w = \alpha \delta x(S_t,A_t)$
+			\item LSTDQ algorithm: solve fot total update = 0
+			\item $w = (\sum_{t=1}^T x(S_t,A_t)(x(S_t,A_t) - \gamma x(S_{t+1},\pi(S_{t+1})))^T)^{-1} \sum_{t=1}^T x(S_t,A_t)R_{t+1}$
+		\end{itemize}
+	\end{itemize}
+\end{itemize}
+\href{https://www.youtube.com/watch?v=KHZVXao4qXs}{RL Course by DeepMind - Part 7: Policy Gradient Methods}
+\begin{itemize}[noitemsep,nolistsep]
+	\item Introduction
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Advantages of Policy-Based RL
+		\begin{itemize}[noitemsep,nolistsep]
+			\item Better convergence properties
+			\item Effective in high-dimensional or continuous action spaces. Quality based methods need a max(). Policy-Based does not need that.
+			\item Can learn stochastic policies. 
+		\end{itemize}
+		\item Disadvantages of Policy-Based RL
+		\begin{itemize}[noitemsep,nolistsep]
+			\item Typically converge to a local rather than global optimum.
+			\item Evaluating a policy is typically inefficient and high variance.
+		\end{itemize}
+		\item State Aliasing: Two states that look the same from your feature-vector representation. This can happen when a MDP does not hold the markov property all the time.
+		\item When State Aliasing occurs a stochastic policy can do better than a deterministic one.
+		\item Policy Objective Functions
+		\begin{itemize}[noitemsep,nolistsep]
+			\item Goal: given policy $\pi_\theta (s,a)$ with parameters $\theta$, find best $\theta$. How do we measure quality of policy?
+			\item $d^{\pi_\theta}(s)$ is stationary distribugion of Markov chain for $\pi_\theta$
+			\item episodic environments: use start value: $J_1(\theta) = V^{\pi_\theta}(s_1) = \mathbb{E}_{\pi_\theta}[v_1]$
+			\item continuing environments: use average value: $J_{avV}(\theta) = \sum_s d^{\pi_\theta}(s)V^{\pi_\theta}(s)$
+			\item or: average reward per time-step $J_{avR}(\theta) = \sum_s d^{\pi_\theta}(s) \sum_a \pi_\theta(s,a)\mathcal{R}_s^a$
+			\item or: discounted average: $\frac{1}{1-\gamma} J_{avV}(\theta)$
+		\end{itemize}
+		\item Policy based reinforcement learning is an optimisation problem. Find $\theta$ that maximises $J(\theta)$
+		\item Approaches without gradient: Hill climbing, Simplex/ amoeba / Nelder Mead, Genetic algorithms.
+		\item Usually greater efficiency with gradient: Gradient descent, conjugate gradient, quasi-newton
+	\end{itemize}
+	\item Finite Difference Policy Gradient
+	\begin{itemize}[noitemsep,nolistsep]
+		\item parameter update: $\Delta \theta = \alpha \nabla_\theta J(\theta)$, where $\alpha$ is step-size.
+		\item policy gradient: $\nabla_\theta J(\theta) = \begin{pmatrix} \frac{\partial J(\theta)}{\partial \theta_1} \\ \vdots \\ \frac{\partial J(\theta)}{\partial \theta_n}\end{pmatrix}$
+		\item Computing Gradients by finite differences
+		\begin{itemize}[noitemsep,nolistsep]
+			\item naive approach
+			\item for each dimension $k \in [1,n]$:
+			\item Estimate kth partial derivative of objective function w.r.t $\theta$
+			\item By pertubing $\theta$ by small amount $\epsilon$ in kth dimension: $\frac{\partial J(\theta)}{\partial \theta_k} \approx \frac{J(\theta + \epsilon u_k) - J(\theta)}{\epsilon}$
+			\item $u_k$ is unit vector with 1 in kth component, 0 elsewhere.
+			\item Uses n evaluations to compute policy gradient in n dimensions.
+			\item Simple, noisy, inefficient.
+			\item Also works for non-differentiable policies.
+		\end{itemize}
+	\end{itemize}
+	\item Monte-Carlo Policy Gradient
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Likelihood Ratios:
+		\begin{itemize}[noitemsep,nolistsep]
+			\item Assume policy $\pi_\theta$ is differentiable whenever it is non-zero and we know the gradient $\nabla_\theta \pi_\theta(s,a)$
+			\item Likelihood ratio: $\nabla_\theta \pi_\theta (s,a) = \pi_\theta(s,a) \frac{\nabla_\theta \pi_\theta (s,a)}{\pi_\theta (s,a)} = \pi_\theta(s,a) \nabla_\theta log \pi_\theta(s,a)$
+			\item score function: $\nabla_\theta log \pi_\theta(s,a)$. This is similar to maximum likelihood!
+			\item Softmax policy: Weight actions using linear combination of features $\phi(s,a)^T \theta$. 
+			\item Softmax policy: Probability of action $\pi_\theta(s,a) \propto e^{\phi(s,a)^T \theta}$
+			\item Softmax policy: score function $\nabla_\theta log \pi_\theta(s,a) = \phi(s,a) - \mathbb{E}_{\pi_\theta}[\phi(s,\cdot)]$ (how much more do i get compared to the usual)
+			\item Gaussian policy: Mean using linear combination of features $\mu(s) = \phi(s,a)^T \theta$. Variance can be fixed or parametrised.
+			\item Gaussian policy: Policy is Gaussian $a \sim \mathcal{N}(\mu(s),\sigma^2)$
+			\item Gaussian policy: score function $\nabla_\theta log \pi_\theta(s,a) = \frac{(a - \mu(s))\phi(s)}{\sigma^2}$
+		\end{itemize}
+		\item Policy Gradient Theorem
+		\begin{itemize}[noitemsep,nolistsep]
+			\item One-Step MDPs: $J(\theta) = \mathbb{E}_{\pi_\theta}[r] = \sum_{s \in \mathcal{S}}d(s) \sum_{a \in \mathcal{A}} \pi_\theta(s,a) \mathcal{R}_{s,a},\ \nabla_\theta J(\theta) = \mathbb{E}_{\pi_\theta}[\nabla_\theta log\ \pi_\theta(s,a) r]$
+			\item Policy Gradient Theorem: For anny differentiable $\pi_\theta(s,a)$, and any objective function J the policy gradient is:
+			\item $\nabla_\theta J(\theta) = \mathbb{E}_{\pi_\theta}[\nabla_\theta log\ \pi_\theta(s,a) Q^{\pi_\theta}(s,a)]$, $Q^{\pi_\theta}(s,a)$ is the long-term value.
+			\item Monte-Carlo Policy Gradient uses $v_t$ as an unbiased sample.
+		\end{itemize}
+	\end{itemize}
+	\item Actor-Critic Policy Gradient
+	\begin{itemize}[noitemsep,nolistsep]
+		\item use critic to estimate $Q_w(s,a) \approx Q^{\pi_\theta}(s,a)$. This is similar to policy evaluation
+		\item Critic: Updates action-value function parameters w, Actor: Updates policy paramters $\theta$, in direction suggested by critic.
+		\item Uses approximate policy gradient: $\nabla_\theta J(\theta) \approx \mathbb{E}_{\pi_\theta}[\nabla_\theta log\ \pi_\theta(s,a) Q_w(s,a)], \nabla \theta = \alpha \nabla_\theta log\ \pi_\theta(s,a) Q_w(s,a)$
+		\item Simple: Linear approx: $Q_w(s,a) = \phi(s,a)^Tw$. Critic: Updates w by linear TD(0). Actor: Updates $\theta$ by policy gradient.
+		\item Compatible Function Approximation
+		\begin{itemize}[noitemsep,nolistsep]
+			\item Approximation of policy gradient introduces bias and may not find the right solution. a good function approximation can still be not biased.
+			\item If the following two conditions are satisfied:
+			\item 1. Value function approximator is compatible to the policy: $\nabla_w Q_w(s,a) = \nabla_\theta log\ \pi_\theta(s,a)$
+			\item 2. Value function parameters w minimise mean-squared error: $\epsilon = \mathbb{E}_{\pi_\theta} [(Q^{\pi_\theta}(s,a) - Q_w(s,a))^2]$ 
+			\item Then the policy gradient is exact: $\nabla_\theta J(\theta) = \mathbb{E}_{\pi_\theta}[\nabla_\theta log\ \pi_\theta(s,a) Q_w(s,a)]$
+		\end{itemize}
+		\item Advantage Function Critic
+		\begin{itemize}[noitemsep,nolistsep]
+			\item We can subtract baseline function B(s) from the poolicy gradient to reduce variance. Can use state value function $B(s) = V^{\pi_\theta}(s)$.
+			\item rewrite policy gradient using the advantage function: $A^{\pi_\theta}(s,a) = Q^{\pi_\theta}(s,a) - V^{\pi_\theta}(s)$
+			\item $\nabla_\theta J(\theta) = \mathbb{E}_{\pi_\theta}[\nabla_\theta log\ \pi_\theta(s,a) A^{\pi_\theta}(s,a)]$
+			\item The critic can reduce variance by extimating both $V^{\pi_\theta}(s)$ and $Q^{\pi_\theta}(s,a)$ with two parameter vectors and $V_v(s)$, $Q_w(s,a)$. Then update both value functions.
+			\item Value function TD-Error: $\delta^{\pi_\theta} = r + \gamma V^{\pi_\theta}(s') - V^{\pi_\theta}(s)$
+			\item Use it for the policy gradient: $\nabla_\theta J(\theta) = \mathbb{E}_{\pi_\theta}[\nabla_\theta log\ \pi_\theta(s,a) \delta^{\pi_\theta}]$
+			\item In practice we use one set of parameters for TD-Error: $\delta_v = r + \gamma V_v(s') - V_v(s)$
+		\end{itemize}
+		\item Eligibility Traces
+		\begin{itemize}[noitemsep,nolistsep]
+			\item Critic Estimations for the value function target:
+			\item MC: $\Delta \theta = \alpha(v_t - V_\theta(s))\phi(s)$
+			\item TD(0): $\Delta \theta = \alpha(r + \gamma V(s') - V_\theta(s))\phi(s)$
+			\item TD(lambda): $\Delta \theta = \alpha(v_t^\lambda - V_\theta(s))\phi(s)$
+			\item Backward view TD with eligibility: $\delta_t = r_{t+1} + \gamma V(s_{t+1}) - V(s_t),\ e_t = \gamma \lambda e_{t-1} + \phi(s_t),\ \Delta \theta = \alpha \delta_t e_t$
+			\item Actor Estimations for the policy gradient:
+			\item MC: $\Delta \theta = \alpha(v_t - V_v(s_t))\nabla_\theta log\ \pi_\theta(s_t,a_t)$
+			\item TD(0): $\Delta \theta = \alpha(r + \gamma V_v(s_{t+1}) - V_v(s_t))\nabla_\theta log\ \pi_\theta(s_t,a_t)$
+			\item TD(lambda): $\Delta \theta = \alpha(v_t^\lambda - V_v(s_t))\nabla_\theta log\ \pi_\theta(s_t,a_t)$
+			\item Backward view TD with eligibility: $\delta = r_{t+1} + \gamma V_v(s_{t+1}) - V_v(s_t),\ e_{t+1} = \gamma \lambda e_t + \nabla_\theta log\ \pi_\theta(s_t,a_t),\ \Delta \theta = \alpha \delta e_t$
+		\end{itemize}
+		\item Natural Policy Gradient
+		\begin{itemize}[noitemsep,nolistsep]
+			\item A good ascent direction can speed up convergence.
+			\item The vanilla gradient is sensitive to a policy that is reparametrised.
+			\item Natural policy gradient finds ascent direction that is cosest to vanila gradient, when changing policy
+			\item $\nabla_\theta^{nat} \pi_\theta(s,a) = G_\theta^{-1} \nabla_\theta \pi_\theta (s,a)$
+			\item $G_\theta = E_{\pi_\theta} [\nabla_\theta log\ \pi_\theta(s,a)\ \nabla_\theta log\ \pi_\theta(s,a)^T]$. The fisher information matrix.
+			\item Natural policy gradient simplifies: $\nabla_\theta^{nat} J(\theta) = G_\theta w = w$. In the direction of the critic parameters.
+		\end{itemize}
+	\end{itemize}
+\end{itemize}
+\href{https://www.youtube.com/watch?v=ItMutbeOHtc}{RL Course by DeepMind - Part 8: Integrating Learning an Planning}
+\begin{itemize}[noitemsep,nolistsep]
 	\item Introduction
 	\begin{itemize}[noitemsep,nolistsep]
 		\item 
 	\end{itemize}
-	\item Monte-Carlo Learning
+	\item Model-Based Reinforcement Learning
+	\begin{itemize}[noitemsep,nolistsep]
+		\item 
+		\item Learning a Model
+		\begin{itemize}[noitemsep,nolistsep]
+			\item 
+		\end{itemize}
+		\item Planning with a Model
+		\begin{itemize}[noitemsep,nolistsep]
+			\item 
+		\end{itemize}
+	\end{itemize}
+	\item Integrated Architectures
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Dyna
+		\begin{itemize}[noitemsep,nolistsep]
+			\item 
+		\end{itemize}
+	\end{itemize}
+	\item Simulation-Based Search
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Monte Carlo Search
+		\begin{itemize}[noitemsep,nolistsep]
+			\item 
+		\end{itemize}
+		\item  Temporal-Difference Search
+		\begin{itemize}[noitemsep,nolistsep]
+			\item 
+		\end{itemize}
+	\end{itemize}
+\end{itemize}
+\href{https://www.youtube.com/watch?v=sGuiWX07sKw}{RL Course by DeepMind - Part 9: Exploration and Exploitation}
+\begin{itemize}[noitemsep,nolistsep]
+	\item Introduction
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Dilemma: Exploitation: Make the best decision given current information (acting according to max) v.s. exploration: gather more information.
+		\item Best long-term strategy may involve short-term sacrifices.
+		\item Naive Exploration: Add noise to greedy policy $\epsilon$-greedy.
+		\item Optimistic Initialisation: Assume the best until proven otherwise.
+		\item Optimism in the Face of Uncertainty: Prefer actions with uncertain values.
+		\item Probability Matching: Select actions according to probability they are best.
+		\item Information State Search: Lookahead search incorporating value of information.
+		\item State-action exploration: Systematically explore state space / action space.
+		\item Parameter exploration: Pick different parameters and try for a while. 
+	\end{itemize}
+	\item Multi-Armed Bandits
+	\begin{itemize}[noitemsep,nolistsep]
+		\item tuple $\langle A,R\rangle$. A is a set of m actions, R is reward probability distribution. Goal is to maximise cumulative reward $\sum_{t=1}^T r_t$
+		\item Regret
+		\begin{itemize}[noitemsep,nolistsep]
+			\item mean reward: $Q(a) = \mathbb{E}[r|a]$, optimal value $V^* = Q(a^*) = \underset{a \in A}{max}\ Q(a)$
+			\item regret: opportunity loss: $l_t = \mathbb{E}[V^* - Q(a_t)]$, total regret $L_t = \mathbb{E}[ \sum_{t=1}^T V^* - Q(a_t)]$
+			\item maximise cumulative reward = minimise total regret
+			\item count: $N_t(a)$ how often action a was selected. gap: $\Delta_a = V^* - Q(a)$ (difference of action and optimal action).
+			\item Regret as gaps and counts: $L_t = \sum_{a \in A} \mathbb{E}[N_t(a)] \Delta_a$.
+			\item Goal: small counts for large gaps => minimizes regret.
+			\item always explore and never explore will have linear total regret.
+		\end{itemize}
+		\item Greedy and $\epsilon$-greedy algorithms
+		\begin{itemize}[noitemsep,nolistsep]
+			\item greedy: Estimation $\hat{Q}_t(a) = \frac{1}{N_t(a)} \sum_{t=1}^T r_t \mathbb{1}(a_t = a)$. choose highest value: $a_t^* = \underset{a \in A}{argmax}\ \hat{Q}_t(a)$. Has linear total regret.
+			\item $\epsilon$-greedy : With 1 - $\epsilon$ select $a = \underset{a \in A}{argmax}\ \hat{Q}(a)$ otherwise select random. Has linear total regret.
+			\item Optimistic Initilisation: Initialise Q(a) to high value => encourages systematic exploration early on => greedy or $\epsilon$-greedy still has linear total regret.
+			\item Optimistic: Update action value by Monte-Carlo: $\hat{Q}_t(a_t) = \hat{Q}_{t-1} + \frac{1}{N_t(a_t)}(r_t - \hat{Q}_{t-1})$
+			\item Decaying $\epsilon$-greedy: use decay schedule e.g.: $c > 0,\ d = \underset{a|\Delta_a > 0}{min} \Delta_i,\ \epsilon_t = min\{1, \frac{c|A|}{d^2t}\}$
+			\item Decying has logarithmic asymptotic total regret but needs advance knowledge of gaps.
+		\end{itemize}
+		\item Lower Bound
+		\begin{itemize}[noitemsep,nolistsep]
+			\item Hard problems have similar-looking arms with different means. 
+			\item This is described fomally by the gap $\Delta_a$ and the similarity $KL(\mathcal{R}^a||\mathcal{R}^{a^*})$
+			\item Asymptotic total regret is at least logarithmic in number of steps: $\lim_{t \rightarrow \infty} L_t \geq log\ t \sum_{a|\Delta_a > 0} \frac{\Delta_a}{KL(\mathcal{R}^a|| \mathcal{R}^{a^*})}$
+		\end{itemize}
+		\item Upper Confidence Bound
+		\begin{itemize}[noitemsep,nolistsep]
+			\item The more uncertain we are about an action-value the more important it is to explore that action => optimisim in the face of uncertainty.
+			\item Estimate an upper confidence $\hat{U}_t(a)$ for each action value. Such that $Q(a) \leq \hat{Q}_t(a) + \hat{U}_t(a)$ with high probability.
+			\item Select an action maximising Upper Confidence Bound (UCB): $a_t = \underset{a \in A}{argmax}\ \hat{Q}_t(a) + \hat{U}_t(a)$
+			\item Using $U_t(a) = \sqrt{\frac{2 log(t)}{N_t(a)}}$ we have the UCB1 algorithm: $a_t = \underset{a \in A}{argmax}\ Q(a) + \sqrt{\frac{2 log(t)}{N_t(a)}}$
+			\item UCB achievbes logarithmic asymptotic total regret: $\lim_{t \rightarrow \infty} L_t \leq 8 log(t)\ \sum_{a|\Delta_a > 0} \Delta_a$
+		\end{itemize}
+		\item Bayesian Bandits
+		\begin{itemize}[noitemsep,nolistsep]
+			\item Bayersian bandits exploit prior knowledge of rewards $p[\mathcal{R}]$
+			\item computes posterior distribution of rewards $p[\mathcal{R}|h_t]$, where $h_t = a_1,r_1,...,a_{t-1},r_{t-1}$ is the history.
+			\item Better performance if prior knowledge is accurate.
+			\item e.g. assume reward distribution is Gaussian: $\mathcal{R}_a(r) = \mathcal{N}(r;\mu_a,\sigma_a^2)$
+			\item probability matching: select action a according to probability that a is optimal: $\pi(a|h_t) = \mathbb{P}[Q(a) > Q(a'), \forall a' \neq a | h_t]$
+			\item probability matching is optimistic in the face of uncertainty. They have a higher probability of being max.
+			\item Thompson sampling: $\pi(a|h_t) = \mathbb{P}[Q(a) > Q(a'), \forall a' \neq a | h_t] = \mathbb{E}_{\mathcal{R}|h_t}[\mathbb{1}(a = \underset{a \in A}{argmax}\ Q(a))]$
+			\item Bayes law to compute $p[\mathcal{R}|h_t]$, sample a reward distribution from posterior, compute action-value function $Q(a) = \mathbb{E}[\mathcal{R}_a]$
+			\item then selection action maximising value on sample: $a_t = \underset{a \in A}{argmax}\ Q(a)$
+		\end{itemize}
+		\item Information State Search
+		\begin{itemize}[noitemsep,nolistsep]
+			\item Quantify the value of information. Gain is higher in uncertain situation.
+			\item bandits as sequential decision-making problems.
+			\item At each step there is an information state $\tilde{s} = f(h_t)$ derived from the history.
+			\item Each action a causes information state transition $\tilde{\mathcal{P}}_{\tilde{s},\tilde{s}'}^a$
+			\item This defines MDP in augmented information state space $\tilde{\mathcal{M}} = \langle \mathcal{\tilde{S},A,\tilde{P},R},\gamma\rangle $
+			\item This MDP can be solved by reinforcement learning
+		\end{itemize}
+	\end{itemize}
+	\item Contextual Bandits
+	\begin{itemize}[noitemsep,nolistsep]
+		\item A contextual bandit is a normal multi armed bandit with a State distribution S and $\mathcal{R}_s^a(r) = \mathbb{P}[r|s,a]$ the reward distribution.
+		\item Linear UCB
+		\begin{itemize}[noitemsep,nolistsep]
+			\item Estimate value function with a linear function approximator $Q_\theta(s,a) = \phi(s,a)^T\phi \approx Q(s,a)$
+			\item Estimate parameters by least squares: $A_t = \sum_{\tau=1}^t \phi(s_\tau, a_\tau)\phi(s_\tau,a_\tau)^T,\ b_t = \sum_{\tau=1}^t \phi(s_\tau,a_\tau)r_\tau,\ \theta_t = A_t^{-1}b_t$
+			\item Add on a UCB $U_\theta (s,a) = c \sigma$. UCB is standard deviations above the mean.
+			\item Select action maximising upper confidence bound $a_t = \underset{a \in A}{argmax}\ Q_\theta(s_t,a) + c \sqrt{\phi(s_t,a)^TA_t^{-1}\phi(s_t,a)}$
+		\end{itemize}
+	\end{itemize}
+	\item MDPs
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Optimistic Initialisation
+		\begin{itemize}[noitemsep,nolistsep]
+			\item Model-Free: Initialise action-value function Q(s,a) to $\frac{r_{max}}{1 - \gamma}$. This enourages systematic exploration of states and actions.
+			\item Model-Based: Construct optimistic model of the MDP. Initialise transitions to $r_{max}$. This enourages systematic exploration of states and actions.
+		\end{itemize}
+		\item Optimisim in the Face of Uncertainty
+		\begin{itemize}[noitemsep,nolistsep]
+			\item Model-Free: Maximise UCB on action-value function: $Q^\pi(s,a): a_t = \underset{a \in A}{argmax}\ Q(s_t,a) + U(s_t,a)$. 
+			\item Estimate uncertainty in policy evaulation (easy), ignores uncertainty from policy improvement.
+			\item Maximise UCB on optimal action-value function: $Q^*(s,a): a_t = \underset{a \in A}{argmax}\ Q(s_t,a) + U_1(s_t,a) + U_2(s_t,a)$. 
+			\item Estimate uncertainty in policy evaulation (easy), plus uncertainty from policy improvement (hard).
+			\item Model-Based: Maintain posterior distribution over MDP and estimate transitions and rewards $p[\mathcal{P,R}|h_t]$
+			\item Use posterior to guide exploration.
+		\end{itemize}
+		\item Probability Matching
+		\begin{itemize}[noitemsep,nolistsep]
+			\item Use Thompson Sampling. But Sample an MDP $\mathcal{P,R}$ from posterior (not reward distribution.)
+		\end{itemize}
+		\item Information State Search
+		\begin{itemize}[noitemsep,nolistsep]
+			\item MDP uses augmented state $\langle s, \tilde{s} \rangle$. s is original MDP-state and $\tilde{s}$ is history statistic.
+			\item Each action causes a state transition and a information state transition.
+			\item MDP is know augmented to $\mathcal{\tilde{M} = \langle \tilde{S}, A, \tilde{P}, R }, \gamma \rangle$
+			\item Posterior distribution over MDP is information state: $\tilde{s}_t = \mathbb{P}[\mathcal{P,R}|h_t]$
+			\item Augmented MDP over $\langle s,\tilde{s} \rangle$ is called Bayes-adaptive MDP.
+		\end{itemize}
+	\end{itemize}
+\end{itemize}
+\href{https://www.youtube.com/watch?v=sGuiWX07sKw}{RL Course by DeepMind - Part 10: Classic Games}
+\begin{itemize}[noitemsep,nolistsep]
+	\item Game Theory
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Optimality in Games
+		\begin{itemize}[noitemsep,nolistsep]
+			\item we consider all the policies of all the players called the joint policy
+			\item What is the optimal policy $\pi^i$ for the ith player?
+			\item If all players fix their policies $\pi^{-i}$, then best response is $\pi_*^i (\pi^{-i})$
+			\item Nash equilibrium is a joint policy for all players: $\pi^i = \pi_*^i (\pi^{-i})$ such that every player's policy is a best response.
+		\end{itemize}
+		\item Single-Agent and Self-Play Reinforcement Learning
+		\begin{itemize}[noitemsep,nolistsep]
+			\item Best response is solution to single-agent RL problem: Game is reduced to an MDP. The other players become part of the environment.
+			\item Nash equilibrium is fixed-point of self-play RL. Agents play against themselves and their policies.
+			\item Experience is generated by playing games between agents: $a_1 \tilde \pi^1,\ a_2 \tilde \pi^2$
+			\item Each agent learns best response to other players. One player's policy determines another player's environment.
+			\item All players are adapting to each other.
+			\item Not all RL methods converge on a fixpoint. If we ever reach a fixpoint that is an nash equilibrium.
+			\item There can be multiple nash-equilibria
+		\end{itemize}
+		\item Two-Player Zero-Sum Games
+		\begin{itemize}[noitemsep,nolistsep]
+			\item A two-player game has two (alternating) players.
+			\item A zero sum game has equal and opposite rewards for player 1 and player 2: $R^1 + R^2 = 0$
+		\end{itemize}
+		\item Perfect and Imperfect Information Games
+		\begin{itemize}[noitemsep,nolistsep]
+			\item perfect information or markov game is fully observed.
+			\item imperfect information game is partially observed.
+		\end{itemize}
+	\end{itemize}
+	\item Minimax Search
 	\begin{itemize}[noitemsep,nolistsep]
 		\item 
 	\end{itemize}
-	\item Temporal-Difference Learning
+	\item Self-Play Temporal-Difference Learning
 	\begin{itemize}[noitemsep,nolistsep]
 		\item 
 	\end{itemize}
-	\item $TD(\lambda)$
+	\item Combining Reinforcement Learning and Minimax Search
 	\begin{itemize}[noitemsep,nolistsep]
 		\item 
+	\end{itemize}
+	\item Reinforcement Learning in Imperfect-Information Games.
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Players have different information states and therefore seperate search trees.
+		\item There is one node for each information state that summarises what a player knows.
+		\item Many real states may share the same information state.
+		\item Can be solvec by iterative forward-search methods (e.g. Cunterfactual regret minimization).
+		\item Or Self-play reinforcement Learning (e.g. Smooth UCT)
+		\item Smooth UCT Search:
 	\end{itemize}
 \end{itemize}
 
