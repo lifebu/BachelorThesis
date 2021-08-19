@@ -387,7 +387,7 @@ Reference for short forms: \\
 	\begin{itemize}[noitemsep,nolistsep]
 		\item A MRP is a Markov Processes with the additions: tuple $\langle \mathcal{S,P,R}, \gamma \rangle$.
 		\item R is a reward function $\mathcal{R}_s = \mathbb{E}[R_{t+1}|S_t=s]$ and $\gamma \in [0,1]$ is a discount factor.
-		\item $G_t$ is the total doscounted reward form time-step t. Value function v(s) (see above).
+		\item $G_t$ is the total discounted reward form time-step t. Value function v(s) (see above).
 		\item Bellam Equation: $v(s) = \mathbb{E}[G_t | S_t = s] = \mathbb{E}[R_{t+1} + \gamma G_{t+1} | S_t = s] = \mathbb{E}[R_{t+1} + \gamma v(S_{t+1}) | S_t = s]$
 		\item This allows: $v(s) = \mathcal{R}_s + \gamma \sum_{s' \in S} \mathcal{P}_{ss'}v(s')$
 		\item In Matrix form: $\begin{bmatrix} v(1)\\ \vdots \\ v(n)\end{bmatrix} = \begin{bmatrix} \mathcal{R}_{1}\\ \vdots \\ \mathcal{R}_{n}\end{bmatrix} + \gamma \begin{bmatrix} \mathcal{P}_{11} & ... & \mathcal{P}_{1n}\\  \vdots &  & \\  \mathcal{P}_{n1} & ... & \mathcal{P}_{nn} 
@@ -1328,6 +1328,26 @@ Reference for short forms: \\
 \section{Game Theory}
 \subsection{Artificial Intelligence - A modern Approach}
 \underline{Game Theory (p.666)}
+\begin{itemize}[noitemsep,nolistsep]
+	\item perfect information = fully observable, imperfect information = partially observable.
+	\item single-move games:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item only one action can be chosen per game.
+		\item \textbf{Payoff Matrix}: For 2 players it shows what action-tuple gives which reward. Also known as strategic/normal form.
+		\item strategy = policy, pure strategy = deterministic policy, mixed strategy = probabilistic policy.
+		\item \textbf{strategy profile}: assignment of strategy to each player. the game's aoutcome is then a numeric value for each player.
+		\item \textbf{solution}: each player adopts a rational strategy.
+		\item \textbf{dominant strategy}: a policy that is always the best.
+		\item s \textbf{strongly dominates} s' for player p if the outcome of s is always better then s' for any strategy of any other player.
+		\item s \textbf{weakly dominates} s' for player p if the outcome of s is atleast once better then s' and as good as s' for any strategy of any other player.
+		\item Outcome is \textbf{pareto optimal} if there is no other outcome that all players would prefer.
+		\item Outcome is \textbf{pareto dominated} by another outcome if all players would prefer the other outcome.
+		\item Every player has a dominant strategy, then all the strategies are called an \textbf{dominant strategy equilibrium}. Which is generally formed if no player can benefit by switching strategies.
+		\item equilibrium = local optimum. Every game has at least one equilibrium an Nash equilibrium.
+		\item dominant strategy equilibrium is a nash equilibrium. Some games have nash equilibria but no dominant strategies.
+	\end{itemize}
+\end{itemize}
+curr: p.669
 
 \underline{Stochastic Games (p.177)}
 
