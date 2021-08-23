@@ -1067,6 +1067,49 @@ Reference for short forms: \\
 
 \subsection{Reinforcement Learning - An Introduction} 
 \href{http://incompleteideas.net/book/the-book.html}{Reinforcement Learning}
+\underline{17.4 Designing Reward Signals (p.491)}
+\begin{itemize}[noitemsep,nolistsep]
+	\item designing reward signal is a critical so that the agent reaches the goal the designer actually desires.
+	\item some problems involve goals that are difficult to translate into reward signals.
+	\item reinforcement agents can discover unexpected ways to make their environment deliver reward.
+	\item often it is found by trial-and-error search.
+	\item If the learning is to slow the reward signal might be to sparse:
+	\item sparse reward problem:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item state-action pairs that trigger reward may be few and far between.
+		\item and reward for progress might not be able to detect. The Agent may wander aimlessly for a long time, sometimes called the "plateau problem"
+		\item tempting to adress this by rewarding subgoals that are important way stations for the goal.
+		\item This may lead the agent to behave differently and they might not achieve to overarching goal.
+		\item Bettwer way: augment value-function approximation with guesses of what it should be or parts of it schould be.
+		\item $v_0: \mathcal{S} \rightarrow \mathbb{R}$ is our initial guess for optimal value function $v_*$. With linear features:
+		\item $\hat{v}(s,w) = w^Tx(s) + v_0(s)$
+		\item This works for arbitrary nonlinear approximators and v0, though it might not accelerate learning.
+		\item effective approach: \textbf{shaping technique}:
+		\item shaping involves changing the ward signal as learning proceeds. It starts as not being sparse and graudaly modifying it to reward sparsly so that it suits the actual problem.
+		\item The agent faces a sequence of increasingly-difficult reinforcement learning problems.
+		\item Each State is not as hard as the previous one as some basic knowledge exists. 
+		\item It has similarities to transfer learning.
+	\end{itemize}
+	\item imitation learning
+	\begin{itemize}[noitemsep,nolistsep]
+		\item no idea what the wards should be, but there is another person or agent whose behavior can be observed.
+		\item Benefit from the expert agent, but leave open the possibility of eventually performing better.
+		\item you can either drectly use the experts behavior (supervised learning) or by extracting reward signals with "inverse reinforcement learning".
+		\item inverse RL tries to recover the expert's reward signal from the expert's behavior alone.
+		\item This cannot be 100 \% accurate.
+		\item This needs strong assumptions about environment dynamics or feature vectors in which the reward is linear.
+	\end{itemize}
+	\item automate trial-and-error
+	\begin{itemize}[noitemsep,nolistsep]
+		\item reward signal is a perameter of the learning algorithm.
+		\item define a space of feasible candidates and apllying an optimization algorithn.
+		\item it runs a new agent for a few steps and scores the overall result against a high-level objective function which has the deisgners true goal.
+		\item this can be improved with online gradient ascent. The gradient comes from the high-level function
+	\end{itemize}
+	\item given that the agent has restraints like computational power or partial observability the agents actual goal might differ from the designer's goal.
+	\item the performance comparison against the high-level function is very sensitive to details in the reward signal in subtle ways.
+\end{itemize}
+
 \subsection{Medium Blog Post}
 \href{https://medium.com/emergent-future/simple-reinforcement-learning-with-tensorflow-part-0-q-learning-with-tables-and-neural-networks-d195264329d0}{Medium Blog Post}
 
@@ -1090,7 +1133,81 @@ Reference for short forms: \\
 
 \section{Deep Reinforcement Learning}
 \subsection{Deep RL Bootcamp}
-\href{https://sites.google.com/view/deep-rl-bootcamp/lectures}{Deep RL Bootcamp}
+\href{https://sites.google.com/view/deep-rl-bootcamp/lectures}{Deep RL Bootcamp}\\
+\href{https://www.youtube.com/watch?v=qaMdN6LS9rA}{Lecture 1: Intro to MDP and Exact Solution Methods}\\
+Covers Value Iteration and Policy Iteration. Also covered by David Silver (Part 3)\\
+\href{https://www.youtube.com/watch?v=qaMdN6LS9rA}{Lecture 2: Sample-based Approximations and Fitted Learning}\\
+Covers Tabular Learning Methods. Also covered by David Silver ()\\
+\href{https://www.youtube.com/watch?v=qaMdN6LS9rA}{Lecture 3: DQN and Variants}\\
+Covers Experience Replay (David Silver Part 6), Fixed Q-Targets (Freecodecamp Part 4)\\
+\begin{itemize}[noitemsep,nolistsep]
+	\item Experience Replay gives you the most benefit of the Q-Learning Stability techniques.
+	\item But using both Experience Replay and Fixed Q-Targets ist optimal.
+	\item DQN uses Huber loss for Bellman error: $L_\delta (a) = \begin{cases} \frac{1}{2}a^2 & for |a| \leq \delta, \\ \delta(|a| - \frac{1}{2}\delta), & otherwise \end{cases}$
+	\item It helps to anneal the exporation rate. it starts at 1 and decreases.
+	\item Neural Fitted Q Iteration (Riedmiller, 2005):
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Trains neural networks with Q-learning.
+		\item Alternates between collcecting new data and fitting a new Q-function to all previous experience with batch gradient descent.
+		\item DQN is an online Variant of Neural Fitted Q Iteration.
+	\end{itemize}
+	\item Lin's Networks (Long-Ji Lin, 1993):
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Introduced experience replay.
+		\item This network does nit share parameters among other actions. Each actions has different parameters.
+	\end{itemize}
+	\item Double DQN
+	\begin{itemize}[noitemsep,nolistsep]
+		\item There is an bias in DQN.
+		\item Double DQN maintains two sets of weights $\theta$ and $\theta'$.
+		\item $\theta$ is for selection the best action, $\theta'$ is for evaluating the best action.
+		\item Loss: $L_i(\theta_i) = \mathbb{E}_{s,a,s',r} (r + \gamma Q(s', \underset{a'}{arg\ max}\ Q(s',a';\theta);\theta'_i) - Q(s,a;\theta_i))^2$
+		\item Usually Better.
+	\end{itemize}
+	\item Prioritised Experience Replay
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Replay transitions in proportion to absoulte Bellman error: $|r + \gamma \underset{a'}{max}\ Q(s',a';\theta') - Q(s,a;\theta)|$
+		\item Leads to much faster learning as supposed to replaying with equal probability.
+	\end{itemize}
+	\item Dueling DQN
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Value-Advantage decomposition of Q $Q^\pi(s,a) = V^\pi(s) + A^\pi(s,a)$
+		\item Dueleing DQN: $Q(s,a) = V(s) + A(s,a) - \frac{1}{|\mathcal{A}|} \sum_{a=1}^{|\mathcal{A}|} A(s,a)$
+		\item The last Layer is not a single Q-Layer but two Layers. One for the Value Function and one for the Advantage Function.
+		\item “Dueling Network Architectures for Deep Reinforcement Learning”, Wang et al 2016
+	\end{itemize}
+	\item Noisy Nets for Exploration
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Add noise to network parameters for better exploration
+		\item Standard linear layer $y = wx + b$
+		\item Noisy linear Layer $y = (\mu^w + \sigma^w \odot \epsilon^w)x + \mu^b + sigma^b \odot \epsilon^b$
+		\item $\epsilon^w, \epsilon^b$ contain noise.
+		\item $\sigma^w, \sigma^b$ are learned parameters that determine the amount of noise.
+	\end{itemize}
+\end{itemize}
+\href{https://www.youtube.com/watch?v=qaMdN6LS9rA}{Lecture 4a: Policy Gradients and Actor Critic}\\
+\begin{itemize}[noitemsep,nolistsep]
+	\item Why Policy Optmization:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item policy can be simpler than q or v.
+		\item value-function: does not prescribe actions. This might need a model of the dynamics.
+		\item action-value-function: needs to be able to efficiently solve and argmax over q: Challenge for continuous / high-dimensional action spaces.
+	\end{itemize}
+\end{itemize}
+\href{https://www.youtube.com/watch?v=qaMdN6LS9rA}{Lecture 5: Natural Policy Gradients, TRPO, PPO}\\
+\begin{itemize}[noitemsep,nolistsep]
+	\item Why Policy Optmization:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item policy can be simpler than q or v.
+		\item value-function: does not prescribe actions. This might need a model of the dynamics.
+		\item action-value-function: needs to be able to efficiently solve and argmax over q: Challenge for continuous / high-dimensional action spaces.
+	\end{itemize}
+\end{itemize}
+\href{https://www.youtube.com/watch?v=xvRrgxcpaHY}{Lecture 6: Nuts and Bolts of Deep RL Experimentation}
+\begin{itemize}[noitemsep,nolistsep]
+	\item 
+\end{itemize}
+
 
 \section{Multi-Agent Systems}
 \subsection{!MAS - An Introduction to Multi-Agent Systems - 2010}
@@ -1345,13 +1462,47 @@ Reference for short forms: \\
 		\item Every player has a dominant strategy, then all the strategies are called an \textbf{dominant strategy equilibrium}. Which is generally formed if no player can benefit by switching strategies.
 		\item equilibrium = local optimum. Every game has at least one equilibrium an Nash equilibrium.
 		\item dominant strategy equilibrium is a nash equilibrium. Some games have nash equilibria but no dominant strategies.
+		\item repeated game: multiple runs.
+		\item multiple acceptable solutions: use the unique pareto-optimal nash equilibrium if it exists. Every game has at least one.
+		\item coordination game: communication so players can negotiate before a game the soltuons they take to be mutually beneficial.
+		\item zero-sum game: the sum of the payoffs for all players is zero or a constant. To solve these take one player as the maximizer => maximin technique.
+		\item zero-sum games have maximin nash equilibria. Every zero-sum game has a maximin equilbrium when you allow mixed strategies.
+		\item approach for finding equilibria in non-zero-sum games:
+		\begin{itemize}[noitemsep,nolistsep]
+			\item 1. Enumerate all possible subset of actions that might form mixed strategies. This is exponential in the number of action.
+			\item 2. Foreach strategy enumerated in 1. check to see if it is an equilibrium.
+		\end{itemize}
 	\end{itemize}
+	\item repeated games
+	\begin{itemize}[noitemsep,nolistsep]
+		\item repeated game: players face the same choices repeatedly, but each tim ewith knowledge of the history ofa ll player's previous choices.
+		\item So the game is played multiple round. But the last one has nothing to influence so it used the dominant strategy for single-move game. Then the second to last has nothing to influence => induction => just play the same as single-move => not optimal.
+		\item Use a chance so the players do not know when the game will end.
+		\item if the agents cannot store the entire history they do not know when the game will end.
+	\end{itemize}
+	\item sequential games
+	\begin{itemize}[noitemsep,nolistsep]
+		\item sequence of turns that need not be all the same. Represented by a game tree called the extensive form.
+		\item non-deterministic actions can be created by having the player's action be deterministic and then another action that is randomly chosen.
+		\item There could be a chance player that acts randomly to introduce distributions.
+		\item perfect recall: each player remembers all their own previous actions.
+		\item extensive form allows to always find solutions beause it represents the belief states of all players at once. Which is important if you strategy depends on the other players strategies.
+		\item extensive games can be converted to a normal-form game to solve it. By having using all possible state history combinations for the other player in the payoff matrix (does not scale well). This can usally be solved with linear programming.
+		\item alpha-beta pruning works good for large game trees but does not work well for imperfect information.
+		\item Alternative: sequence form: Is linear in the soze of the tree. it repsresnts not strategies in a node but paths through the tree which scales in the amount of possible endstates.
+		\item use feature spaces as abstractions of a game to create a smaller tree.
+		\item just using the equilibrium strategy gives you the perfect solution if the other players also use the equilibrium strategy. If the other player makes mistake you need to capitalize on that.
+	\end{itemize}
+	\item game theory does not deal with with continuous states and actions. 
+	\item cournot competition is an extension that can halb in the contiuous space.
+	\item game theory assumes the game is known. if the actions are not known beforehand or the other players are not fully rational.
+	\item This can be olved with a Bayes-Nash equilibrium that expresses a player's belief about the other player's likely strategies.
 \end{itemize}
-curr: p.669
 
 \underline{Stochastic Games (p.177)}
-
+This is more about game trees and alpha-beta pruning so technically not applicable for my work.
 \underline{Partial Observable Games (p.180)}
+This is more about game trees and alpha-beta pruning so technically not applicable for my work.
 
 \section{Multi-Agent Reinforcement Learning}
 \subsection{!MARL - A Comprehensive Survey of Multiagent Reinforcement Learning - 2008}
@@ -1626,7 +1777,3 @@ curr: p.669
 
 \subsection{GNN - Sur - A Comprehensive Survey on Graph Neural Networks - 2019}
 \href{https://arxiv.org/abs/1901.00596}{GNN - Sur - A Comprehensive Survey on Graph Neural Networks - 2019}
-
-
-
-
