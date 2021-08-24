@@ -1442,7 +1442,7 @@ Covers Experience Replay (David Silver Part 6), Fixed Q-Targets (Freecodecamp Pa
 \underline{Benefits of using MAS in large systems}
 \begin{itemize}[noitemsep,nolistsep]
 	\item Increase in the speed and efficiency of the operation due to parallel computation and asynchronous operation.
-	\item Graceful degradation whone one or more of the agent fail, thus increasing realibility and robustness of the system.
+	\item Graceful degradation when one or more of the agent fail, thus increasing realibility and robustness of the system.
 	\item Scalability and flexibility - Agents can be added as and when necessary.
 	\item Cost Reduction: Individual agents cost much less than a centralized architecture
 	\item Reusability: Agents with a modular structure can be easily replaced in other systems or be upgraded more easily than a monolithic sysetm.
@@ -1510,7 +1510,7 @@ Covers Experience Replay (David Silver Part 6), Fixed Q-Targets (Freecodecamp Pa
 \end{itemize}
 \underline{Classification: Decision making in Multi-Agent Systems}
 \begin{itemize}[noitemsep,nolistsep]
-	\item undercainty: effects of a specific actions on the environment and dynamics because of the other agents.
+	\item uncertainty: effects of a specific actions on the environment and dynamics because of the other agents.
 	\item Methodology to try and find a joint action or equilibrium point which maximizes the reward of every agent.
 	\item Typically modelled with game theory method. Strategic games:
 	\begin{itemize}[noitemsep,nolistsep]
@@ -1529,7 +1529,7 @@ Covers Experience Replay (David Silver Part 6), Fixed Q-Targets (Freecodecamp Pa
 \begin{itemize}[noitemsep,nolistsep]
 	\item agents work in parallel, therefore they need to be coordinated or synchronize the actions to ensure stability of the system.
 	\item other reasons: prevent chaos, meet global constraints, utilize distributed resources, prevent conflicts, improve efficiency.
-	\item achievable with constraints on the joint actions or by using informatil collated from neighbouring agents. Used to find the equilibrium action.
+	\item achievable with constraints on the joint actions or by using information collated from neighbouring agents. Used to find the equilibrium action.
 	\item payoff matrix necessary might be difficult to determine. It increases expenentially in the number of agents and action choices.
 	\item dividing the game into subgames: roles (permitted actions is reduced, good for distributed coordination or centralized coordination)
 	\item Coordination via Protocol.
@@ -1614,6 +1614,109 @@ Covers Experience Replay (David Silver Part 6), Fixed Q-Targets (Freecodecamp Pa
 	\item \textbf{most difficult multiagent} problems involve both cooperation with members of one’s own team and competition against members of opposing teams, all without centralized control.
 \end{itemize}
 
+\subsection{!MAS - Sur - Multi-Agent Systems - A Survey - 2018}
+\href{https://ieeexplore.ieee.org/abstract/document/8352646}{MAS - Sur - Multi-Agent Systems - A Survey - 2018}
+\begin{itemize}[noitemsep,nolistsep]
+	\item 2: Agent Introduction: 
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Accessibility: Accuracy of the agents sensors to collect data from environment. Inaccessable: incomplete or noisy data.
+		\item Determinism: Result of an action. Deterministic: Predictable. Non-Deterministic: Randomness or factors like the actions of all participants.
+		\item Dynamism: the change that occurs in the environment that are independent of the actions taken by the agents. If it can only change with the action of agents it is static. Otherwise it is considered dynamic. When the environment changes dynamically the previously sensed information may not longer be accurate.
+		\item Discrete action: finite set of actions. Continuous Action: practically unlimited amount of actions.
+	\end{itemize}
+	\item 3: MAS
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Model MAS as a graph of agents. The Edge indicates communication.
+		\item The decision of an agent might change the structure of the graph.
+		\item Agent might need time to find and communicate that provides a certain service. This overhead can be midigated for large-scale MAS by \textbf{middle agents}.
+		\item middle agents have a list of services that all agents provide. It can give this information to a searching agent so that he knows which other agent gives a certain service.
+		\item Middle Agent Types: 
+		\begin{itemize}[noitemsep,nolistsep]
+			\item Facilitator: Always a intermediate between the requester and the service. The facilitator becomes a bottleneck and a single point of failure. Multiple collaborative facilitators can be employed. But they need to synchronize and balance their loads. 
+			\item Mediator: They just mediate the communication between two agents and after that the two agents communicate directly.
+		\end{itemize}
+		\item MAS Features:
+		\begin{itemize}[noitemsep,nolistsep]
+			\item Leadership: a leader, an agent that defines goals and tasks for th eother agents based on one global goal. MAS can be leaderless or leader-follow. In leaderless MAS each agent autonomously decides it's action. In leader-follow their actions are given by the leader. Leader is predefined or chosen by the agents. Leader may move and agents need to track it's position to get in communication range.
+			\item Decision Function: linear MAS: decision of an agent is proportional to the sensed parameters from environment. non-linear MAS the decision nonlinear in the sensors due to some non-linearity of the decision proccess.
+			\item Heterogenity:
+			\item Delay Consideration: Delays in e.g. communication. MAS is delayed or without delay. Most real-world application might feature some delays.
+			\item Topology: Position and relations of the agents that can be static or dynamic.
+			\item Data Transmission Frequency: Data sharing is either time-triggered (update-rate) or event-triggered.
+			\item Mobility: static agent has always the same position, mobile agent can move in the environment.
+		\end{itemize}
+		\item MAS comparison to OOP and expert systems: ???
+	\end{itemize}
+	\item 4. Applications:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Computer networks:
+		\begin{itemize}[noitemsep,nolistsep]
+			\item Cloud Computing:
+			\item Social Networking:
+			\item Security:
+			\item Routing:
+		\end{itemize}
+		\item Agents in robotics:
+		\item Agents for modeling complex systems:
+		\item Agents in city and built environments:
+		\item Agents in smart grids:
+	\end{itemize}
+	\item 5. Challenges:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Coordination Control:
+		\item the action perfomed by each agent affects the environment and thus the other agents.
+		\item coordination control refers to managing agents to collaboratively reach their goals.
+		\begin{itemize}[noitemsep,nolistsep]
+			\item \textbf{Consensus:} A global agreement over a perticular feature of interest.
+			\item Table 3: Kinds of MAS features and their consensus approaches.
+			\item [38]: agents disagreement reduces over time until a consensus is reached. average-consensus: consensus over average of the initial state of the feature. Finding parameters so that each agent can reach consesus might not be possible so an average can be employed.
+			\item Flocking: collective behavior of agents to reach a group objective. In nature: ant conoly, bees, fish, penguins. See Boid Algorithm for that. Needs rules like cohesio, seperation and alignment.
+			\item Consensus has two sub-challenges:
+			\item Tracking: with leader: agents should reach consensus over leader position. Agents keep connection to leader.
+			\item Containment: Multiple leaders. the leaders limit all possible position of the agents because of required communication range.
+			\item \textbf{Controllability:} Steering the MAS to a specific state using regulations. there is certainty in reaching a particular state by following specific steps. Dynamism and determinism in the environment can change the controllability. Both cases introduces delay. In literature controllability is largely achieved in a centralized manner. 
+			\item \textbf{Synchronization:} actions each agent performs are aligned in time with other agents. This is a problem of Heterogenity as for different features that need to be synced uses the slowest one. Heterogeneous synchronization known as partial-state or output synchronization.
+			\item \textbf{Connectivity:} Sometimes permanent connections are required but mobility of the agents and enviroment noise or a limited view of the topology can make this challenging. MAS can be connected or connectionless in reference if they are permanent.
+			\item \textbf{Formation:} Structure that is maintained for a specific period of time, known as formation challenge.
+		\end{itemize}
+		\item \textbf{Learning:} Learning complexity increases with processing and communication overhead, dynamic environments, MAS topology, protection against malicious agents and scalability of learning methods.
+		\item  agents can share their knowledge and achieve collaborative learning [128]. 
+		\item Main Learning methods: RL and Genetic Programming (GP). 5, 122, 126, 127
+		\item \textbf{Fault Detection:} Detecting and isolating faulty agents. Fault Detection and Isolation (FDI). Usually centralized, but are suboptimal for large-scale problems. Because of single point of failure and overwhelming one agent with requests.
+		\item Details: [130], [131], [136]
+		\item Types: with/without Embedded Residual Generator (ERG). ERG uses new environment inputs aswell as previous FDI results.
+		\item Problems: Mostly focused on homogeneous agents, most methods require high resources, Little work on agent isolation, most solutions are centralized. Survey on FDI [6]
+		\item \textbf{Task Allocation:} allocation of tasks to the agents considering the costs, time and overheads. centralized or decentralized [137]. [134]: dynamic clusters.
+		\item Allocation is usally using metrics like the agent's talent and agent's position.
+		\item \textbf{Localization:} Limited view => locating a particular agent can be a problem. most methods are centralized. 
+		\item Distributed systems: share location info with neighbors and after some iteration every agent knows where every agent is. This can add an additional delay on information propagation.
+		\item Localizing dynamic agents becomes more problematic. You might need to estimate the positon [142]
+		\item Agent Organization:
+		\begin{itemize}[noitemsep,nolistsep]
+			\item \textbf{Flat:} (already done)
+			\item \textbf{Hierarchical:} (already done)
+			\item \textbf{Holonic:} (already done)
+			\item \textbf{Coalition:} (already done)
+			\item \textbf{Team:} (already done)
+			\item \textbf{Matrix:} Each agent is managed by at least two head agents (managers). Effective where agents are controlled by more than eone leader.
+			\item \textbf{Congregation:} agents in a location form a congregation to achieve their requirements that they cannot achieve alone. Each agent can leave or join them freely (only part of one at a time). The fulfillment of the requirement depends on the other agents in the congregation. [139]
+		\end{itemize}
+		\item Security: Agents use information they get from other agents to learn this makes them vulnerable. Without a central trused authority verification becomes challenging. Mobility might make agents be able to spread misinformation.
+		\item Security compenents: Authentication, Authorization, Integrity, availability and Confidentiality.
+	\end{itemize}
+	\item 6. Communication:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item speach at: some utterance of verbs or sentences that change the physical environment.
+		\item message passing: done in: MAS - An Introduction to Multi-Agent Systems - 2010
+		\item blackboard: done in: MAS - An Introduction to Multi-Agent Systems - 2010
+		\item message semantics important so that each agent has the same interpretation. Hard in heterogeneous agent. An Agent Communicate Language adresses that. donne in: MAS - An Introduction to Multi-Agent Systems - 2010
+	\end{itemize}
+	\item 7. Modeling Environements:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Java Agent Development framework (JADE), GAMA, Matlab, Mathematical analysis.
+	\end{itemize}
+\end{itemize}
+
 \subsection{MAS - App - Neural Networks for Continuous Online Learning and Control - 2006}
 \href{https://ieeexplore.ieee.org/abstract/document/4012019}{MAS - App - Neural Networks for Continuous Online Learning and Control - 2006}
 
@@ -1656,8 +1759,7 @@ Covers Experience Replay (David Silver Part 6), Fixed Q-Targets (Freecodecamp Pa
 \subsection{MAS - Hie - Holonic - A Taxonomy of Autonomy in Multiagent Organisation - 2003}
 \href{https://link.springer.com/chapter/10.1007/978-3-540-25928-2_6}{MAS - Hie - Holonic - A Taxonomy of Autonomy in Multiagent Organisation - 2003}
 
-\subsection{MAS - Multi-Agent Systems - A Survey - 2018}
-\href{https://ieeexplore.ieee.org/abstract/document/8352646}{MAS - Multi-Agent Systems - A Survey - 2018}
+
 
 \subsection{MAS - Sur - A survey of multi-agent organizational paradigms - 2004}
 \href{https://dl.acm.org/doi/abs/10.1017/S0269888905000317}{MAS - Sur - A survey of multi-agent organizational paradigms - 2004}
@@ -1828,6 +1930,10 @@ This is more about game trees and alpha-beta pruning so technically not applicab
 
 \subsection{MARL - Sca - GAMA - Graph Attention Multi-agent reinforcement learning algorithm for cooperation - 2020}
 \href{https://link.springer.com/article/10.1007/s10489-020-01755-8}{MARL - Sca - GAMA - Graph Attention Multi-agent reinforcement learning algorithm for cooperation - 2020}
+\subsection{MARL - Sca - Heuristically-Accelerated Multiagent - 2014}
+\href{https://ieeexplore.ieee.org/abstract/document/6502216}{MMARL - Sca - Heuristically-Accelerated Multiagent - 2014}
+
+
 
 \subsection{MARL - Sca - Plan-based reward shaping for multi-agent reinforcement learning - 2016}
 \href{https://www.cambridge.org/core/journals/knowledge-engineering-review/article/planbased-reward-shaping-for-multiagent-reinforcement-learning/B173D25B1006B755667616C3A3EB3BE5}{MARL - Sca - Plan-based reward shaping for multi-agent reinforcement learning - 2016}
