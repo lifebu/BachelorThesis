@@ -1131,7 +1131,79 @@ Reference for short forms: \\
 \href{https://www.deeplearningbook.org/}{Deep Learning Book}\\
 \href{https://www.youtube.com/watch?v=qaMdN6LS9rA}{Chapter 11: Practical Methodology}
 \begin{itemize}[noitemsep,nolistsep]
-	\item 
+	\item Determine your goals: which error metric, your target value for this error metric. 
+	\item Establish a working end-to-end pipeline as soon as possible, including the estimation of the appropriate performance metrics.
+	\item Instrument the system well to detmin bottlenecks in performance. Which component is performing bad? Is it due to overfitting, underfitting or a software defect?
+	\item Repeatedly make incremental changes such as gathering new data, adjusting Hyperparameters, or changing algorithms based on findings of your instrumentation. 
+	\item Performance Metrics:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Usually Impossible to achieve zero error. Bayes errore defines the minimum error rate.
+		\item May not be able to gather more data.
+		\item Either from previous results or the real-world problem you can infer the minimum error rate you need.
+		\item precision: fraction of detections reported by the model that were correct.
+		\item recall: fraction of true events that were detected.
+		\item You can plot a PR curve with precision on the y-axis and recall on the x-axis.
+		\item You choose to report a result whenever its score exceeds some threshhold. By varying it you can trade precision for recall.
+		\item Combine them into an F-Score $F = \frac{2pr}{p+r}$. To have a performance of the classifier in a single number.
+		\item You can also look at the total area lying benath the PR curve.
+		\item Some systems do not give a response if they are not confidence enought. Here coverage is a good metric. It is the fraction of examples for which the machine system is able to produce a response.
+		\item Important: which performance metric to improve ahead of time and focus on that.
+	\end{itemize}
+	\item Default Baseline Models:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Which base method to use when you start out as a baseline:
+		\item reasonable optimization Algorithm: SGD + Momentum and decaying learning rate.
+	\end{itemize}
+	\item Get more Data?
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Is the performance of the training set acceptable? Is it more it still needs to learn more.
+		\item You can then increase the size of the model by adding more layers or more hidden units to each layer.
+		\item Or try improving the learning altorithm. Improve the hyperparameters.
+		\item If fine tuned algorithms do not work well, the problem might lie in the data itself.
+		\item Testset performance poor? more data!
+		\item Create curves showing relationship between training set size and generalization error. So you can predict how much data to add
+	\end{itemize}
+	\item Selecting Hyperparameters:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Manual:
+		\begin{itemize}[noitemsep,nolistsep]
+			\item You need to understand the relationship between hyperparameters, training error, generalization error and computational ressources.
+			\item Goal: lower generalization error subject to runtime and memory budget.
+		\end{itemize}
+		\item Automatic:
+		\begin{itemize}[noitemsep,nolistsep]
+			\item 
+		\end{itemize}
+		\item Grid Search:
+		\begin{itemize}[noitemsep,nolistsep]
+			\item 
+		\end{itemize}
+		\item Random Search:
+		\begin{itemize}[noitemsep,nolistsep]
+			\item First define a marginal distribution for each hyperparameter (Bernoulli/Multinoulli for binary/discrete params, uniform distribution on log-scale for positive real-value hyperparams).
+			\item We may often want to run repeated versions of random search, to refine the search based on the results of the first run.
+			\item 
+		\end{itemize}
+		\item Model-Based Hyperparameter Optimization
+		\begin{itemize}[noitemsep,nolistsep]
+			\item Simple Settings: feasable to compute the gradient of some differntiable error measure.
+			\item Can build a model of the validation set error. And propose new guesses by optimization within this model.
+			\item Most models use a Bayesian regresision model.
+			\item Optimization is a tradeoff of exploration and exploitation.
+			\item Drawback: Needs an entire run or epoch to see if the parameter where wrong. A human doing this manually can see this earlier.
+		\end{itemize}
+	\end{itemize}
+	\item Debugging Strategies
+	\begin{itemize}[noitemsep,nolistsep]
+		\item A problem: If one part of the model is proken, the other parts can adapt and still get acceptable performance.
+		\item Two kinds of strategies: Design a case that is so simple that the correct behavior can be predicted or we design a test that exercises one part of the Neural net implrementation in isolation.
+		\item Visualize the model in action: view the detections and results of your network.
+		\item Visualize the worst mistakes: View the data that has the lowest confidence which might give you insight into if the data has been processed or labled.
+		\item Reason about software using training and test-error: test-error might be calculated increicctly.
+		\item Fit a tiny dataset: Even small models can fit tiny dataset. If it can't there might be a software defect.
+		\item Compare back-propagated derivatives to numerical derivatives: Maybe your back-propagation is wrong.
+		\item Monitor histograms of activations and gradient: The preactivation value of hidden units can tell us if the units saturate or how often they do. Are some units always off? 
+	\end{itemize}
 \end{itemize}
 
 \section{Deep Reinforcement Learning}
