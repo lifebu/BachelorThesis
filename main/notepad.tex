@@ -1128,8 +1128,11 @@ Reference for short forms: \\
 \\
 
 \subsection{Deep Learning Book}
-\href{https://www.deeplearningbook.org/}{Deep Learning Book}
-\\
+\href{https://www.deeplearningbook.org/}{Deep Learning Book}\\
+\href{https://www.youtube.com/watch?v=qaMdN6LS9rA}{Chapter 11: Practical Methodology}
+\begin{itemize}[noitemsep,nolistsep]
+	\item 
+\end{itemize}
 
 \section{Deep Reinforcement Learning}
 \subsection{Deep RL Bootcamp}
@@ -1210,8 +1213,70 @@ Covers Experience Replay (David Silver Part 6), Fixed Q-Targets (Freecodecamp Pa
 		\item Loss: $L^{PG}(\theta) = \hat{\mathbb{E}}_t[log\ \pi_\theta(a_t|s_t)\hat{A}_t]$.
 		\item This loss should not be optimized too far (to a solution), as if you just take this loss it might diverge to infinity.
 		\item Noisy estimate => radical changes in policy.
-		\item Another Version $L$
+		\item Another Version $L_{\theta_{old}}^{IS}(\theta) = \hat{\mathbb{E}}_t [\frac{\pi_\theta (a_t, s_t)}{\pi_{\theta_{old}}(a_t | s_t)} \hat{A}_t]$
+		\item at $\theta = \theta_{old}$, state-actions are samples using the old one.
+		\item We get the same gradient. In practice $L^{IS}$ is not much different than the logprob version, for reasonably small policy changes.
 	\end{itemize}
+	\item Trust Region Policy Optimisation
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Idea: A function I want to optimise and some local approximation of that function which is only accurate locally. We have a trust region where we trust our local approximator.
+		\item Function to optimise: $\underset{\theta}{maximize}\ \hat{\mathbb{E}}_t [\frac{\pi_\theta (a_t, | s_t)}{\pi_{\theta_{old}}(a_t | s_t)} \hat{A}_t]$
+		\item If you differentiate this you get the policy gradient!
+		\item with a constraint: we are not too far from the starting point of that approximation.
+		\item Example: Euclidian Distance between starting point $\theta_{old}$ and final point $\theta$ is small.
+		\item Better: KL-Divergence: $\hat{\mathbb{E}}_t [KL[\pi_{\theta_{old}}(\cdot|s_t),\pi_{\theta}(\cdot|s_t)]] \leq \delta$
+		\item We could penalize the constraint problem by $\underset{\theta}{maximize}\ Function\ to\ optimize - \beta \cdot KL-Divergence$
+		\item Method of Lagrange multipliers: optimality point of delta-constrained problem is also an optimality point of beta-penalized problem for some beta.
+		\item Practice: delta is easier to tune.
+	\end{itemize}
+	\item Monotonic Improvement Result: If you look at the KL penalized objective. Then in theory if we use max KL instead of mean KL in penalty, then we get a lower (= pessimistic) bound on policy performance. This is the theory for the result.
+	\item Maximize the max over KL in the state-space => we are guaranteed to improve the policy with the penalized objective and a lower bound.
+	\item objective: $\underset{\theta}{maximize}\ \sum_{n=1}^N \frac{\pi_\theta (a_n | s_n)}{\pi_{\theta_{old}}(a_n | s_n)} \hat{A}_n$ constraint: $\bar{KL}_{\pi_{\theta_{old}}}(\phi_{\theta}) \leq \delta$. $\hat{A}_n$ is an estimation.
+	\item TRPO can sole constrained optimization problem efficiently by using conjugate gradient. Related to natural policy gradients and natural actor critic
+	\item Solving KL Penalized Problem:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item The Penalized Version is calculated using a linear approximation of the objective and a quadratic approximation of the KL term
+		\item $\underset{\theta}{maximize}\ g \cdot (\theta - \theta_{old}) - \frac{\beta}{2}(\theta - \theta_{old})^T F(\theta - \theta_{old})$
+		\item where $g = \frac{\partial}{\partial \theta} L_{\pi_{\theta_{old}}}(\pi_\theta)|_{\theta = \theta_{old}},\ F = \frac{\partial^2}{\partial^2 \theta} \bar{KL}_{\pi_{\theta_{old}}}(\pi_\theta)|_{\theta = \theta_{old}}$
+		\item Solution: $\theta - \theta_{old} = \frac{1}{\beta}F^{-1}g$, F is the Fisher Information matrix, g is policy gradient. This is called the natural policy gradient.
+		\item Use Conjugate Gradient Algorithm to approximately solve: Fx = g. 
+	\end{itemize}
+	\item Solving KL Constrained Problem:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item TO-DO!
+	\end{itemize}
+	\item For PPO use the penality version. Do a SGD on above objective for some number of epochs. 
+	\item If KL too high, then increase beta. If KL is too low, decrease beta
+	\item Review:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item suggested optimizing surrogate loss $L^{PG}$ or $L^{IS}$
+		\item suggested using KL to constrain size of update.
+		\item Correspondes to natural gradient step $F^{-1}g$ under linear quadratic approximation.
+		\item Can solve for this step approximately using conjugate gradient method.
+	\end{itemize}
+	\item Linear-quadratic approximation + penalty => natural gradient.
+	\item No contraint => policy iteration.
+	\item Eucleidean penalty instead of KL => vanilla policy gradient.
+	\item Limitations of TRPO
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Hard to use with architectures with multiple outputs, e.g. policy and value functions
+		\item Empirically performs poorly on tasks requiring deep CNNs and RNNs.
+		\item Conjugate Gradient makes implementation more complicated.
+	\end{itemize}
+	\item KFAC
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Make Approximation of Fischer Information Matrix, that exploits the structure of Neural Networks. Block Diagonal Approximation of the weight Matrix.
+		\item TO-DO
+	\end{itemize}
+	\item ACKTR: Combine A2C with KFAC Natural Gradient.
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Combined with A2C, gives excellent on continuous control from images.
+		\item We already need the log pi for policy gradient, so it does not take extra computation.
+		\item Matrix inverses can be computed asynchronously.
+		\item Limitation: Straightforward for Feedforward nets and Convolutions. Less straightforward for RNNs with shared weights.
+	\end{itemize}
+	\item Can use Clipping Objective for Proximal Policy Optimization. (TO-DO)
+	\item This is a bit better than TRPO on continuous control. Compatible with multi-output networks and RNNs.
 \end{itemize}
 \href{https://www.youtube.com/watch?v=xvRrgxcpaHY}{Lecture 6: Nuts and Bolts of Deep RL Experimentation}
 \begin{itemize}[noitemsep,nolistsep]
