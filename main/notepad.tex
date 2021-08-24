@@ -1196,16 +1196,6 @@ Covers Experience Replay (David Silver Part 6), Fixed Q-Targets (Freecodecamp Pa
 \end{itemize}
 \href{https://www.youtube.com/watch?v=qaMdN6LS9rA}{Lecture 5: Natural Policy Gradients, TRPO, PPO}\\
 \begin{itemize}[noitemsep,nolistsep]
-	\item Why Policy Optmization:
-	\begin{itemize}[noitemsep,nolistsep]
-		\item policy can be simpler than q or v.
-		\item value-function: does not prescribe actions. This might need a model of the dynamics.
-		\item action-value-function: needs to be able to efficiently solve and argmax over q: Challenge for continuous / high-dimensional action spaces.
-	\end{itemize}
-
-\end{itemize}
-\href{https://www.youtube.com/watch?v=xvRrgxcpaHY}{Lecture 6: Nuts and Bolts of Deep RL Experimentation}
-\begin{itemize}[noitemsep,nolistsep]
 	\item this lecture: once you have your advantage estimate how do you update your policy with that?
 	\item Limitations of Vanilla Policy Gradient Methods:
 	\begin{itemize}[noitemsep,nolistsep]
@@ -1221,6 +1211,89 @@ Covers Experience Replay (David Silver Part 6), Fixed Q-Targets (Freecodecamp Pa
 		\item This loss should not be optimized too far (to a solution), as if you just take this loss it might diverge to infinity.
 		\item Noisy estimate => radical changes in policy.
 		\item Another Version $L$
+	\end{itemize}
+\end{itemize}
+\href{https://www.youtube.com/watch?v=xvRrgxcpaHY}{Lecture 6: Nuts and Bolts of Deep RL Experimentation}
+\begin{itemize}[noitemsep,nolistsep]
+	\item Approaching New Problems:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item New Algorithm:
+		\begin{itemize}[noitemsep,nolistsep]
+			\item Run experiments quickly.
+			\item Do Hyperparameter search.
+			\item Interpret and visualize learning process: state visitation, value function (fitting), state distribution etc.
+			\item Construct toy problems where your idea will be strongest and weakest, where you have a sense of what it should do
+			\item Counterpoint: don't overfit algorithm to contrived problem
+			\item Useful: medium-sized problems that you're intimately familiar with
+		\end{itemize}
+		\item new Task: Provide good input features, shape reward function
+		\item POMDP Design
+		\begin{itemize}[noitemsep,nolistsep]
+			\item Visualize random policy: does it sometimes exhibit desired behavior?
+			\item Plot time series for observations and rewards. Are they on a reasonable scale?
+			\item Histogram observations and rewards.
+		\end{itemize}
+		\item Run Your Baseline: Don't expect them to work with default parameters.
+		\item Recommended: Cross entropy method (Learning Tetris using the noisy cross-entropy method), \href{https://github.com/openai/baselines}{Well-tuned policy gradient or Q-learning methods}, \href{https://github.com/rll/rllab}{alternative}.
+		\item Early in tuning process you may need a huge number of samples. It might need a "burn-in" period.
+		\item Don't get deterred if you cannot published work to run directly.
+	\end{itemize}
+	\item Ongoing Development and Tuning:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Explore sensitivity to each parameter: If too sensitive, it doesn't really work you just got lucky.
+		\item Look for health indicators: VF fit quality, policy entropy, Update size in output space and parameter space, Standard diagnostics for deep networks.
+		\item If reusing code, regressions occur => run a battery of benchmarks occasionally.
+		\item Always use different random seeds so that your algorithm is not influenced by one seed alone.
+		\item Always try to simplify the algirithm. Different tricks basically do a similar thing (like in whitening).
+		\item Favor simplicity in algorithm which normally leads to generalization.
+		\item Automate your experiments!
+	\end{itemize}
+	\item General Tuning Strategies for RL:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Whitening:
+		\begin{itemize}[noitemsep,nolistsep]
+			\item If observations have unknown range, standardize them
+			\item compute running estimate of mean and standard deviation.
+			\item $x' = clip((x-\mu)/\sigma, -10, 10)$
+			\item Rescale the rewards, but don't shift mean. That affects the agent.
+			\item Standardize prediction targets (e.g. value function) the same way.
+		\end{itemize}
+		\item Generally important parameters:
+		\begin{itemize}[noitemsep,nolistsep]
+			\item Discount: gamma = 0.99 => ignore rewards delayed by more than 100 timesteps.
+			\item Low gamma works well for well-shaped reward.
+			\item with TD(lambda) methods, can get away with high gamma when lambda < 1
+			\item Continuous timesteps (like games) are usually discretisized to time steps (like frameskips). Can the action frequency the agent has actually solve the problem?
+			\item Also: look the random exploration: If you do the same action multiple times in a row you tend to explore further. Choose an interesting diskretisation
+			\item Look at min/max/stdev of episode returns, along with means.
+			\item Look at episode lengths: sometimes useful information: Solving problem faster, losing game slower
+		\end{itemize}
+	\end{itemize}
+	\item Policy Gradient Strategies:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Premature drop in policy entropy => policy gets deterministic => no exploring => no learning (drops eventually but not super fast).
+		\item Alleviate by using entropy bonus or KL penalty. 
+		\item KL $KL[\pi_{old}(\cdot|s), \pi_{old}(\cdot|s)]$
+		\item How to measure entropy: discrete: analytically, continuous policy: gaussian policy => compute differential entropy.
+		\item Action-Space Entropy is what we are talking about. State-Space Entropy is to hard to calculate on anything nontrivial.
+		\item KL = 0.01: Small update, 10: big update
+		\item KL spike => drastic loss of performance.
+		\item No learning progress might mean steps are too large
+		\item explained variance = $\frac{1 - Var[empirical\ return - predicted\ value]}{Var[empirical\ return]}$
+		\item Policy Initialization: Determines initial state visitation.
+		\item Zero or tiny final layer, to maximize entropy
+	\end{itemize}
+	\item Q-Learning Strategies:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Optimize memory usage carefully: you'll need it for replay buffer.
+		\item Learning rate schedules.
+		\item Exploration schedules.
+		\item DQN converges slowly
+	\end{itemize}
+	\item Miscellaneous Advice:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Don't get stuck on problems. Some algorithms do really well on some problems but bad on another.
+		\item Techniques from supervised learning don't necessrily work in RL: batch norm, dropout, big networks.
 	\end{itemize}
 \end{itemize}
 
