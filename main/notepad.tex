@@ -1202,10 +1202,26 @@ Covers Experience Replay (David Silver Part 6), Fixed Q-Targets (Freecodecamp Pa
 		\item value-function: does not prescribe actions. This might need a model of the dynamics.
 		\item action-value-function: needs to be able to efficiently solve and argmax over q: Challenge for continuous / high-dimensional action spaces.
 	\end{itemize}
+
 \end{itemize}
 \href{https://www.youtube.com/watch?v=xvRrgxcpaHY}{Lecture 6: Nuts and Bolts of Deep RL Experimentation}
 \begin{itemize}[noitemsep,nolistsep]
-	\item 
+	\item this lecture: once you have your advantage estimate how do you update your policy with that?
+	\item Limitations of Vanilla Policy Gradient Methods:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Hard to choose stepsizes: Input data is nonstationary due to changing policy => observation and reward distribution change.
+		\item Can partially be adressed with normalization techniques.
+		\item Also: Bad step is damaging since it affects visitation distribution. Too Far => Bad Policy => Can't recover!
+		\item Sample Efficiency: Only one gradient step per environment sample. Depent on scaling of coordinates.
+	\end{itemize}
+	\item What Loss to optimize
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Policy gradients $\hat{g} = \hat{\mathbb{E}}_t[\nabla_\theta log\ \pi_\theta(a_t|s_t)\hat{A}_t]$ hat = empirical!
+		\item Loss: $L^{PG}(\theta) = \hat{\mathbb{E}}_t[log\ \pi_\theta(a_t|s_t)\hat{A}_t]$.
+		\item This loss should not be optimized too far (to a solution), as if you just take this loss it might diverge to infinity.
+		\item Noisy estimate => radical changes in policy.
+		\item Another Version $L$
+	\end{itemize}
 \end{itemize}
 
 
@@ -1505,7 +1521,7 @@ This is more about game trees and alpha-beta pruning so technically not applicab
 This is more about game trees and alpha-beta pruning so technically not applicable for my work.
 
 \section{Multi-Agent Reinforcement Learning}
-\subsection{!MARL - A Comprehensive Survey of Multiagent Reinforcement Learning - 2008}
+\subsection{MARL - A Comprehensive Survey of Multiagent Reinforcement Learning - 2008}
 \href{https://ieeexplore.ieee.org/abstract/document/4445757}{MARL - A Comprehensive Survey of Multiagent Reinforcement Learning - 2008}
 \\
 \underline{Benefits}

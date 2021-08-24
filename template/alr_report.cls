@@ -318,7 +318,7 @@ breaklines=true,
 \end{tikzpicture}
 \end{titlepage}
 
-\cleardoublepage
+%\cleardoublepage
 }
 
 

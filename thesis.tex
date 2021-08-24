@@ -44,20 +44,21 @@
 \frontmatter
 
 \maketitle
-\cleardoublepage
+%\cleardoublepage
+
 
 \makedeclaration
-\cleardoublepage
+%\cleardoublepage
 \input{front/abstract_de.tex}
-\cleardoublepage
+%\cleardoublepage
 
 \iflanguage{english}{%
   \input{front/abstract_en.tex}%
-  \cleardoublepage%
+  %\cleardoublepage%
 }{}
 
 \tableofcontents
-\cleardoublepage
+%\cleardoublepage
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%   MAIN MATTER   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -65,39 +66,41 @@
 \mainmatter
 
 \input{main/introduction.tex}
-\cleardoublepage
+%\cleardoublepage
 
 \input{main/fundamentals.tex}
-\cleardoublepage
+%\cleardoublepage
 
 \input{main/related_work.tex}
-\cleardoublepage
+%\cleardoublepage
 
 % This is one example content chapter.  Add more if needed.
 %\input{main/example_content_chapter.tex}
 %\cleardoublepage
 
- This chapter shows examples on how to use this template.
-\input{main/template_how_to.tex}
-\cleardoublepage
+%This chapter shows examples on how to use this template.
+%\input{main/template_how_to.tex}
+%\cleardoublepage
+\citet{deisenroth2013survey}
 
 %%%%%% CONTENT CHAPTERS
 \input{main/problem and approaches.tex}
-\cleardoublepage
+%\cleardoublepage
 
-\input{main/project.tex}
-\cleardoublepage
+\input{main/experiments.tex}
+%\cleardoublepage
+
 %%%%%%
 
 \input{main/evaluation.tex}
-\cleardoublepage
+%\cleardoublepage
 
 \input{main/conclusion_future_work.tex}
-\cleardoublepage
+%\cleardoublepage
 
 %%%%%% NOTES
 \input{main/notepad.tex}
-\cleardoublepage
+%\cleardoublepage
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%   BACK MATTER   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -110,7 +113,7 @@
   \bibliographystyle{dinat}%
 }
 \bibliography{bibliography}
-\cleardoublepage
+%\cleardoublepage
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%   APPENDIX   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -118,6 +121,6 @@
 \appendix
 
 \input{appendix/example_appendix.tex}
-\cleardoublepage
+%\cleardoublepage
 
 \end{document}
