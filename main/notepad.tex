@@ -2064,9 +2064,67 @@ This is more about game trees and alpha-beta pruning so technically not applicab
 
 \subsection{Probabilistic Deep Learning Book}
 \href{https://probml.github.io/pml-book/book1.html}{Probabilistic Deep Learning Book}
+\begin{itemize}[noitemsep,nolistsep]
+	\item Message passing GNNs
+	\item Spectral Graph Convolutions:
+	\item Spatial Graph Convolutions:
+	\item Non-euclidean graph Convoltuons:
+\end{itemize}
 
-\subsection{Geometric Deap Learning}
-\href{https://www.youtube.com/watch?v=w6Pw4MOzMuo}{Geometric Deap Learning Youtube}
+\subsection{!Geometric Deep Learning: The Erlangen Programme of ML}
+\href{https://www.youtube.com/watch?v=w6Pw4MOzMuo}{Geometric Deep Learning: The Erlangen Programme of ML Youtube}
+\begin{itemize}[noitemsep,nolistsep]
+	\item Zoo of Deep Learning Architecture for different kinds of data: CNN, GNN, Transformer, Deep Sets, RNN
+	\item Perceptron neural network: Just 2 layer. Let's you approximate any function arbitrarly exakt. Universal Approximation theorem.
+	\item Number of samples grows exponentially $O(\epsilon^{-d})\ samples$: Curse of dimensionality.
+	\item Example with Image processing: If you just put the data in a vector, then shifting the image (a number) needs to be learned. The NN needs to learn shift invariance.
+	\item Better: CNNs. Use the Weight of nearby pixels. Solved the curse of dimensionality.
+	\item We want to work with networks like molecules and social networks that don't change their meaning when reordered. But they do if you just squish them into a simple vector.
+	\item Using geometric priors (???). Symmetry in the input signal defined in a domain is preserfed through a group representation (shift operator). The geometric structure therefore imposes structure on the class of functios to learn. 
+	\item \textbf{Invariant function:} $f(p(g)x)=f(x)$, (p(g) is the shift).
+	\item So for image classification an invariant might be the actual position of the cat in an image. This would be called shift invariance, that is already embedded in the structure and does not need to be learned with the NN.
+	\item \textbf{Equivarient function:} $f(p(g)x) = p(g)f(x)$: The function has the same input and output structure. The output could be a pixel-wise mask. The output should transformed like the Input.
+	\item \textbf{Scale seperation:} Scale down the Input with a coarse graining P. We can thann use the scaled input $\tilde{x}$ with a coarse scaled function $\tilde{f}$. Function f is locally stable if it can be approximated by $f \approx \tilde{f} \circ P$.
+	\item Normally f would interact with long-range aspects, but we can focus the function on a particular Range with coarse graining to focus on parts of the function.
+	\item can use multiple equivariant layers with a single invariant layer as a single output. Can create a hierarchy by using the coarsing procedure that can take the form of local pooling in NN implementations.
+	\item These can work well for Structures like Grids, Groups, Graphs, Geodesics and Gauges (5G of Geometric Deep Learning).
+	\item \textbf{Deep Learning Techniques}:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item The implementaion of these principles can lead to Perceptrons (Function regularity), CNNs (Translation), Group-Cnns (Translation + Rotation), GNNs (Permutation), DeepSets/Transformers (Permutation), Intrinsic CNNs (Isometry / Gauge choice).
+	\end{itemize}
+	\item Nodes in a GNN can have d-dimensional features $x_i$.
+	\item Graphs are not ordered, but by using Feature matrix $X$ and an Adjacency matrix $A$ we impose an ordering of the nodes. 
+	\item Changing the Ordering needs to perumtate the Matrices: $PAP^T$ and $PX$. the rows and columns will be permuted.
+	\item The output might have to be unneffected by the ordering of the input: \textbf{permutation invariant}: $f(PX, PAP^T) = f(X,A)$.
+	\item If we want to make node-wide predictions we need \textbf{permutation equivariance}:  $f(PX, PAP^T) = Pf(X,A)$.
+	\item Create a feature vector, where the first data is a node and the other ones are all the neighbors: $\phi(x_i, X_{N_i}) X_{N_i} are\ the\ neighbors$. This must be permutation invariant. If we stack those phi into a feature matrix $F(X,A) = (\phi(x_1, X_{N_1}), \phi(x_i, X_{N_i}), \dots \phi(x_n, X_{N_n}))$ F is permuation equivariant.
+	\item When $\phi$ is injective: The NN is equivalent to the Weisfeiler-Lehmann test. To Test if a Graph is isomorphic. This test can only show if two graphs are not isomorphic. But cannot show that it is isomorphic.
+	\item Types of GNNs:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Form for the local aggreation function: $f(x_i) = \phi(x_i, aggr_{j \in N_i} \psi(x_j)).$ aggr is permutation invariant aggregation operator (like summ). phi and psi are learnable functions. psi transforms the neighbor features and phi updates the features of node i by the aggregated features of its neighbors.
+		\item \textbf{Convolutional:} $f(x_i) = \phi(x_i, aggr_{j \in N_i} c_{ij} \psi(x_j)).$ Weight the features that with $c_{ij}$ that only depends on the structure of the graph. The importance of node j to the reresentation of node i.
+		\item \textbf{Attentional:}  $f(x_i) = \phi(x_i, aggr_{j \in N_i} a(x_i,x_j) \psi(x_j)).$ The aggregation coefficient now depend on the features itselves. 
+		\item \textbf{Message Passing:} $f(x_i) = \phi(x_i, aggr_{j \in N_i} \psi(x_i,x_j)).$. A kind of attentional flavor.
+	\end{itemize}
+	\item GNN Structure: Multiple Permutation-equivariant layers and function Tha than get aggregated and pooled to one output $\phi()$ pooling. Some architectures use some form of local pooling coarsening that can be learnable.
+	\item Cases:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Graph with no edges: Set. Also unordered. Easiest approach: process each element individually: $\phi(x_i)$. This translates to a permutation equivariant function over the set. Architecture known as DeepSets or PointNets
+		\item Fully connected graph: convolutional variety does not work. as the weights would the same over all nodes. Use Attentional. This is simular as a transformer that is used in language processing.
+		\item \textbf{Graph positional encoding}: So that the position is fixed $\phi(x_i, aggr_{j \in N_i} \psi(x_i, x_j, p_i)).$ This architecture is called graph substructure network. A way to introduce inductive bias: like in chemistry 5-6-sided-rings are the most prominent structures. 
+		\item \textbf{Decouple computational graph}: The Graph you do computations on is not the same graph as the one yuo get es input. Can do graph sampling (scaling issues), rewiring, multi-hop filters (aggregation on  the neighbors of the neighbors). 
+		\item \textbf{Dynamic Graph CNN}: Can learn the graph that we want to do computations on, called \textbf{latent graph learning}. This can be related to manifold learning or nonlinear dimensionality reduction. The Datapoints while on high dimension are actually more strongly correlated in a shape that has lower dimensions.
+		\item \textbf{Convolution}: grid = line of nodes connected to only two neighbors. The last one can be connected to the first one, a ring graph. Fixed neighborhoods. Even ordering is fixed. $f(x_i) = \phi(x_{i-1},x_i,x_{i+1})$. Using a linear function (weighted sum) you will get a classical convolution. In a matrix form you will get the circulant matrix that has the shared weights of CNNs. Circulant Matrixes commutes with shift. In other words convolution is shift-equivariant. Convolution automatically emerges from translation symmetry of GNNs. Furthermore the Eigenvector. 
+		\item There is a relation between convolution in the spatial domain and in the frequency domain donated by the fourier matrices. This is called the convolution theorem
+		\item \textbf{Groups}: ??? Something about Learning on Manifolds. 24:00 - 30:49
+	\end{itemize}
+\end{itemize}
+
+\subsection{GNN - Sur - A Comprehensive Survey on Graph Neural Networks - 2019}
+\href{https://arxiv.org/abs/1901.00596}{GNN - Sur - A Comprehensive Survey on Graph Neural Networks - 2019}
+\begin{itemize}[noitemsep,nolistsep]
+	\item 
+\end{itemize}
 
 \subsection{GNN - App - Optimizing Large-Scale Fleet Management on a Road Network using Multi-Agent Deep Reinforcement Learning with Graph Neural Network - 2020}
 \href{https://arxiv.org/abs/2011.06175}{GNN - App - Optimizing Large-Scale Fleet Management on a Road Network using Multi-Agent Deep Reinforcement Learning with Graph Neural Network - 2020}
@@ -2107,5 +2165,4 @@ This is more about game trees and alpha-beta pruning so technically not applicab
 \subsection{Write up for GCNs - 2016}
 \href{https://tkipf.github.io/graph-convolutional-networks/}{Write up for GCNs - 2016}
 
-\subsection{GNN - Sur - A Comprehensive Survey on Graph Neural Networks - 2019}
-\href{https://arxiv.org/abs/1901.00596}{GNN - Sur - A Comprehensive Survey on Graph Neural Networks - 2019}
+
