@@ -1207,6 +1207,63 @@ Reference for short forms: \\
 	\end{itemize}
 \end{itemize}
 
+\subsection{!Neural Network Architectures and Deep Learning}
+\href{https://www.youtube.com/watch?v=oJNHXPs0XDk}{Neural Network Architectures and Deep Learning}
+\\3:54
+\begin{itemize}[noitemsep,nolistsep]
+	\item CNN: Convolutional Neural Networks (Image Recognition)
+	\item RNN (LSTM (Long-Short Term Memory Networks) / GRU): Recurrent Neural Network. Temporal Feedback where there is some Memory in the System. Good for Audio and Dynamic System.
+	\item AE: Autoencoder: Compress High-Dimensional Signal to a smaller latent Space in a way that it can be stretched again to a higher dimensional output (Principal Component Analysis can be done by that network). Take big and high-dim Data and figure out what are the degrees of freedom that matter. There are Deep Autoencoders. So you get better compression, extraction of the essential features. Given that the compressed data have little variables it allows you to understand what they mean with respect to your data.
+	\item VAE/DAE
+	\item SAE
+	\item RBM
+	\item MC
+	\item HN
+	\item BM
+	\item DBM
+	\item DCNN
+	\item DN
+	\item DCIGN
+	\item GANS
+	\item LSM/ELM
+	\item ESN
+	\item DRN
+	\item KN
+	\item NTM
+\end{itemize}
+
+\subsection{!Choosing number of Hidden Layers and number of hidden neurons in Neural Networks}
+\href{https://www.linkedin.com/pulse/choosing-number-hidden-layers-neurons-neural-networks-sachdev}{Choosing number of Hidden Layers and number of hidden neurons in Neural Networks}
+\begin{itemize}[noitemsep,nolistsep]
+	\item Choosing Hidden Layers:
+	\item 1. Data is linearly seperable => no hidden layers.
+	\item 2. Data is less compley and has few dimensions or features => 1-2 hidden layers
+	\item 3. Data has large dimensions and features => 3-6 hidden layers.
+	\item Choosing Nodes in Hidden Layers:
+	\item 1. number of hidden neurons should be between the size of the input layer and the output layer.
+	\item 2. The most appropriate number of hidden neurons: $\sqrt{input\ layer\ nodes * output\ layer\ nodes}$
+	\item 3. The number of hidden neurons should keep on decreasing in subsequent layers to get more and more close to pattern and feature extraction.
+\end{itemize}
+
+\subsection{Deep Learning Crash Course for Beginners}
+\href{https://www.youtube.com/watch?v=VyWAvY2CF9c}{Deep Learning Crash Course for Beginners}
+\begin{itemize}[noitemsep,nolistsep]
+	\item Which Activation Function to choose: Binary Classification: Sigmoid, Unsure: ReLU (or modified ReLU).
+	\item Optimizer: 24:34. Most Common: Gradient Descent.
+	\item Learning Rate:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Learning Rate avoids that you get stuck in a local minimum. too small => will take forever to converge or converge to local minimum. Too large, overshoot the global minimum.
+		\item Adagrad. Adapts learning rate to individual features.
+		\item RMSprop: Accumulates Gradients in a fixed Window.
+		\item Adam: Adaptive Moment Estimation. Pretty Widespread today
+	\end{itemize}
+	\item Model Parameters: Define the skill of the model, saved as part of the learned model: weights, biases.
+	\item Hyper Paramters: Configuration isextern to the model. Like: Learning rate, C and sigma in SVMs.
+	\item Epoch: Entire dataset is passed forward and backward through the NN only once. Multiple epochs: more generalization
+	\item Batch: Divide entire Dataset into number of batches.
+\end{itemize}
+34:00
+
 \section{Deep Reinforcement Learning}
 \subsection{Deep RL Bootcamp}
 \href{https://sites.google.com/view/deep-rl-bootcamp/lectures}{Deep RL Bootcamp}\\
