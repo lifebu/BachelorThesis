@@ -1834,9 +1834,8 @@ This is more about game trees and alpha-beta pruning so technically not applicab
 This is more about game trees and alpha-beta pruning so technically not applicable for my work.
 
 \section{Multi-Agent Reinforcement Learning}
-\subsection{MARL - A Comprehensive Survey of Multiagent Reinforcement Learning - 2008}
-\href{https://ieeexplore.ieee.org/abstract/document/4445757}{MARL - A Comprehensive Survey of Multiagent Reinforcement Learning - 2008}
-\\
+\subsection{MARL - Sur - A Comprehensive Survey of Multiagent Reinforcement Learning - 2008}
+\href{https://ieeexplore.ieee.org/abstract/document/4445757}{MARL - Sur - A Comprehensive Survey of Multiagent Reinforcement Learning - 2008}
 \underline{Benefits}
 \begin{itemize}[noitemsep,nolistsep]
 	\item can be parallelized.
@@ -1848,6 +1847,42 @@ This is more about game trees and alpha-beta pruning so technically not applicab
 	\item They explore about the environment and other agents.
 	\item need for coordination.
 \end{itemize}
+\underline{Challenges}
+\begin{itemize}[noitemsep,nolistsep]
+	\item curse of dimensionality: exponentially in the state-action space. Exponential in the number of agents.
+	\item specifying a good MARL goal in a stochastic game is challenging: stability of learning dynamics [54], adapting to other agents [55], or both [13], [38], [56]-[58]
+	\item the best policy is nonstationary. This is a moving target learning problem.
+	\item exploration-exploitation tradeoff: MARL makes this harder as agents not only explore the environment and the other agents policies. Too much exploration can destablize the learning dynamics.
+	\item A need for coordination.
+\end{itemize}
+\underline{MARL Goal}
+\begin{itemize}[noitemsep,nolistsep]
+	\item 
+\end{itemize}
+\underline{Taxonomy of MARL Algorithms}
+\begin{itemize}[noitemsep,nolistsep]
+	\item 
+\end{itemize}
+\underline{MARL Algorithms}
+\begin{itemize}[noitemsep,nolistsep]
+	\item Fully cooperative Tasks:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item 
+	\end{itemize}
+	\item Explicit Coordination Mechanisms:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item 
+	\end{itemize}
+	\item Fully Competitive Tasks:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item 
+	\end{itemize}
+	\item Mixed Tasks:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item 
+	\end{itemize}
+\end{itemize}
+
 \underline{Application Domains}
 \begin{itemize}[noitemsep,nolistsep]
 	\item simulation better than real-life (better scalability and robustness).
@@ -1885,6 +1920,39 @@ This is more about game trees and alpha-beta pruning so technically not applicab
 	\item Incomplete, uncertain state measurements could be handled with partiall observability techniques (Markov decision process).
 	\item Multiagent Goals needs a stable learning process for the environment and an adaption for the dynamics of other agents.
 	\item using game-theory-based analysis to apply to the dynamics of the environment.
+\end{itemize}
+
+\subsection{!MARL - Sur - Multi-Agent Reinforcement Learning A Report on Challenges and Approaches - 2018}
+\href{https://arxiv.org/abs/1807.09427}{MARL - Sur - Multi-Agent Reinforcement Learning A Report on Challenges and Approaches - 2018}
+\underline{Challenges in Multi-Agent Environments}
+\begin{itemize}[noitemsep,nolistsep]
+	\item Joint-Action-Space: Scalability Problem!
+	\item Game-Theoretic Effects:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Every MDP has at leatst one optimal policy and of the given optimal policies at least one is stationary and deterministic.
+		\item In Markov games there is no deterministic optimal policy that is undominated because it critically depends on the behavior of the opponent.
+		\item Because of the uncertainty of the opponents move the need for stochasticity arises.
+		\item \textbf{Evolutionary Game Theory}: As the preferred framework for MAS.
+	\end{itemize}
+	\item Credit Assignment and Lazy Agent problem
+	\begin{itemize}[noitemsep,nolistsep]
+		\item \textbf{Credit Assignment Problem} concens with how the success of an overall system can be attributed to the various contributions of a systems component.
+		\item Hard to infer which agent had which influence on th outcome. Equal Division of rewards seldom makes sense.
+		\item \textbf{Lazy Agent Problem}: More frequent in cooperative environments. When one agents lears a useful policy, another agent can be discouraged from exploration so as to not affect the first agent's performance.
+	\end{itemize}
+	\item Non-Markovian Nature of Environments
+	\begin{itemize}[noitemsep,nolistsep]
+		\item The Markov Property can easily be violated in the simplest scenarios, but it is a crucial foundation in Reinforcement Learning.
+		\item This can be addressed using Recurrent Networks to allow the state representation over sequences of state history. You could build a hidden representation of state sequences with Gated Neural Networks or Convolutional Neural Networks.
+	\end{itemize}
+\end{itemize}
+\underline{Decentralized Actor, Centralized Critic}
+\begin{itemize}[noitemsep,nolistsep]
+	\item Because of scalability and partial observaility you need decentralized policies which only depend on local observations of the agents.
+	\item Augment these techniques with a centralized critic which provides an indirect observation (possibly partial) of the complete global state to each of the actors. 
+	\item The theoretical framework extend MDPs to Decentralized Partially Observable Markov Decision Processes (Dec-POMDPs). This framework uses a generalized notion of states in the form of observations. [Oliehoek and Amato, 2016].
+	\item \textbf{COMA}: Using Advantage estimate [Foerster et al., 2017]: $A^i(s,a) = Q(s,a) - \sum_{u'^i} \pi^i (u'^i | \tau^i) Q(s,(a^{-i}, u'^a))$. Computed for each agent. The critic gets the action and policy from the actors and calculates the advantage. The Actors then have hidden states for the Gated Neural Network they use.
+	\item \textbf{QMIX} [Rashid et al., 2018]: uses a linear decompoitions of the joint value function by by maintaining monotonicity in the local and global maximum value functions. The Mixing Network enforces the monotonicity by creating a hyper-network.
 \end{itemize}
 
 \subsection{MARL - AC - Networked Multi-Agent Reinforcement Learning in Continuous Spaces - 2018}
@@ -1957,8 +2025,6 @@ This is more about game trees and alpha-beta pruning so technically not applicab
 \subsection{MARL - Sur - Multi-Agent Reinforcement Learning A Selective Overview of Theories and Algorithms - 2021}
 \href{https://arxiv.org/abs/1911.10635}{MARL - Sur - Multi-Agent Reinforcement Learning A Selective Overview of Theories and Algorithms - 2021}
 
-\subsection{MARL - Sur - Multi-Agent Reinforcement Learning A Report on Challenges and Approaches - 2018}
-\href{https://arxiv.org/abs/1807.09427}{MARL - Sur - Multi-Agent Reinforcement Learning A Report on Challenges and Approaches - 2018}
 
 \subsection{MARL - Sur - A Review of Cooperative Multi-Agent Deep Reinforcement Learning - 2019}
 \href{https://arxiv.org/abs/1908.03963}{MARL - Sur - A Review of Cooperative Multi-Agent Deep Reinforcement Learning - 2019}
