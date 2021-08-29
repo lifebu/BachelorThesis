@@ -7,6 +7,7 @@
 
 Reference for short forms: \\
 (App): Applications
+(Arch): Architecture
 (AC): Actor-Critic
 (Base): Basic Papers
 (Book): Book
@@ -2120,11 +2121,103 @@ This is more about game trees and alpha-beta pruning so technically not applicab
 	\end{itemize}
 \end{itemize}
 
-\subsection{GNN - Sur - A Comprehensive Survey on Graph Neural Networks - 2019}
+\subsection{!GNN - Sur - A Comprehensive Survey on Graph Neural Networks - 2019}
 \href{https://arxiv.org/abs/1901.00596}{GNN - Sur - A Comprehensive Survey on Graph Neural Networks - 2019}
 \begin{itemize}[noitemsep,nolistsep]
-	\item 
+	\item Definitions:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Graph: Node features $x_j$, edge features $x^e_{v,u}$.
+		\item \textbf{Spatial-Temporal Graph}: an attributed graph where the node attributes change dynamically over time $G^{(t)} = (V,E,X^{(t)}),\ X^{(t)} \in \mathbb{R}^{n \times d}$
+	\end{itemize}
+	\item Taxonomy:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item TABLE OF TAXONOMY AND PUBLICATIONS USING THEM (p.4)
+		\item \textbf{Recurrent graph neural networks (RecGNNs)}: learn node representatin with recurrent neural architectures. A node constantly exchanges mesages with its neighbors until stable equilbrium is reached.
+		\item \textbf{Convolutional graph neural networks (ConvGNNs)}: generalize convolution opreation. Aggregate its own featues with the neighbors features. ConvGNNs stack multiple convolutional layers to extract high-level node representations.
+		\item \textbf{Graph autoencodes (GAEs)}: Encode node/graphs into a latent vector space and reconstruct graph data from the encode information. Generate these graphs.
+		\item \textbf{Spatial-temporal graph neural networks (STGNNs)}: learn hidden patterns from spatial-temporal graphs. Consider spatial dependency.
+	\end{itemize}
+	\item Frameworks:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item \textbf{Node-level output}: relates to node regression and node classification tasks. Using RecGNNs and ConvGNNS and a sofmax layer as the output.
+		\item \textbf{Edge-level output}: relates to edge classification and link prediction tasks. 
+		\item \textbf{Graph-level output}: outputs relate to the graph classification task.
+		\item \textbf{Semi-supervised learning for node-level classification}: Network with partial nodes being labeled, ConvGNNs can learn what the other labels should be. Stack GConv and softmax output.
+		\item \textbf{Supervised learning for graph-level classification}: Predict the class labels for the entire graph. Can be realized with Graph convolutional layers, graph pooling layers and readout layers.
+		\item \textbf{Unsupervised learning for graph embeddings}: No class labels are available. These algorithms exploit edge-level informations
+	\end{itemize}
+	\item Recurrent Graph Neural Networks:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item \textbf{GNN}:
+		\begin{itemize}[noitemsep,nolistsep]
+			\item Apply same set of parameters recurrently over nodes in a graph to extract high-level node representations. Can handle different types of graphs (cyclic, acyclic, direct, undirected).
+			\item Update $h_v^{(t)} = \sum_{u \in N(v)} f(x_v, x^e_{(v,u)}, x_u h_u^{(t-1)})$. h are the hidden layers. $h_v^{(0)}$ is initialized randomly.
+			\item The sum allows the GNN to be applicable to all nodes. To converge f must be a contraction mapping, which shrinks the diestance between two points after projecting them into a latent space.
+		\end{itemize}
+		\item \textbf{Gated Graph Neural network (GGNN)}:
+		\begin{itemize}[noitemsep,nolistsep]
+			\item Uses a gated recurrent unit (GRU). This does not need to constrain parameters to ensure convergence.
+			\item Update: $h_v^{(t)} = GRU(h_v^{(t-1)}, \sum_{u \in N(v)} \mathbf{W} h_u^{(t-1)} ),\  h_v^{(0)} = x_v$.
+			\item GGNN uses back-propagation through time in contrast to GNN and GraphESN. This can be problematic for large graphs.
+		\end{itemize}
+		\item \textbf{Stochastic Steady-state Embedding (SSE)}:
+		\begin{itemize}[noitemsep,nolistsep]
+			\item scales well to large graph. Node's hidden states are updated recurrently in a stochastic and asynchronous fashion. It alternateively samples a batch of nodes for state update and a batch of nodes for gradient computation.
+			\item Update: $h_v^{(t)} = (1 - \alpha)h_v^{(t-1)} + \alpha \mathbf{W}_1 \sigma(\mathbf{W}_2 [x_v, \sum_{u \in N(v)} [h_u^{(t-1)}, x_u]])$. $h_v^{(0)}$ is initialized randomly.
+		\end{itemize}
+	\end{itemize}
+	\item Convolutional Graph Neural Networks:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item \textbf{ConvGNNs}: Usaes a fixed number of layers with different weights for graph convolutions.
+		\item \textbf{Spectral-based ConvGNNs}: 
+		\begin{itemize}[noitemsep,nolistsep]
+			\item Define graph convolutions by introducing filter from the perspective of graph signal processing, where convolution is interpretaed as removing noise.
+			\item TO-DO! p.7-8
+		\end{itemize}
+		\item \textbf{Spatial-based ConvGNNs}: 
+		\begin{itemize}[noitemsep,nolistsep]
+			\item Define graph convolutions by information propagation.
+			\item TO-DO! p.8-10
+		\end{itemize}	
+		\item \textbf{Graph Pooling Modules}:
+		\begin{itemize}[noitemsep,nolistsep]
+			\item Directly using the node features can be computational challenging so we need to down-sample them. This operation can be called pooling operation or readout operation (different naming conventions). These use graph coarsening algorithms.
+			\item mean/max/sum pooling is the most primitive but effective way to implement down-sampling.
+		\end{itemize}
+		\item \textbf{Discussion of Theoretical Aspects:}
+		\begin{itemize}[noitemsep,nolistsep]
+			\item \textbf{shape of receptive field}: It is the set of nodes that contribute to the determination of one nodes final node representation. When compositing multiple spatial graph convolutional layers, the receptive field of a node grows one step ahead towards its distant neighbors each time. It can be proven that a ConvGNN is able to extract global information by stacking local graph convolution layers.
+			\item \textbf{VC Dimension}: Measure of model complexity. The largest number of points tha can be shattered by a model.p model parameters and n nodes it follows that the VC Dimesion is $O(p^4n^2)$ for sigmoid or tanget hyperbolicy activation and $O(p^4n^2)$ for piecewise polynomial activation function.
+			\item \textbf{Graph isomorphism}: See Geometric Deep Learning: The Erlangen Programme of ML
+			\item \textbf{Equivariance and invariance}: Geometric Deep Learning: The Erlangen Programme of ML
+			\item \textbf{Universal approximation}: The universal approximation capability (the theorem) of GNNs hs seldem been studied. 
+		\end{itemize}
+	\end{itemize}
+	\item Graph autoencoders:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Network Embedding:
+		\begin{itemize}[noitemsep,nolistsep]
+			\item TO-DO: p.12-14
+		\end{itemize}
+		\item Graph Generation:
+		\begin{itemize}[noitemsep,nolistsep]
+			\item TO-DO: p.14
+		\end{itemize}
+	\end{itemize}
+	\item Spatial-temporal Graph Neural Networks:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item TO-DO: p.15
+	\end{itemize}
 \end{itemize}
+
+\subsection{GNN - Base - Learning Decentralized Controllers for Robot Swarms with Graph Neural Networks - 2019}
+\href{https://arxiv.org/abs/1903.10527}{GNN - Base - Learning Decentralized Controllers for Robot Swarms with Graph Neural Networks - 2019}
+
+\subsection{GNN - Arch - Exploiting Edge Features in Graph Neural Networks - 2018}
+\href{https://arxiv.org/abs/1809.02709}{GNN - Arch - Exploiting Edge Features in Graph Neural Networks - 2018}
+
+\subsection{GNN - Base - Graph Convolutional Reinforcement Learning - 2018}
+\href{https://arxiv.org/abs/1810.09202}{GNN - Base - Graph Convolutional Reinforcement Learning - 2018}
 
 \subsection{GNN - App - Optimizing Large-Scale Fleet Management on a Road Network using Multi-Agent Deep Reinforcement Learning with Graph Neural Network - 2020}
 \href{https://arxiv.org/abs/2011.06175}{GNN - App - Optimizing Large-Scale Fleet Management on a Road Network using Multi-Agent Deep Reinforcement Learning with Graph Neural Network - 2020}
