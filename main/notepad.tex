@@ -1111,6 +1111,36 @@ Reference for short forms: \\
 	\item the performance comparison against the high-level function is very sensitive to details in the reward signal in subtle ways.
 \end{itemize}
 
+\subsection{OpenAI Spinning Up - Algorithms}
+\href{https://spinningup.openai.com/en/latest/index.html}{OpenAI Spinning Up - Algorithms}
+\href{https://spinningup.openai.com/en/latest/algorithms/vpg.html}{Vanilla Policy Gradient}
+\begin{itemize}[noitemsep,nolistsep]
+	\item Idea: push up probabilities of actions with high return and push down probabilities of actions that lead to lower return.
+	\item $\tau$ is a trajectory.
+	\item Gradient: $\nabla_\theta J(\pi_\theta) = \mathbb{E}_{\tau \sim \pi_\theta} [\sum_{t=1}^T \nabla_\theta log\ \pi_\theta(a_t|s_t) A^{\pi_\theta}(s_t,a_t)]$
+	\item Update with stoachastic gradient ascent: $\theta_{k+1} = \theta_k + \alpha \nabla_\theta J(\pi_{\theta_k})$ (could also use Adam).
+	\item Exploration: The amount of randmness in action selection depends on both initial conditions and the training prodecure. The policy typically becomes progressively less random. This may cause the policy to get trapped in local optima.
+	\item Gradient is estimated with multiple trajectories $\mathcal{D}_k$ that you get by running the policy in the environment.
+	\item Advantage is estimated with some kind of advantage estimation method from the current value function.
+	\item Also need to fit a new value function for the next advantage estimate: $\phi_{k+1} = \underset{\phi}{arg\ min}\ \frac{1}{|\mathcal{D}_k|T} \sum_{r \in \mathcal{D}_k} \sum_{t=0}^T (V_\theta (s_t) - \hat{R}_t)^2$
+\end{itemize}
+\href{https://spinningup.openai.com/en/latest/algorithms/trpo.html}{Trust Region Policy Optmization}
+\begin{itemize}[noitemsep,nolistsep]
+	\item Idea: Try to take largest step possible to improve performance while staying close enough to the old policy. Distance is measured using the KL-Divergence.
+	\item Normal PG could create large differences in performance with small step in parameters. This is why using large step sizes can hurt the performance. TRPO avoids this and tends to quickly improve performance.
+	\item Theoretical TRPO update: $\theta_{k+1} = \underset{\theta}{arg\ max}\ \mathcal{L}(\theta_k, \theta),\ s.t.\ \bar{D}_{KL}(\theta || \theta_k) \leq \delta$
+	\item L is the surrogate advantage: how new policy $\pi_\theta$ performs relative to old policy $\pi_{\theta_k}$: $\mathcal{L}(\theta_k, \theta) = \mathbb{E}_{s,a \sim \pi_{\theta_k}} [ \frac{\pi_\theta(a|s)}{\pi_{\theta_k}(a|s)} A^{\pi_{\theta_k}}(s,a)]$.
+	\item Practical Taylor Expand: $\mathcal{L}(\theta_k, \theta) \approx g^T(\theta - \theta_k),\ \bar{D}_{KL}(\theta || \theta_k) \approx \frac{1}{2}(\theta - \theta_k)^T H(\theta - \theta_k)$
+	\item Using Lagragian duality, the Solution is: $\theta_{k+1} = \theta_k + \alpha^j \sqrt{\frac{2\delta}{g^TH^{-1}g}}H^{-1}g$
+	\item $\alpha \in (0,1)$ Is backgraking coefficient. Needed as otherwise we would be calculating the natural policy gradient that would not improve the advantage because of our approximation using Taylor. j is the smallest nonnegative integer so that the KL-constraint is satisfied and we can get an surrogate advantage.
+	\item To approximate $H^{-1}$ we compute and store the matrix product $Hx = \nabla_\theta ((\nabla_\theta \bar{D}_{KL}(\theta || \theta_k))^Tx )$.
+	\item Like Vanilla PG, we might get stuck in a local minima because of the exploration.
+\end{itemize}
+\href{https://spinningup.openai.com/en/latest/algorithms/ppo.html}{Proximal Policy Optimization}
+\begin{itemize}[noitemsep,nolistsep]
+	\item 
+\end{itemize}
+
 \subsection{RL - Base - Differentiable Trust Region Layers for Deep Reinforcement Learning - 2021 - KIT}
 \href{https://arxiv.org/abs/2101.09207}{RL - Base - Differentiable Trust Region Layers for Deep Reinforcement Learning - 2021 - KIT}
 
@@ -2035,6 +2065,12 @@ This is more about game trees and alpha-beta pruning so technically not applicab
 	\item The theoretical framework extend MDPs to Decentralized Partially Observable Markov Decision Processes (Dec-POMDPs). This framework uses a generalized notion of states in the form of observations. [Oliehoek and Amato, 2016].
 	\item \textbf{COMA}: Using Advantage estimate [Foerster et al., 2017]: $A^i(s,a) = Q(s,a) - \sum_{u'^i} \pi^i (u'^i | \tau^i) Q(s,(a^{-i}, u'^a))$. Computed for each agent. The critic gets the action and policy from the actors and calculates the advantage. The Actors then have hidden states for the Gated Neural Network they use.
 	\item \textbf{QMIX} [Rashid et al., 2018]: uses a linear decompoitions of the joint value function by by maintaining monotonicity in the local and global maximum value functions. The Mixing Network enforces the monotonicity by creating a hyper-network.
+\end{itemize}
+
+\subsection{MARL - RNN - Multi-agent reinforcement learning with approximate model learning for competitive games - 2019}
+\href{https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0222215}{MARL - RNN - Multi-agent reinforcement learning with approximate model learning for competitive games - 2019}
+\begin{itemize}[noitemsep,nolistsep]
+	\item 
 \end{itemize}
 
 \subsection{MARL - AC - Networked Multi-Agent Reinforcement Learning in Continuous Spaces - 2018}
