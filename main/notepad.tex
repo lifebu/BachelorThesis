@@ -1111,6 +1111,9 @@ Reference for short forms: \\
 	\item the performance comparison against the high-level function is very sensitive to details in the reward signal in subtle ways.
 \end{itemize}
 
+\subsection{RL - Base - Differentiable Trust Region Layers for Deep Reinforcement Learning - 2021 - KIT}
+\href{https://arxiv.org/abs/2101.09207}{RL - Base - Differentiable Trust Region Layers for Deep Reinforcement Learning - 2021 - KIT}
+
 \subsection{Medium Blog Post}
 \href{https://medium.com/emergent-future/simple-reinforcement-learning-with-tensorflow-part-0-q-learning-with-tables-and-neural-networks-d195264329d0}{Medium Blog Post}
 
@@ -1245,7 +1248,7 @@ Reference for short forms: \\
 	\item 3. The number of hidden neurons should keep on decreasing in subsequent layers to get more and more close to pattern and feature extraction.
 \end{itemize}
 
-\subsection{Deep Learning Crash Course for Beginners}
+\subsection{!Deep Learning Crash Course for Beginners}
 \href{https://www.youtube.com/watch?v=VyWAvY2CF9c}{Deep Learning Crash Course for Beginners}
 \begin{itemize}[noitemsep,nolistsep]
 	\item Which Activation Function to choose: Binary Classification: Sigmoid, Unsure: ReLU (or modified ReLU).
@@ -1258,9 +1261,31 @@ Reference for short forms: \\
 		\item Adam: Adaptive Moment Estimation. Pretty Widespread today
 	\end{itemize}
 	\item Model Parameters: Define the skill of the model, saved as part of the learned model: weights, biases.
-	\item Hyper Paramters: Configuration isextern to the model. Like: Learning rate, C and sigma in SVMs.
+	\item Hyper Paramters: Configurations extern to the model. Like: Learning rate, C and sigma in SVMs.
 	\item Epoch: Entire dataset is passed forward and backward through the NN only once. Multiple epochs: more generalization
-	\item Batch: Divide entire Dataset into number of batches.
+	\item Batch: Divide entire Dataset into number of batches. Iterations number of batches per epoch.
+	\item Overfitting Methods: Dropout, Dataset Augmentation, Early Stopping.
+	\item Recurrent Neural Nets:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Problems that can only be understood of information about the past was supplied. Vanilla Feedforward Neural Networks can't handle sequential data, a data in a sequence. 
+		\item Sharing parameters (which feedforward doesn't do) give the network the ability to look for a given feature everywhere in the sequence, rather than in just a certain area.
+		\item RNN can deal with variable length sequences in order and keep track of long-term dependencies by sharing paramters across the sequence.
+		\item feedback loop in the hidden layers. In Self-Node Feedback loops after the first iteration the hidden layer uses it's Input and the previous hidden layer output as input (feedback).
+		\item Training: Backpropagation (applied for eavery sequence data point): Backpropagation Through Time (BTT)
+		\item Vanishing Gradient Problem for RNNs: if Initial gradients are small adjustment to the subsequent layers will be even smaller. As every time stap in an RNN can be seen as a layer, the gradients get smaller through the time steps. Because of VGP, RNNs are unable to learn long-range dependencies.
+		\item Solutions: \textbf{LSTM} (Long Short Term Memory), \textbf{GRNN} (Gated RNNs): Capable of leraning long-term dependencies using gates.
+		\item GRNN: 2 Gates: Update Gate, Reset Gate, LSTM: Update Gate, Reset Gate, Forget Gate.
+	\end{itemize}
+	\item Convolutional Neural Networks:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Hidden Layers: Convolutional, Pooling, Fully-Connected, Normalization.
+		\item Pooling: Reduce number of neurons necessary in subsequent layers.
+	\end{itemize}
+	\item Tipps:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Few hyperparameters => small validation set, many hyperparameters => large validation set.
+		\item Optimizing: Hyperparameter Tuning (increase number of epochs, adjust learning rate), Addresing Overfitting (More Data, reduce model size, regularization), data augmentation, Dropout
+	\end{itemize}
 \end{itemize}
 34:00
 
