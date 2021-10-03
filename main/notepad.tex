@@ -2067,6 +2067,79 @@ This is more about game trees and alpha-beta pruning so technically not applicab
 	\item \textbf{QMIX} [Rashid et al., 2018]: uses a linear decompoitions of the joint value function by by maintaining monotonicity in the local and global maximum value functions. The Mixing Network enforces the monotonicity by creating a hyper-network.
 \end{itemize}
 
+\subsection{MARL - Base - Bayesian and Attentive Aggregation for Multiagent Deep Reinforcement Learning - 2021}
+\href{https://phiresky.github.io/masters-thesis/}{MARL - Base - Bayesian and Attentive Aggregation for Multiagent Deep Reinforcement Learning - 2021}
+\begin{itemize}[noitemsep,nolistsep]
+	\item Which observations should an agent use => Aggregation: Bayesian conditiioan, mean aggregation and attentive aggregation.
+	\item A way to feed a large and varying amount of observations from the neighboring agents into the fixed size Input of the Dense Nueral Network representing the policy.
+	\item POMDP: 
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Introduces an indirection between the set of states and the input to the policy (called an observation).
+		\item A set of observations is added with a probability of each state leading to a specific observation.
+		\item policy depends on the observation and the action  instead of the state and the action. 
+	\end{itemize}
+	\item Environment:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Each Agent gets the same global reward.
+		\item Multiple Agents are flattened to multiple environments.
+		\item This means that during inference time, each agent has to act independently, based on the observations it makes locally, but is rewarded with the same reward each agent receives. (Hivemind) (multi-body)
+	\end{itemize}
+	\item Aggregation Methods:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Aggregate the observations into one observable group (a cluster of the same kind of observation).
+		\item Output of the aggregation needs fixed dim as input to the neueral networks.
+		\item Concatenation: 
+		\begin{itemize}[noitemsep,nolistsep]
+			\item concatenate n d-dim Vector to one n*d-dim Vector.
+			\item ignores useful properties: uniformity (feature at index i has the same meaning for each observable in a group).
+			\item needs ordering, but observations are permutation-invariant => meaningless. 
+			\item scales poorly with large number of observables.
+		\end{itemize}
+		\item Concatenation: 
+		\begin{itemize}[noitemsep,nolistsep]
+			\item $o_i \in O$. O is the observable group.
+			\item Aggregate System state $\psi_O = \mu_O = \frac{1}{|O|}\sum_{o_i \in O} o_i$
+		\end{itemize}
+		\item Other Pooling Functions:
+		\begin{itemize}[noitemsep,nolistsep]
+			\item Max pooling:
+			\item Softmax Pooling: 
+		\end{itemize}
+		\item Bayesian Aggregation:
+		\begin{itemize}[noitemsep,nolistsep]
+			\item start from a gaussian prior distribution and updatint using a probabilitic observation model for every seen observation.
+			\item each observation has a mean $r_i$ and a standard deviation $\sigma_{r_i}$
+		\end{itemize}
+		\item Attention Mechanisms
+		\begin{itemize}[noitemsep,nolistsep]
+			\item Computes some compatibility (dot-product) between query Q (vector) and key K (vector) and uses this as a weight to compute a weighted sum of the Values V (vector).
+		\end{itemize}
+	\end{itemize}
+	\item Related Work:
+	\begin{itemize}[noitemsep,nolistsep]
+		\item 
+	\end{itemize}
+	\item Scalable Information Aggregation for Deep MARL Policies.
+	\begin{itemize}[noitemsep,nolistsep]
+		\item Policy Architecture:
+		\begin{itemize}[noitemsep,nolistsep]
+			\item Inputs are dependend on current agent $a_k$ => leading to different outputs for the action and value function for each agent.
+			\item Inputs: proprioceptive observation (how the agent $a_k$ sees itself) and the n neighbors $a_1,...,a_n$ (differ from self-observations as they can included distances betweeen $a_k$ and $a_i$)
+			\item One set of observables into one aggregate: Aggregation Group: $G = \{ g_1,...,g_n\}$ can have multiple aggregation groups $G^{(i)}$
+			\item Each observation in the aggregation group G is a function of the agent a-k and the instance g-i. $o_{k \rightarrow g_i} = observe(a_k,g_i)$
+			\item After collecting the observations for aggregation group g, the observations are each encoded separately into a latent embedding space: $e_{k \rightarrow g_i} = enc(o_{k \rightarrow g_i})$. enc can be arbitarry differntiable function that maps the observation into a latent space.
+			\item After encoding: each instance (observation) of group is one sample of the information of the group relevent to the agent. They are then aggregated.
+			\item Observation($a_k$, $o_i$) => encode() => aggregate over all encoded of the group => concatenate over all groups. => decode() => transformed to dim of action-Space
+			\item seperate copy of the compute graph for the value function.
+		\end{itemize}
+	\end{itemize}
+	\item Conclusion
+	\begin{itemize}[noitemsep,nolistsep]
+		\item No Clear advantage between mean aggregation, Bayesian aggregation and attentive aggregation.
+		\item TRL is usually at least as good as PPO in some cases better. Better alternative to PPO for environments with sparse rewards. In the case in many MARL tasks.
+	\end{itemize}
+\end{itemize}
+
 \subsection{MARL - RNN - Multi-agent reinforcement learning with approximate model learning for competitive games - 2019}
 \href{https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0222215}{MARL - RNN - Multi-agent reinforcement learning with approximate model learning for competitive games - 2019}
 \begin{itemize}[noitemsep,nolistsep]
