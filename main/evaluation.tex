@@ -3,5 +3,44 @@
 % !TeX root = ../thesis.tex
 
 \chapter{Evaluation}
+pages: 7.14-9.52
+\section{PPO Hacks vs No Hacks}
+\begin{itemize}[noitemsep,nolistsep]
+    \item value-function-clipping (0.0 - 1.0), 1.0 = no clipping
+    \item normalize rewards
+    \item reward-clipping: graph-normalized constructor: reward-clip = 5, currently no parameter
+    \item observation-normalization
+    \item global gradient clipping: max-grad-norm
+    \item tanh (insted of LeakyReLU)
+\end{itemize}
 
-This Chapter should will see the actual results in different tasks/environments, with different conditions or structures (like hetereogenity) and also the different approaches we tried and how well they performed against the baseline of the KIT algorithm.
+\section{Number of Hops}
+\begin{itemize}[noitemsep,nolistsep]
+    \item Environment: Culling Methods: more culling vs less culling, num-agents and dynamics?
+    \item Network: num-blocks, latent-dimension?, aggregation-function?
+\end{itemize}
+
+\section{Neighbor Aggregation Type}
+aggr(aggr()) vs conat(aggr())
+\begin{itemize}[noitemsep,nolistsep]
+    \item Environment: Base-Pursuit-Multi with 3+ Hops?
+    \item Network: latent-dimension, aggregation-function, num-blocks
+\end{itemize}
+
+\section{Randomized Number of Agents and Evaders}
+random number of agents
+\begin{itemize}[noitemsep,nolistsep]
+    \item Environment: Rendezvous: Culling Methods: more culling vs less culling
+    \item Network: latent-dimension, num-blocks
+\end{itemize}
+random number of agents + random number of evaders
+\begin{itemize}[noitemsep,nolistsep]
+    \item Environment: Multi-Pursuit: Culling Methods: more culling vs less culling
+    \item Network: latent-dimension, num-blocks
+\end{itemize}
+
+\section{Dispersion}
+\begin{itemize}[noitemsep,nolistsep]
+    \item Environment: Culling Methods: more culling vs less culling, reward-type
+    \item Network: latent-dimension, aggretation-function
+\end{itemize}

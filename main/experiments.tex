@@ -4,19 +4,79 @@
 
 \chapter{Experiments}
 \label{ch:Experiments}
-
-This Chapter should talk about the experiments we run and how we are going to set them up. the tasks and some of the codebase.
-
-Idee:
+pages: 2-2.68
+\section{General Setup}
+Talk about my code base what it is based on etc. What I use.
 \begin{itemize}[noitemsep,nolistsep]
-    \item Based on the KIT Paper "Deep Reinforcement Learning for Robot Swarms".
-    \item Look at Approach from a handful of papers and start adjusting what KIT did by adding to it.
-    \item Add GNN instead of mean of all the agents observations use a GNN here. (Message Passing)
-    \item Find Problems that the KIT-Approach cannot handle well or is just able to and show how my additions lets it tackle harder tasks.
-    \item Improve Scalability on the KIT-Approach (to better see the Heterogeneity?), transfer learning?
-    \item Aspects: Direct/Indirect Communication, Control-Architecture (centralized, hybrid, self-organization), Cooperative/Competetive/Team-Based Environments, Global/Decentralized Communication.
-    \item Given the problem a completly self-organized approach would be super interesting (no centralized critic).
-    \item Tasks: Start with one simple task. Can add more later. Predator-Prey, Foraging
-    \item Heterogeneity: Would be cool to have 3 cases: fully-homogeneous, (reelle zahlen (0,1))-skill-heterogeneous, binary-skill-heterogeneous (communication + one skill)
-    \item 
+    \item Optuna
+    \item DAVIS
+    \item Code from: Bayesian and Attentive Aggregation for Multi-Agent Deep Reinforcement Learning
+\end{itemize} 
+
+\section{Tasks}
+Structure:
+\begin{itemize}[noitemsep,nolistsep]
+    \item Goal.
+    \item Basic Environment Structure (Torus, )
+    \item Visual: example task completion, with timesteps and total environment
+    \item Agent-Model (Dynamics), Evader-Model (Strategy)
+    \item Reward
+    \item Observation => Data, Culling and Graph
+\end{itemize} 
+\begin{itemize}[noitemsep,nolistsep]
+    \item Rendezvous
+    \item Dispersion
+    \item Single Evader Pursuit
+    \item Multi Evader Pursuit
+\end{itemize} 
+
+\section{Experiments}
+Let those experiments run over all environments where applicable.
+\begin{itemize}[noitemsep,nolistsep]
+    \item PPO Hacks vs No Hacks
+    \begin{itemize}[noitemsep,nolistsep]
+        \item Environments: Rendezvous
+        \item value-function-clipping (0.0 - 1.0), 1.0 = no clipping
+        \item normalize rewards
+        \item ?reward-clipping: graph-normalized constructor: reward-clip = 5, currently no parameter
+        \item observation-normalization
+        \item global gradient clipping: max-grad-norm
+        \item ?tanh (insted of LeakyReLU)
+    \end{itemize}
+    \item Number of Hops:
+    \begin{itemize}[noitemsep,nolistsep]
+        \item Environments: Rendezvous, Pursuit-Multi
+        \item Environment: Culling Methods: more culling vs less culling, num-agents and dynamics?
+        \item Network: num-blocks, latent-dimension?, aggregation-function?
+    \end{itemize}
+    \item het-neighbor-aggregation: aggr(aggr()) vs conat(aggr())
+    \begin{itemize}[noitemsep,nolistsep]
+        \item Environments: Pursuit-Single, Pursuit-Multi
+        \item Environment: Base-Pursuit-Multi with 3+ Hops?
+        \item Network: latent-dimension, aggregation-function, num-blocks
+    \end{itemize}
+    \item random number of agents
+    \begin{itemize}[noitemsep,nolistsep]
+        \item Environments: Rendezvous
+        \item Environment: Rendezvous: Culling Methods: more culling vs less culling
+        \item Network: latent-dimension, num-blocks
+    \end{itemize}
+    \item random number of agents + random number of evaders
+    \begin{itemize}[noitemsep,nolistsep]
+        \item Environments: Pursuit-Multi
+        \item Environment: Multi-Pursuit: Culling Methods: more culling vs less culling
+        \item Network: latent-dimension, num-blocks
+    \end{itemize}
+    \item dispersion: reward-type and aggregation-function
+    \begin{itemize}[noitemsep,nolistsep]
+        \item Environments: Dispersion
+        \item Environment: Culling Methods: more culling vs less culling
+        \item Network: latent-dimension, aggregation-function
+    \end{itemize}
+    \item ?pursuit: reward-type???
+    \begin{itemize}[noitemsep,nolistsep]
+        \item Environments: Single-Pursuit
+        \item Environment: nothing?
+        \item Network: latent-dimension, aggregation-function
+    \end{itemize}
 \end{itemize} 
