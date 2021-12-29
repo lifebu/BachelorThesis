@@ -3,18 +3,39 @@
 % !TeX root = ../thesis.tex
 
 \chapter{Conclusion and Future Work}
-pages: 0.9-1.2
-Some introductory paragraph.
-
+% pages: 0.9-1.2
 
 \section{Conclusion}
+\begin{itemize}[noitemsep,nolistsep]
+	\item What comparison we made on different tasks.
+	\item What have we observed
+	\item What have we shown of results.
+	\item Basically a summary of "evaluation":
+\end{itemize}
+Number of Hops \par
 
-Your conclusion.
+Neighbor Aggregation Type \par
+
+Randomized Number of Agents and Evaders \par
+
+PPO Hacks vs No Hacks. \par
+
+Dispersion. \par
 
 
 \section{Future Work}
+More can be done to expand on the work already finished in this bachelor thesis.\par
+
+All of the experiments in this paper only considered using Proximal Policy Optimization (PPO) \citet{SchulmanWDRK17}, as it is a very common baseline training algorithm.
+However recent research shows that other methods might lead to better results for mult-iagent Reinforcement Learning.
+Specifically Trust Region Layers (PG-TRL) \citet{otto2021differentiable} is an alternative that is able to be atleast on par with PPO, while requiring less code-level optimizations. It is noted that in experiments using sparser rewards the fact that TRL has better exploration over PPO improves the results significantly. Though the base paper only explores single-agent problems.\\
+\citet{RobinRuede2021} explores Trust Region Layers (PG-TRL) \citet{otto2021differentiable} for multi-agent tasks. The author explains that given an multi-agent cooperative task the agents are rewarded as a group, which makes the reward more sparse. Therefore creating correlation of a single agents action and the group reward is harder. The hyper parameters used for TRL were based on searches for PPO and no extensive testing for TRL was done. Even then TRL was able to perform similar to PPO.\\
+Creating further experiments based on the architecture established in this thesis would very likely benefit from TRL. \par
+
+Furthermore \citet{RobinRuede2021} also used more complex multi-agent task than we used in our experiments. In Box Clustering there are agents and multiple boxes. Each box is assigned to one cluster. The goal is to move the boxes, so that the distance between the boxes in a given cluster is minimal. Optimal solutions will require that the agents work together to move the boxes and that they split the work between them. In his thesis his approach worked well for two clusters of boxes, but fell appart with 3 clusters. Here the agents were only able to move one cluster correctly. Only after increasing the batch size and environment steps per training steps tenfold the agents were able to consider more than 2 clusters. As explained above, our approach is structuraly similar to \citet{RobinRuede2021} as both can be described with message-passing of GNNs. It was shown that more complex tasks, especially with tight communication ranges, benefitet hugely from multiple message passing hops. So one can assume that we would be able to solve Box Clustering better.\par
+
+
+
 \begin{itemize}[noitemsep,nolistsep]
-	\item TRL
-	\item More complex task like Box-Clustering
 	\item Transfer Learning for GNNs?
 \end{itemize}
