@@ -4,5 +4,27 @@
 
 \chapter*{Abstract}
 \addcontentsline{toc}{chapter}{Abstract}
+% 224-234 (134p) words
 
-The one-page abstract of the thesis.
+Aims
+\begin{itemize}[noitemsep,nolistsep]
+    \item purpose: MARL growing field, GNN growing field. GNN already used for social networks. Find a way to incorporate both. How can MARL benefit from GNN? GNN: Natural representation for multiple agents and coordination. Natural information propagation. Does not need to learn certain things that the Graph structure automatically does for you.
+    \item practical problems: Multi-agent: Any cooperative task. Network Systems, Biology: Ants, Bees. GNN: Deep Learning
+    \item theoretical problem: How to combine both.
+    \item objective (investigate, test, analyze, evaluate): investigate effect of GNN, multiple hops on learning and policy, especially with tight culling ranges. observation propagation. invariance + equivariance: good for random range of agents.
+\end{itemize} \par
+
+
+Methods
+\begin{itemize}[noitemsep,nolistsep]
+    \item Approach: Robin + Graph convolutional reinforcement learning.
+    \item Procedures: Introduce architecture with PPO training head and graph base that allows multiple hops. This architecture is expanded to heterogeneous graphs, for distinct observations and grouping.
+\end{itemize} \par
+
+
+Results/Conclusion
+\begin{itemize}[noitemsep,nolistsep]
+    \item Summarize main result (most important): improvements on policy fitness for multiple hops. little culling => small effect. tight culling => larger effect. Effect larger for more complex tasks and in heterogeneous.
+    \item Main Conclusions: GNN good fit for describing inter agent communication and cooperation. MARL can greatly benefit from multiple hops.
+\end{itemize}
+

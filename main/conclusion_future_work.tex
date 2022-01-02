@@ -12,15 +12,20 @@
 	\item What have we shown of results.
 	\item Basically a summary of "evaluation":
 \end{itemize}
-Number of Hops \par
+\textbf{Number of Hops}\\
+a \par
 
-Neighbor Aggregation Type \par
+\textbf{Neighbor Aggregation Type}\\
+a  \par
 
-Randomized Number of Agents and Evaders \par
+\textbf{Randomized Number of Agents and Evaders}\\
+a  \par
 
-PPO Hacks vs No Hacks. \par
+\textbf{PPO Hacks vs No Hacks}\\
+a  \par
 
-Dispersion. \par
+\textbf{Dispersion}\\
+a  \par
 
 
 \section{Future Work}
@@ -34,8 +39,7 @@ Creating further experiments based on the architecture established in this thesi
 
 Furthermore \citet{RobinRuede2021} also used more complex multi-agent task than we used in our experiments. In Box Clustering there are agents and multiple boxes. Each box is assigned to one cluster. The goal is to move the boxes, so that the distance between the boxes in a given cluster is minimal. Optimal solutions will require that the agents work together to move the boxes and that they split the work between them. In his thesis his approach worked well for two clusters of boxes, but fell appart with 3 clusters. Here the agents were only able to move one cluster correctly. Only after increasing the batch size and environment steps per training steps tenfold the agents were able to consider more than 2 clusters. As explained above, our approach is structuraly similar to \citet{RobinRuede2021} as both can be described with message-passing of GNNs. It was shown that more complex tasks, especially with tight communication ranges, benefitet hugely from multiple message passing hops. So one can assume that we would be able to solve Box Clustering better.\par
 
+As this thesis is an extension of basic ideas found in \citet{RobinRuede2021}, both thesis are designed to work for a single group of homogeneous agents. As stated in the architecture description, in heterogeneous graphs the policy training method can only use one node type. It is always trained on the agent node features. It would be possible to parameterize the node type it trains on. In team-based tasks you can have multiple competing groups of agents. Our architecture could support two policies that can be trained on different node types and therefore groups of agents. \par
 
-
-\begin{itemize}[noitemsep,nolistsep]
-	\item Transfer Learning for GNNs?
-\end{itemize}
+TODO!!!!!
+Personalized rewards or responsibility assignment. Might be easier to learn, because it can better correlate which actions where how good. Need to change critic, as it currently only uses the aggregate of the values. Needs to use each value itself for the critic? Look at some papers and how they do that. This can also help in supporting heterogeneous agents. Agents different strengths and weaknesses => can better understand how to use them if they are not aggregated. because actions are already used as non aggregated. (PAPER!)
