@@ -4,27 +4,17 @@
 
 \chapter*{Abstract}
 \addcontentsline{toc}{chapter}{Abstract}
-% 224-234 (134p) words
+% 224-234 words
 
-Aims
-\begin{itemize}[noitemsep,nolistsep]
-    \item purpose: MARL growing field, GNN growing field. GNN already used for social networks. Find a way to incorporate both. How can MARL benefit from GNN? GNN: Natural representation for multiple agents and coordination. Natural information propagation. Does not need to learn certain things that the Graph structure automatically does for you.
-    \item practical problems: Multi-agent: Any cooperative task. Network Systems, Biology: Ants, Bees. GNN: Deep Learning
-    \item theoretical problem: How to combine both.
-    \item objective (investigate, test, analyze, evaluate): investigate effect of GNN, multiple hops on learning and policy, especially with tight culling ranges. observation propagation. invariance + equivariance: good for random range of agents.
-\end{itemize} \par
+Multi-Agent Reinforcement Learning (MARL) is an ever expanding field of research that deals with real world problems that require multiple entities, called agents, to work cooperatively, competitively, or as a mixture of both. Practical applications range from the simulation of ants, bees and birds, coordinating network systems aswell as search-and-rescue operations. The agents need to learn to correctly use potentially large amounts of observation data to make informed decisions. Therefore an efficient way to process observation data is needed for effective learning that can scale to a large number of agents. Graph Neural Networks (GNN) allow for learning processes to work on graphs. Currently, they are a growing field of research. GNNs are a natural representation for modelling inter-agent communications. We want to investigate the effect of GNNs on learning and the resulting policy on MARL tasks. We will focus on the effect of multiple GNN passes to information propagation, especially in partial observability with a short range.\par
 
+This work will introduce an architecture that uses Proximal Policy Optimization (PPO) for training with a graph base that allows scaling to multiple GNN passes. Our approach is based on the previosly proposed multi-agent deep reinforcement architecture found in \citet{RobinRuede2021}. Furthermore we expanded it to work on heterogeneous graphs, which is required for our observation model of more complex tasks. We then evaluate this architecture in multiple Multi-agent tasks to show the benefit of multiple GNN passes. 
+\par
 
-Methods
-\begin{itemize}[noitemsep,nolistsep]
-    \item Approach: Robin + Graph convolutional reinforcement learning.
-    \item Procedures: Introduce architecture with PPO training head and graph base that allows multiple hops. This architecture is expanded to heterogeneous graphs, for distinct observations and grouping.
-\end{itemize} \par
-
-
+Our results show that ... % 2-3 sentences!
 Results/Conclusion
 \begin{itemize}[noitemsep,nolistsep]
-    \item Summarize main result (most important): improvements on policy fitness for multiple hops. little culling => small effect. tight culling => larger effect. Effect larger for more complex tasks and in heterogeneous.
+    \item Summarize main result (most important): improvements on policy fitness for multiple hops. little culling => small effect. tight culling => larger effect. Effect larger for more complex tasks and in heterogeneous. evaluate compared to robin?
     \item Main Conclusions: GNN good fit for describing inter agent communication and cooperation. MARL can greatly benefit from multiple hops.
 \end{itemize}
 

@@ -62,7 +62,7 @@ A culling method is used, so that the agents have a finite sensor range, either 
 
 In a dispersion task, the agents should try to maximize the distance between each other. An example episode can be seen in \Cref{fig:dispersion_example}.\par
 
-This environment is a variation of rendezvous and therefore shares most of it's properties. The main difference lies within the reward function $r$. Our implementation allows for different reward calculations using functions $f(x)$ on the reward, before calculating the mean. Supported functions are $f(x) = x$, $f(x) = x^2$, $f(x) = \sqrt{x}$, $f(x) = \min(x)$
+This environment is a variation of rendezvous and therefore shares most of it's properties. The main difference lies within the reward function $r$. Our implementation allows for different reward calculations using functions $f(x)$ on the reward, before calculating the mean. Supported functions are $f(x) = x$, $f(x) = x^2$, $f(x) = \sqrt{x}$, $f(x) = \min(x)$, $f(x) = \max(x)$
 
 \begin{equation} 
     a_p = mean(a^2),\; d_p = mean(\frac{f(\textup{pairwise-distances}}{\textup{worldsize}})),\; r = a_p + d_p \nonumber

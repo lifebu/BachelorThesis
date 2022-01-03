@@ -4,6 +4,11 @@
 
 \chapter*{Zusammenfassung}
 \addcontentsline{toc}{chapter}{Zusammenfassung}
+% 224-234 words
 
-Einseitige deutsche Zusammenfassung (\emph{Abstract}) der Abschlussarbeit.
-Unabhängig von der Sprache der Abschlussarbeit \emph{muss} eine deutsche Zusammenfassung verfasst werden.
+Das stehts wachsende Forschungsgebiet des Multi-Agent Reinforcement Learning (MARL) betrachtet Echtweltproblem in welchen mehrere Aktoren, genannt Agenten, entweder in kooperativer, kompetitiver oder in einer gemischten Art und Weise miteinander arbeiten müssen. Dies findet Anwendung bei der Beschreibung des Verhaltens von Ameisen, Bienen oder Vögeln. Ebenfalls findet dieser Ansatz für Suche und Rettung, sowie der modellierung von Netzwerksystemen. Hierfür müssen die Agenten etwaige große Menge an Beobachtungen über ihre Umwelt verarbeiten und lernen um in der Lage zu sein das Problem zu lösen. Somit ist eine effiziente Datenstruktur für die Observationen unumgänglich um auch große menge von Agenten lernen lassen zu können. 
+Graph Neural Networks (GNN) sind Lernprozesse die entworfen wurden um auf als Graph konstrurierten Daten effektiv zu lernen. Jene eignen sich gut um die inter-Agentischen Kommunikationen zu repräsentieren. In dieser Arbeit möchten wir die Auswirkung und den Nutzen von GNNs auf das lernen von MARL Problemen untersuchen. Der Fokus liegt dabei auf den Effekt mehrerer Durchläufe von GNN auf die Informationsübertragung in Umgebungen mit sehr geringer partieller Sichtbarkeit.\par
+
+In dieser Arbeit stellen wir eine Trainingsarchitektur vor, welche den Proximal Policy Optimization (PPO) Algorithmus verwendet. Zusätzlich besitzt sie einen GNN Teil, welcher problemlos auf beliebig viele Durchläufe skalieren kann. Dieser Ansatz basiert auf der bereits veröffentlichen Arbeit für eine multi-agent deep reinforcement Architektur, welche man in \citet{RobinRuede2021} findet. Zudem wurde der Ansatz um die Fähigkeit erweitert mit heterogenen Graphen arbeiten zu können. Jene wird nämlich für unser Observationsmodell in komplexeren Aufgaben benötigt. Anschließend wird in mehreren Multi-agent Aufgaben der Nutzen von mehreren GNN Durchläufen beurteilt.\par
+
+Unsere Ergebnisse zeigen, dass ... (EINFÜGEN!)
