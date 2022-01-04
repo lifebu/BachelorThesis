@@ -3,29 +3,20 @@
 % !TeX root = ../thesis.tex
 
 \chapter{Conclusion and Future Work}
+\label{ch:Conclusion}
 % pages: 0.9-1.2
 
 \section{Conclusion}
+% 109 (David), 195 (Niklar), 229 (Robin) Words
+% What comparison we made on different tasks, What we observed. What have we shown of results. Basically a summary of "evaluation".
 \begin{itemize}[noitemsep,nolistsep]
-	\item What comparison we made on different tasks.
-	\item What have we observed
-	\item What have we shown of results.
-	\item Basically a summary of "evaluation":
+	\item harsher culling => more layers better. partially compensate, but interpreted data about neighbor's neighbors.
+	\item more hops, better but has limit (more complex, more hops).
+	\item randomized: good abstractions.
+	\item heterogeneous: concat(aggr())?
+	\item GNN Structure: undirected vs directed.
+	\item node-wise or graph-wise value function.
 \end{itemize}
-\textbf{Number of Hops}\\
-a \par
-
-\textbf{Neighbor Aggregation Type}\\
-a  \par
-
-\textbf{Randomized Number of Agents and Evaders}\\
-a  \par
-
-\textbf{PPO Hacks vs No Hacks}\\
-a  \par
-
-\textbf{Dispersion}\\
-a  \par
 
 
 \section{Future Work}
@@ -43,3 +34,6 @@ As this thesis is an extension of basic ideas found in \citet{RobinRuede2021}, b
 
 TODO!!!!!
 Personalized rewards or responsibility assignment. Might be easier to learn, because it can better correlate which actions where how good. Need to change critic, as it currently only uses the aggregate of the values. Needs to use each value itself for the critic? Look at some papers and how they do that. This can also help in supporting heterogeneous agents. Agents different strengths and weaknesses => can better understand how to use them if they are not aggregated. because actions are already used as non aggregated. (PAPER!)
+
+\section{Acknowledgements}
+The authors acknowledge support by the state of Baden-Württemberg through bwHPC.

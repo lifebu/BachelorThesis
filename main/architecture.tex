@@ -34,6 +34,7 @@ An overview of the policy architecture can be seen in \Cref{fig:PPO_no_message_p
     \item PPO Architecture Similar to Robin. 
     \item Actor: MLP, Linear Embedding (to Action Space), learnable std (Diag Gaussian).
     \item Critic: MLP, Aggregate (Single Value: min, mean, max), no Embedding (compared to Robin.)
+    \item PPO: node-wise value (robin) vs. graph-wise value (our).
 \end{itemize}
 
 
@@ -113,6 +114,7 @@ An overview of the message passing architecture for heterogeneous graphs can be 
     \begin{itemize}[noitemsep,nolistsep]
         \item Robin: Needed so that we have support as multiple observation groups. We use heterogeneous graphs.
         \item edge-types, node-types (PyG) => We show it using multiple graphs. (Math!)
+        \item directed vs. undirected Graph
     \end{itemize}
     \item Linear Embedder for each type!
     \begin{itemize}[noitemsep,nolistsep]

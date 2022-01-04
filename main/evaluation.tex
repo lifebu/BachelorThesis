@@ -3,6 +3,7 @@
 % !TeX root = ../thesis.tex
 
 \chapter{Evaluation}
+\label{ch:Evaluation}
 % pages: 7.14-9.52
 % Structure:
 %   - Describe what the experiments wanted to show:
@@ -43,6 +44,7 @@ Expected Answers:
     \item Network: num-blocks, latent-dimension?, aggregation-function?
 \end{itemize}
 
+
 \section{Neighbor Aggregation Type}
 Questions to answer:
 \begin{itemize}[noitemsep,nolistsep]
@@ -62,6 +64,7 @@ aggr(aggr()) vs concat(aggr())
     \item Environment: Base-Pursuit-Multi with 3+ Hops?
     \item Network: latent-dimension, aggregation-function, neighbor-aggregation, num-blocks
 \end{itemize}
+
 
 \section{Randomized Number of Agents and Evaders}
 Questions to answer:
@@ -91,6 +94,41 @@ random number of agents + random number of evaders
     \item Network: latent-dimension, num-blocks
 \end{itemize}
 
+
+\section{GNN - directed vs. undirected}
+Questions to answer:
+\begin{itemize}[noitemsep,nolistsep]
+    \item what "learns" better or has better information propagation
+\end{itemize}
+Expected Answers:
+\begin{itemize}[noitemsep,nolistsep]
+    \item 
+\end{itemize}
+\begin{itemize}[noitemsep,nolistsep]
+    \item Environments: Pursuit-Multi, Pursuit-Single
+    \item Just add this to each of the other experiments (?)
+    \item Environements: use-directed-graph.
+    \item Network: num-blocks, latent-dimension, aggregation-function, neighbor-aggregation, value-function-scope
+\end{itemize}
+
+\section{node-wise or graph-wise value function}
+Questions to answer:
+\begin{itemize}[noitemsep,nolistsep]
+    \item graph-wise: more "true" to the original Single agent RL algorithms. Should correlate better? But need to figure out themselves which agent is responsible for a reward.
+    \item node-wise: better able to to gauge which agent was responsible for a given value or reward. 
+\end{itemize}
+Expected Answers:
+\begin{itemize}[noitemsep,nolistsep]
+    \item 
+\end{itemize}
+\begin{itemize}[noitemsep,nolistsep]
+    \item Environments: Rendezvous, Pursuit-Single
+    \item Just add this to each of the other experiments (?)
+    \item Environements: 
+    \item Network: num-blocks, latent-dimension, aggregation-function, neighbor-aggregation, value-function-scope
+\end{itemize}
+
+
 \section{PPO - Code Level optimizations}
 Questions to answer:
 \begin{itemize}[noitemsep,nolistsep]
@@ -112,6 +150,7 @@ Expected Answers:
     \item tanh (insted of LeakyReLU)
     \item can those have an effect on num-layers, aggregation-function and neighbor-aggregation?
 \end{itemize}
+
 
 \section{Dispersion}
 Questions to answer:

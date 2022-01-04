@@ -4,15 +4,16 @@
 
 \chapter{Introduction}
 % pages: 0.9-1.2
-Applications or real-world problems that require a solution. 
-\begin{itemize}[noitemsep,nolistsep]
-	\item  Multi-agent: Any cooperative task. Network Systems, Biology: Ants, Bees. GNN: Deep Learning
-\end{itemize} \par
+% 130 words
+Multi-Agent Systems has several real-world applications. Any System that requires multiple agents to work together or against can be modeled in a Multi-Agent fashion. In \citet{MARLTraffic2020} the authors define a traffic control system in which they create a grid of traffic lights, where each of them is an agent. They then learn the agents to optimize minimal sum of queue and waiting times at the intersections. Robot swarms can also be used to solve pathfinding problems in indoor, maze-like scenarios as discussed in \citet{SwarmPathFinding2013}. Given the structure of the environment communication is severly limited. 
+% 2 more real-world problems. (Biology, Ants, Bees?)
+\par
 
 Recent applications and research in MARL and GNN.
 \begin{itemize}[noitemsep,nolistsep]
 	\item GNN really hot right now! Alot of research in this topic.
 	\item MARL: Robin Paper (this thesis is based on his!). 
+	\item Multi-Agent RL: RTS Games: \citet{RTSMARL2021}.
 	\item GNN: Graph Convolutional reinforcement learning.
 \end{itemize} \par
 
@@ -34,20 +35,4 @@ My work relative to other work. What has other research focused on?
 	\item 
 \end{itemize} \par
 
-talking about the structure of the thesis
-\begin{itemize}[noitemsep,nolistsep]
-	\item 
-\end{itemize} \par
-
-
-Stuff to talk about in introduction.
-\begin{itemize}[noitemsep,nolistsep]
-	\item Applications or real-world problems that require a solution. 
-	\item Based on Robin Paper => expand for this bachelor thesis with GNN.
-	\item MARL: Good for certain applications like
-	\item GNN more and more popular
-	\item Using GNN for MARL
-	\item What has research focused on?
-	\item Some examples from research what can be done.
-	\item What we set out to do what our basic goal was, that should be a natural conclusion of what we talked about above.
-\end{itemize}
+The following thesis is structured like this: Firstly we will go over the necessary preliminaries needed to understand this thesis in \Cref{ch:Preliminaries}. This starts of talking about Reinforcement Learning basics in the single-agent case, then adresses how it is applied in multi-agent tasks and is followed by a brief overview of Graph Neural Networks. In \Cref{ch:Related Work} related work will be discussed. The subsequent \Cref{ch:Architecture} is focused on the details of our proposed model. It will describe our policy architecture with an inclusion of homogeneous and heterogeneous Graph Neural Networks. Our experiments, including the general setup and the specific tasks that we trained our mode on, are described in \Cref{ch:Experiments}. The interpretation and evaluation of our results can be found in \Cref{ch:Evaluation}. We will complete this thesis by distilling the conclusions about our findings and provide future avenues for improvements in \Cref{ch:Conclusion}.
