@@ -30,8 +30,13 @@ The environment can be configured as a torus (position is wrapped using modulo) 
 The agents are dots without collisions. They use a direct dynamic model, therefore the two actions they can perform represent movement in the x-Axis and y-Axis respectively.
 The reward function $r$ is comprised of two terms. First we use the mean of the normalized pairwise distances between the agents as a distance penalty $d_p$. Secondly we use an action penalty $a_p$, that scales squared to the mean of the action $a$:
 
-\begin{equation} 
-    a_p = mean(a^2),\; d_p =  mean(\frac{\textup{pairwise-distances}}{\textup{worldsize}}),\; r = a_p + d_p \nonumber
+\begin{equation}
+    \begin{aligned}
+        a_p &= \textup{mean}(a^2)\\
+        d_p &= \textup{mean}(\frac{\textup{pairwise-distances}}{\textup{worldsize}}) \\
+        r &= a_p + d_p
+    \end{aligned}
+    \nonumber
 \end{equation}
 
 A culling method is used, so that the agents have a finite sensor range, either kNN or euclidean distance can be used. The observation graph is homogeneous and composed of the following aspects:
@@ -64,8 +69,13 @@ In a dispersion task, the agents should try to maximize the distance between eac
 
 This environment is a variation of rendezvous and therefore shares most of it's properties. The main difference lies within the reward function $r$. Our implementation allows for different reward calculations using functions $f(x)$ on the reward, before calculating the mean. Supported functions are $f(x) = x$, $f(x) = x^2$, $f(x) = \sqrt{x}$, $f(x) = \min(x)$, $f(x) = \max(x)$
 
-\begin{equation} 
-    a_p = mean(a^2),\; d_p = mean(\frac{f(\textup{pairwise-distances}}{\textup{worldsize}})),\; r = a_p + d_p \nonumber
+\begin{equation}
+    \begin{aligned}
+        a_p &= \textup{mean}(a^2)\\
+        d_p &= \textup{mean}(\frac{f(\textup{pairwise-distances}}{\textup{worldsize}})) \\
+        r &= a_p + d_p
+    \end{aligned}
+    \nonumber
 \end{equation}
 
 
@@ -87,8 +97,13 @@ The environment can be configured as a torus (position is wrapped using modulo) 
 The agents are collisionless dots. Like rendezvous a direct dynamic model is used. The evader is part of the environment and will not learn. It's dynamic is either a simple linear movement or uses on Voronoi-regions which is based on \citet{ZHOU201664}.
 The minimum normalized distance of the agents to the evader is used for the distance penalty $d_p$ and the action penalty $a_p$ is the same as rendezvous:
 
-\begin{equation} 
-    a_p = mean(a^2),\; d_p = mean(\frac{\textup{agent-evader-distances}}{\textup{worldsize}}),\; r = a_p + d_p  \nonumber
+\begin{equation}
+    \begin{aligned}
+        a_p &= \textup{mean}(a^2)\\
+        d_p &= \textup{mean}(\frac{\textup{agent-evader-distances}}{\textup{worldsize}}) \\
+        r &= a_p + d_p
+    \end{aligned}
+    \nonumber
 \end{equation}
 
 Single evader pursuit also supports the same culling methods as rendezvous. The observation graph is heterogeneous and composed of the following aspects:
@@ -131,5 +146,9 @@ This task is largely the same as single evader pursuit. The catch threshhold is 
 The reward uses the established action penalty $a_p$ and a catch count $c$. It will reward the agents with +1 every time they catch an evader:
 
 \begin{equation} 
-    a_p = mean(a^2),\; r = a_p + c  \nonumber
+    \begin{aligned}
+        a_p &= \textup{mean}(a^2)\\
+        r &= a_p + c
+    \end{aligned}
+    \nonumber
 \end{equation}
