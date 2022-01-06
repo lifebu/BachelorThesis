@@ -26,7 +26,7 @@ Our environments can have different observations structured as a graph $G = (X,E
 
 For testing and debugging purposes, the Graph Neural Network (GNN) can be disabled. When it is, only the node-features are used. Once the observation graph is constructed, the node-features are encoded into a latent-space representation. For this embedding we use a linear layer. We allow for independet embedding for the actor and critic. They can either share the same embedding or have different embeddings. The Multi-Layer Perceptron (MLP) used in \Citet{RobinRuede2021} is used as an encoding step and to process each element of an aggregation group. Processing is not needed for our embedding, as our GNN is responsible for that, so a simple linear transformation is enough.\par
 
-The learning head for Proximal Policy Optimization (PPO) is composed of the actor describing the policy $\pi$, which gets us the joint action $\textup{act} = (\textup{act}_1,...,\textup{act}_n)$ and the critic calculating the running advantage $A$. Our actor uses an MLP, followed by another linear transformation. It will reduce the dimension from the latent dimension back to the action dimension. This is then used as the mean $\mu$ for a diagonalized Gaussian distribution to support non deterministic policies. The variance $\sigma^2$ uses a learnable logarithmic standard deviation. The critic also uses an MLP with an output-dimension of 1. This defines a value per node in the graph. In \Citet{RobinRuede2021} the authors define a value for each agent. This helps to identify which agent was responsible for the reward. But this is not how the PPO Algorithm was originally designed to work for single-agent environments. Our architecture can use an aggregation to output a single value per graph. This can either be $\min(x)$, $\max(x)$, $\textup{mean}(x)$. Through exploration the agents are still able to identify over time how much an agent was responsible for a given reward. We parameterized node-wise values and graph-wise values for our approach. \par
+The learning head for Proximal Policy Optimization (PPO) is composed of the actor describing the policy $\pi$, which gets us the joint action $\textup{act} = \langle \textup{act}_1,...,\textup{act}_n \rangle$ and the critic calculating the running advantage $A$. Our actor uses an MLP, followed by another linear transformation. It will reduce the dimension from the latent dimension back to the action dimension. This is then used as the mean $\mu$ for a diagonalized Gaussian distribution to support non deterministic policies. The variance $\sigma^2$ uses a learnable logarithmic standard deviation. The critic also uses an MLP with an output-dimension of 1. This defines a value per node in the graph. In \Citet{RobinRuede2021} the authors define a value for each agent. This helps to identify which agent was responsible for the reward. But this is not how the PPO Algorithm was originally designed to work for single-agent environments. Our architecture can use an aggregation to output a single value per graph. This can either be $\min(x)$, $\max(x)$, $\textup{mean}(x)$. Through exploration the agents are still able to identify over time how much an agent was responsible for a given reward. We parameterized node-wise values and graph-wise values for our approach. \par
 
 
 
@@ -36,21 +36,21 @@ The learning head for Proximal Policy Optimization (PPO) is composed of the acto
     \centering
     \includegraphics[width=1.0\textwidth]{figures/homogeneous_gnn.png}
     \hspace{1cm}   
-    \caption{Here a GNN is added as a step before the policy architecture. The entire observation is put into a latent space and then passed through multiple message passing passes. The outputs of one pass is used as the input of the next pass. This is coordinated through the message passing stack.}
+    \caption{Here a GNN is added as a step before the policy architecture. The entire observation is put into a latent space and then passed through multiple message passing hops. The outputs of one hop is used as the input of the next hop. This is coordinated through the message passing stack.}
     \label{fig:homogeneous_gnn}
 \end{figure}
 
 An overview of the message passing architecture for homogeneous graphs as described below can be seen in \Cref{fig:homogeneous_gnn}.
 
-When enabling the GNN, it is added as a step between the policy architecture and observation. node-features, edge-features and global-features are now embedded into a latent-space linearly similar to above. The weights between those tree encoders are not shared. Global-features can be used to explicitly give the swarm global information. In our experiments this was not needed. \par
+When enabling the GNN, it is added as a step between the policy architecture and observation. node-features, edge-features and global-features are now embedded into a latent-space linearly similar to above. The weights between the encoders are not shared. Global-features can be used to explicitly give the swarm global information. In our experiments this was not needed. \par
 
-We choose to use a GNN structure that uses stacks of GNN blocks. Each block defines a single message-passing pass. The stack is an array of blocks that are used sequentially. This way we are able to support multiple GNN passes. We do want to note, that \Citet{RobinRuede2021} model architecture for a single aggregation group can be described via the function:
+We choose to use a GNN structure that uses stacks of GNN blocks. Each block defines a single message-passing hop. The stack is an array of blocks that are used sequentially. This way we are able to support multiple GNN hops. We do want to note, that \Citet{RobinRuede2021} model architecture for a single aggregation group can be described via the function:
 
 \begin{equation}
     f(a_i) = \textup{decoder(selfObserve}(a_i), \underset{j \in \mathcal{N}_i}{\oplus}\ \textup{encoder}(\textup{observe}(a_i, a_j))) \nonumber
 \end{equation}
 
-As can be seen, this already implements a common message-passing GNN. In comparison our architecture adds the ability to process multiple GNN passes.
+As can be seen, this already implements a common message-passing GNN. In comparison our architecture adds the ability to process multiple GNN hops.
 The GNN block is composed of an edge-, node-, and global-module, each responsible for the corresponding features. An diagram of the relationship between these blocks is outlined in \Cref{fig:message_passing_block}. The functions used by the modules are as following:
 
 \begin{equation}
@@ -68,7 +68,7 @@ Similar to the embedding, our architecture allows for two GNN modules for the va
     \centering
     \includegraphics[width=0.75\textwidth]{figures/message_passing_block.png}
     \hspace{1cm}   
-    \caption{This is a detailed view of one message passing block. It uses a edge-, node- and global-module to compute a single message passing pass.}
+    \caption{This is a detailed view of one message passing block. It uses a edge-, node- and global-module to compute a single message passing hop.}
     \label{fig:message_passing_block}
 \end{figure}
 

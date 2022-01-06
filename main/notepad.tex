@@ -2362,7 +2362,7 @@ This is more about game trees and alpha-beta pruning so technically not applicab
 	\item \textbf{Permutation Invariance}: f is permutation invariant iff: $\forall P \in Permutation: f(PX) = f(X)$. Example: Deep Sets Model $f(X) = \phi(\sum_{i \in V} \psi(x_i))$. This is true for the entire data-set.
 	\item \textbf{Permutation equivariance}: for identification on the node level. Seek functions that don't change the node order. f is permutation equivariant iff: $\forall P \in Permutation: f(PX) = Pf(X)$.
 	\item \textbf{equivariance}: each node's row is unchanged by f. So foreach node we could define: $\forall i: h_i = \psi(x_i).$, the latent features h-i. Stacking h yields: $H=f(x)$. The functions are applied indipendently to each node.
-	\item Stacking equivarent functions with an invariant tail: $f(X) = \phi(\bigoplus_{i \in V}\psi(x_i)). \bigoplus\ is\ permutationinvariant\ aggregator\ (sum,\ avg,\ max)$.
+	\item Stacking equivarent functions with an invariant tail: $f(X) = \phi(\oplus_{i \in V}\psi(x_i)). \oplus\ is\ permutationinvariant\ aggregator\ (sum,\ avg,\ max)$.
 	\item \textbf{Learning on Graphs}:
 	\begin{itemize}[noitemsep,nolistsep]
 		\item Represent Edges with adjacency matrix A: $a_{ij} = \begin{cases} 1& (i,j) \in E \\ 0 & otherwise \end{cases}$. Edge features could be added aswell. permutation x-variance still holds.

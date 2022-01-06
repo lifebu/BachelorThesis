@@ -8,44 +8,89 @@
 % baseline: Bachelor degree CS without any assumptions about electives.
 
 \section{Notation}
+
+% Environments
+\newcommand{\agent}{a}
+\newcommand{\actions}{A}
+\newcommand{\action}{act}
+\newcommand{\policy}{pi}
+% RL
+\newcommand{\advantage}{A}
+% GNN
+\newcommand{\graph}{G}
+\newcommand{\nodes}{V}
+\newcommand{\node}{v}
+\newcommand{\nodefeatures}{X_v}
+\newcommand{\nodefeature}{x_v}
+\newcommand{\edges}{E}
+\newcommand{\edge}{e}
+\newcommand{\edgefeatures}{X_e}
+\newcommand{\edgefeature}{x_e}
+\newcommand{\globalfeatures}{X_g}
+\newcommand{\globalfeature}{x_g}
+\newcommand{\neighborhood}{N}
+
 \begin{table}[ht!]
-	\caption{Overview of mathematical and RL notation}
+	\caption{Overview of mathematical, RL and GNN notation}
 	\vspace*{0.5cm}
 	\centering
 	\begin{tabular}{ll}
-	\toprule
-	Symbol & Description \\
-	\midrule
-	$\oplus$ or $\otimes$ & Aggregation \\
-	\midrule
-	$a$ & Agent \\
-	\bottomrule
+		\toprule
+		Symbol & Description \\
+		\midrule
+		$\oplus$ or $\otimes$ & Aggregation \\
+		\midrule
+		$\agent$ & Agent \\
+		$\action$ & Action \\
+		$\pi$ & Policy \\
+		\midrule
+		$\nodefeature$ & Node-features \\
+		$\edgefeature$ & Edge-features \\
+		$\globalfeatures$ & Global-features \\
+		$\mathcal{\neighborhood}_i$ & Neighborhood for agent i \\
+		\bottomrule
 	\end{tabular}
 	\label{tab:macros}
-	\end{table}
+\end{table}
 
 
 \section{Reinforcement Learning}
+% Lecture, David Silver
 \begin{itemize}[noitemsep,nolistsep]
-	\item RL
-	\item MDP (?)
-	\item MARL
+	\item RL, basic Idea. The Environment Loop, Reward, Timesteps, action, 
+	\item Agent: Dynamic Models
+	\item Markov-Chain, MDP
+	\item policy
+	\item Value function
+	\item Q-value function.
+	\item POMDP => "partial observability" => culling
+	\item optimal policy
+	\item Actor-Critic Training
+	\item PPO
 \end{itemize}
 
 \section{Multi-Agent Reinforcement Learning}
 \begin{itemize}[noitemsep,nolistsep]
-	\item MARL
-	\item PoMDP (?)
 	\item Environments, Agents etc. (MAS)
+	\item MARL, basic idea. 
+	\item Dec-POMDP
 \end{itemize}
 
 \section{Message Passing GNN}
+% notepad erlangen + Theoretical Foundations
 \begin{itemize}[noitemsep,nolistsep]
-	\item vanilla message-passing GNN
-	\item heterogeneous Graphs and Multi-Color Graphs.
+	\item Goal: Same results for isomorphic graphs.
+	\item equivariant, invariant.
+	\item Learning on Graphs: How to create the x-variant function with local functions. Creates latent graph. One GNN Layer. Multiple Layers: Hops
+	\item convolutional GNNs
+	\item attentional GNNs
+	\item message-passing GNNs.
+	\item how powerful? (Theoretical Foundations of Graph Neural Networks - 2021). Can emulate different Deep Learning Techniques (Erlangen)
 \end{itemize}
 
 \section{Neural Networks}
+%Lecture, Machine Learning KIT
 \begin{itemize}[noitemsep,nolistsep]
-	\item NN
+	\item MLP
+	\item Linear Embedding (1-Layer), for encoding
 \end{itemize}
