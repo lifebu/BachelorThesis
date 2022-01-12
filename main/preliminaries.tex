@@ -35,6 +35,8 @@
 \newcommand{\globalfeature}{x_g}
 \newcommand{\neighborhood}{N}
 
+The following table contains common used notation through the thesis. It features mathematical, Reinforcement Learning (RL) and Graph Neural Network (GNN) notation.
+
 \begin{table}[ht!]
 	\caption{Overview of mathematical, RL and GNN notation}
 	\vspace*{0.5cm}
@@ -63,79 +65,104 @@
 
 
 \section{Reinforcement Learning}
-In Reinforcement Learning (RL), an agent interacts with an environment to iteratively learn about it's task. Every timestep it uses an action $a$ and the environment generates a reward $\reward$, which is used to update the strategy of the agent, called policy $\pi$. $\pi$ can be deterministic $\pi(s) = a$, or probabilistic $\pi(a|s) = \mathbb{P}[A_t=a|S_t=s]$. Rewards can be dense (outputed at avery step), or sparse (outputed irregularly). It also generates an observation $\observation$. Is the environment fully observable, $\observation$ is the current environment state $S^e$. Otherwise, called partially observable, $\observation$ is the agents belief of the environment or the agent state $S^a$. This is used by $\pi$ to generate a new action for the next time-step. \par
 
-Single-Agent Reinforcement Learning in fully observable environments are formally described using a Markov Decision Process (MDP). It relies on the Markov property of the Markov chain. It defines that the current state is enough to infer future states through a transition probablitity. So the history of previous states is not needed. Therefore it can be described by the 4-tuple ($\state, \actions, P, R$), where:
+In Reinforcement Learning (RL), an agent interacts with an environment to iteratively learn about it's task. Every timestep it uses an action $a$ and the environment generates a reward $\reward$, which is used to update the strategy of the agent, called policy $\pi$. The policy $\pi$ can be deterministic $\pi(s) = a$, or probabilistic $\pi(a|s) = \mathbb{P}[A_t=a|S_t=s]$. Rewards can be dense (outputed at avery step), or sparse (outputed irregularly). 
+It also generates an observation $\observation$. The observation is based on the entire information of the environment state $S^e$ (fully observable) or part of the environment state $S^e$ (partially observable). In both cases it is a potentially noisy mapping of the state. It may still be different from the state, even if fully observable. This is used by $\pi$ to generate a new action for the next time-step. \par
+
+Single-Agent Reinforcement Learning in fully observable environments are formally described using a Markov Decision Process (MDP). An MDP relies on the Markov property. It defines that the current state is enough to infer future states through a transition probablitity. So the history of previous states is not needed. Therefore it can be described by the 4-tuple ($\states, \actions, T, R$), where:
 \begin{itemize}[noitemsep,nolistsep]
 	\item $\states$ is a set of states called the state space.
 	\item $\actions$ is a set of actions called action space.
-	\item $P_{ss'}$ is the state transition function. For a given action $a$ and state $\state$ it outputs the probability of landing in state $s'$.
-	\item $R_{ss'}$ is the expected immediate reward function. It returns the reward for transitioning from state $\state$ to state $s'$.
+	\item $T(s, a, s')$ is the state transition function. For a given action $a$ and state $\state$ it outputs the probability of landing in state $s'$. It's probability is denoted with $\mathbb{P}(S'|S,a)$.
+	\item $R(s,a,s')$ is the expected immediate reward function. It returns the reward for transitioning from state $\state$ to state $s'$. It may also include the action.
 \end{itemize}
 
-If the environment is partially observable an MPD can be expanded to a partially observable MPD (POMDP). The policy now takes the observation as input and not the actual environment state. The observation is based on given agent and includes subjective partial information. This is a tuple ($\states, \actions, \observations, P, R, Z$), where we have in addition to MDPs:
+If the environment is partially observable an MDP can be expanded to a partially observable MDP (POMDP). The policy now takes the observation as input and not the actual environment state. The observation is based on given agent and includes subjective partial information. We can formaly describe a POMDP as a tuple ($\states, \actions, \observations, P, R, Z$), where we have in addition to MDPs:
 \begin{itemize}[noitemsep,nolistsep]
-	\item $O$ a finite set of observations.
+	\item $O$ a finite set of observations. An observation may be any potentially noisy mapping of the state. As such, it may contain incomplete or subjective partial information.
 	\item $Z_{s'o}^a$ an observation function which gives us the probability of observation $\observation$ from the agent's perspective for a new environment state $s'$.
 \end{itemize}
 
-To evaluate a policy we are able to use two functions, the state-value function and action-value function. The state-value function $V_\pi(s)$ tells us the expected future reward of a given start state $s$ and a policy $\pi$. This is the sum of the rewards we will get following the policy starting from $s$. The sum is further discounted by the discount rate $\gamma \in [0,1)$. It is used to discount rewards that are futher in the future:
+To evaluate a policy we are able to use two functions, the state-value function and action-value function. The state-value function $V_\pi(s)$ tells us the expected future reward of a given start state $s$ and a policy $\pi$. This is the expected sum of the rewards we will get following the policy starting from $s$. The sum is further discounted by the discount rate $\gamma \in [0,1]$. It is used to discount rewards that are futher in the future, any may be interpreted as the probability of a rollout continuing after any given step. The value function may be described as
 
 \begin{equation}
     V_\pi(s) = \mathbb{E}_\pi \left [ \sum_{t=0}^\infty \gamma^t r_t | S_t = s\right ] \nonumber
 \end{equation} \par
 
-On the other hand we have the action-value function $Q_\pi(s,a)$, also known as Q-function. It tells us the discounted expected future reward for a policy $\pi$, an state $\state$ and an action $a$. This describes how good it is to be in a given state and to use a given action:
+On the other hand we have the action-value function $Q_\pi(s,a)$, also known as Q-function. It tells us the discounted expected future reward for a policy $\pi$, an state $\state$ and an action $a$. This describes how good it is to be in a given state and to use a given action, so this can be formulated as
 
 \begin{equation}
     Q_\pi(s,a) = \mathbb{E}_\pi [\sum_{t=0}^\infty \gamma^t r_t | S_t = s, A_t = a] \nonumber
 \end{equation} \par
 
-So an optimal policy $\pi^*$ maximizes the value-function and the action-value-function. For any nontrivial task like continuous environments that have alot of states, a direct representation of $\pi$ is not practical. The action-state space explodes in size and therefore an approximation is required. \par
+% Niklas: This part is fine, but I'd like a little more explanation. Maybe something like "For sufficiently simple and discrete environments, pi may be represented as a tabular mapping from state to action. For more complex environments, ..."
+So an optimal policy $\pi^*$ maximizes the value-function and the action-value-function. For any nontrivial task like continuous environments that have a lot of states, a direct representation of $\pi$ is not practical. The action-state space explodes in size and therefore an approximation is required. \par
 
-For optimization, we use policy gradient methods, which uses gradient descent to find $\pi^*$. In Actor-Critic methods we optimize two participants. The actor which controls how the agent behaves is based on the policy $\pi$. The critic measures how good the current policy is by using the value-function. While learning, the actor tries to improve the policy by using the advice from the critic, which learns how to correctly critique the policy of the actor. \par
+% Actor-Critic: More motivation: why?
+In this thesis, we consider a parameterized policy pi, whose parameters are optimized using policy gradient methods. The optimal policy is denoted as $\pi^*$. In Actor-Critic methods we optimize two participants. The actor which controls how the agent behaves is based on the policy $\pi$. The critic measures how good the current policy is by using the value-function. While learning, the actor tries to improve the policy by using the advice from the critic, which learns how to correctly critique the policy of the actor. \par
 
-In order to reduce variance when training we can use the advantage function $A^\pi(s,a)$. It describes how much extra reward the agent could get by taking a given action:
+In order to reduce variance when training we can use the advantage function $A^\pi(s,a)$. It describes how much extra reward the agent could get by taking a given action.
 
 \begin{equation}
     A^\pi(s,a) = Q^\pi(s,a) - V^\pi(s)\nonumber
 \end{equation} 
 
-This is called Advantage Actor Critic (A2C). Common Actor-Critic algorithms include Proximal Policy Optimization (PPO) \Citet{SchulmanWDRK17}, Trust Region Policy Optimization (TRPO) \Citet{TRPO2015}, Trust Region Layers (PG-TRL) \Citet{otto2021differentiable}.
+% Niklas: Not sure if "advantage actor critic" is commonly used as a description of these methods. If you read that somewhere, just cite that.
+This is called Advantage Actor Critic (A2C). Common Actor-Critic algorithms include Proximal Policy Optimization (PPO) \Citep{SchulmanWDRK17}, Trust Region Policy Optimization (TRPO) \Citep{TRPO2015}, Trust Region Layers (PG-TRL) \Citep{otto2021differentiable}.
 
+% Niklas: For more general things, you can cite the RL Book by Sutton. I'd also include a paragraph on the (formal) goal of reinforcement learning, i.e., to maximize the sum of discounted rewards.
 
 
 \section{Multi-Agent Reinforcement Learning}
 % Talk about Kinds of MAS Environments, Centralized/Decentralized Control, Homogeneous and Heterogeneous Agents, Hierarchical Structures, coalition, teams
 % \href{https://link.springer.com/chapter/10.1007/978-3-642-14435-6_1}{MAS - An Introduction to Multi-Agent Systems - 2010} or is this part of related_works?
-In this thesis we explore Multi-Agent Reinforcement Learning (MARL) or Swarm Reinforcement Learning (SwarmRL). In a Multi-Agent System (MAS) multiple agents influence the environment. The actions for all agents at a given timestep is called the joint actions $A = \langle a_1,...,a_n\rangle$, where $a_i$ is the action of agent i. Each agent has it's own observation and we therefore have a joint observation $O = \langle o_1,...,o_n\rangle$. There are a few extensions to POMDPs for multi-agent environments, for example decentralized POMPDs (Dec-POMDP). The main difference to POMPDs can be seen in the joint observations and joint actions:
+
+% Give a "full" descritpion for the Dec-POMDP here for completeness' sake. I.e., Say something like "a Dec-POMDP can thus be described as a tuple ..." before going into detail
+In this thesis we explore Multi-Agent Reinforcement Learning (MARL) or Swarm Reinforcement Learning (SwarmRL). In a Multi-Agent System (MAS) $n$ agents influence the environment. The set of actions for all agents at a given timestep is called the joint actions $A = \langle a_1,...,a_n\rangle$, where $a_i$ is the action of agent i. Each agent has it's own observation and we therefore have a joint observation $O = \langle o_1,...,o_n\rangle$. There are a few extensions to POMDPs for multi-agent environments, for example decentralized POMDPs (Dec-POMDP). The main difference to POMDPs can be seen in the joint observations and joint actions.
 
 \begin{itemize}[noitemsep,nolistsep]
 	\item $I$ is the set of n agents.
 	\item $\states$ is a set of states.
 	\item $\actions$ is a set of joint actions.
-	\item $P_{ss'}$ is the state transition function. For a given joint action $a$ and state $\state$ it gives the probability of landing in state $s'$.
+	\item $T(s, a, s')$ is the state transition function. For a given joint action $a$ and state $\state$ it gives the probability of landing in state $s'$.
 	\item $O$ is a set of joint observations.
 	\item $Z_{s'o}^a$ is an observation function which gives us the probability of an observation $\observation$ from an agent $\agent$'s perspective for a new environment state $s'$.
-	\item $R_{ss'}$ is the expected immediate reward function for all agents. It returns the reward for transitioning from state $\state$ to state $s'$.
+	\item $R(s,a,s')$ is the expected immediate reward function. It returns the reward for transitioning from state $\state$ to state $s'$. It may also include the action.
 \end{itemize}
 
+\section{Neural Networks}
+The Neural Network is the basis for every kind of approximate function learning. Each neuron can hold a real value. Layers are mulitple neurons in a row, where neurons in a given layer are used as inputs for the neurons of the next layer. The new value $y$ is a weighted  sum, with weights $w$, of the neurons of the previous layer it is connected to plus a bias $b$. This is describes a linear function. The result is then put through an activation function $\phi$ to control value ranges.
+% Niklas: There's other variants of neural networks, such as convolutional networks, recurrent network, etc., so try to be more careful with the formulation.
+% Niklas: We use a (variation of) residual connections for example, which in its general form can be described as  y = f(x)+x, where f(x) may either be a feedforward layer f(x)=\psi(w^Tx+b), or something as complicated as a GNN block.
+\begin{equation}
+    y = \phi(\textbf{W}^T \textbf{x} + \textbf{b}) \nonumber
+\end{equation} 
+
+If each of the neurons of the previous layer is connected to each node of the next layer we call that fully connected. The first layer is the input of the function and the last layer is the output. A Multi-Layer-Perceptron has multiple fully connected layers, where layers $i$ receives input from layer $i-1$ and in turn produces the input for layer $i+1$.
 
 
 \section{Message Passing GNN}
-In Graph Neural Networks (GNNs), we want to learn functions that run on graphs as inputs. The function should have the same result for two isomorphic graphs. Edges are represented using an adjacency matrix A, where:
+In this thesis a graph is given as $G=(V,E,X_v,X_e, X_u)$. We have $n$ Nodes $|V|=n$ with a node feature Matrix  $X_v \in \mathbb{R}^{n \times k}$ that contains $k$ features for each node. They describe attributes of a given node for a given task. Edges are defined as ${v_i,v_j} = e \in E \subseteq V \times V,\ |E| = l$ with their own edge feature Matrix $X_e \in \mathbb{R}^{l \times m}$. We additionally use global features $X_u \in \mathbb{R}^{q \times r}$ that are used to define features for the entire graph. The neighborhood of a node $v_i$ is defined as every node $v_j$, where $i \neq j$, which is connected to $v_i$ via an edge. Which is denoted as $\mathcal{N}_i = \{v_j\ |\ (v_i, v_j) \in E\}$. \par
+
+In Graph Neural Networks (GNNs), we want to learn functions that run on graphs as inputs. The function should have the same result for two isomorphic graphs. Edges are represented using an adjacency matrix A, where
 
 \begin{equation}
     a_{ij} = \begin{cases} 1& (i,j) \in E \\ 0 & otherwise \end{cases} \nonumber
 \end{equation}
 
-Nodes and edges have features, called node-features $X_v$ and edge-features $X_e$. To preserve isomorphic graphs, we want the function $f$ of our neural network to be permuation equivariant: $f(PX_v,PAP^T) = Pf(X_v,A)$ for a permuation $P$. In order to do that we define a function $g(x_{v_i}, \mathcal{N}_i)$, that uses a node-feature and the neighborhood of a node $\mathcal{N}_i$. It is called the local aggregation function. $g$ should not depend of the order of nodes in the neighborhood, in other words it should be permutation invariant $g(x_{v_i}, P\mathcal{N}_i) = g(x_{v_i}, \mathcal{N}_i)$. We can then construct $f$ using $g$ so that $f$ achieves permutation equivariance:
+Nodes and edges have features, called node-features $X_v$ and edge-features $X_e$. To preserve isomorphic graphs, we want the function $f$ of our neural network to be permuation equivariant, i.e. 
+
+\begin{equation}
+    f(PX_v,PAP^T) = Pf(X_v,A)\ \textup{for a given permuation} P \nonumber
+\end{equation}
+
+In order to do that we define a function $g(x_{v_i}, \mathcal{N}_i)$, that uses a node-feature and the neighborhood  $\mathcal{N}_i$ of a node $v_i$. It is called the local aggregation function. Function $g$ should not depend of the order of nodes in the neighborhood, in other words it should be permutation invariant $g(x_{v_i}, P\mathcal{N}_i) = g(x_{v_i}, \mathcal{N}_i)$. We can then construct $f$ using $g$ so that $f$ achieves permutation equivariance in the following way
 
 \begin{equation}
     f(X_v,A) = \begin{pmatrix} g(x_{v_1},\mathcal{N}_1) \\ g(x_{v_2},\mathcal{N}_2) \\ \vdots \\ g(x_{v_n},\mathcal{N}_n) \end{pmatrix} \nonumber
 \end{equation}
 
-$f$ is called a single Graph Neural Network layer or a single GNN hop. By applying this function multiple times to the graph, information can flow between multiple neighborhoods, called multiple GNN hops. A node is able to get information about the neighbors of his neighbor. The local aggregation function $g$ can have one of three flavors:
+$f$ is called a single Graph Neural Network block or a single GNN hop. In practice $f$ is learned by using an MLP Neural Network. By applying this function multiple times to the graph, information can flow between multiple neighborhoods, called multiple GNN hops. A node is able to get information about the neighbors of his neighbor. The local aggregation function $g$ can have one of three flavors.
 
 \begin{equation}
     \begin{aligned}
@@ -146,15 +173,9 @@ $f$ is called a single Graph Neural Network layer or a single GNN hop. By applyi
     \nonumber
 \end{equation}
 
-In Convolutional GNNs we use constants $c_{ij}$ for each edge which states how much Node $j$ influences the features of Node $i$. This turns the neighborhood aggregation into a weighted sum. So it is only dependend on the structure of the graph. Attentional GNNs are similar, but the weights are now a function $a(x_i,x_j)$ of Node $i$ and Node $j$ that is learnable. In Message-passing GNNs we have no weights, but the neighbor feature transformation function $\psi$ now takes both node features into account $\psi(x_{v_i}, x_{v_j})$. This way the sender and receiver work together to create messages that are used across an edge.
+In Convolutional GNNs we use constants $c_{ij}$ for each edge which states how much Node $j$ influences the features of Node $i$. This turns the neighborhood aggregation into a weighted sum. So it is only dependend on the structure of the graph. Attentional GNNs are similar, but the weights are now a function $a(x_i,x_j)$ of Node $i$ and Node $j$ that is learnable. In Message-passing GNNs we have no weights, but the neighbor feature transformation function $\psi$ now takes both node features into account $\psi(x_{v_i}, x_{v_j})$. This way the sender and receiver work together to create messages that are used across an edge. \par
+
+% Niklas: This part on GNNs does not consider edge or global features. Since edge features are crucial to our work, maybe consider splitting this into two parts. The first part is what you currently have, the second is the addition of edges. If you want to keep more general here, you could mention that there are extensions to consider global and node features, and that those will be described in more detail in Section X.X later on. In that case, you should reformulate this text a little bit to distinguish between GNNs in general (a stack of permutation-equivariant layers that act on graphs, potentially followed by a permutation-invariant "readout" function), and "node" GNNs that use node features as inputs and only use the edges for the "routing" between them.
 
 
 
-\section{Neural Networks}
-The Neural Network is the basis for every kind of approximate function learning. Each neuron can hold a real value. Layers are mulitple neurons in a row, where neurons in a given layer are used as inputs for the neurons of the next layer. The new value $y$ is a weighted  sum, with weights $w$, of the neurons of the previous layer it is connected to plus a bias $b$. This is describes a linear function. The result is then put through an activation function $\phi$ to control value ranges:
-
-\begin{equation}
-    y = \phi(w^T x + b) \nonumber
-\end{equation} 
-
-If each of the neurons of the previous layer is connected to each node of the next layer we call that fully connected. The first layer is the input of the function and the last layer is the output. A Multi-Layer-Perceptron has multiple fully connected layers.

@@ -99,7 +99,7 @@ Each of the node-types and edge-types are linearly embedded. Each type has it's 
     \nonumber
 \end{equation}
 
-In addition to the options outlined in the homogeneous GNN section, we are able to define different functions for $\otimes$ and $\oplus$. $\oplus$ follows the global aggregation function setting shared by the network. $\otimes$ on the other hand can be defined as a concatenation or as the global aggregation function. \Citet{RobinRuede2021} only uses a concatenation. The concatenation is more expensive as the input dimension of the MLP of the node-, or global-module is larger. Though it is more expressive than the alternative of using aggregation. In tasks like multi evader pursuit, if the different node-types are aggregated, it is harder for agents to distinguish stimuli from other agents or from the evaders.
+In addition to the options outlined in the homogeneous GNN section, we are able to define different functions for $\otimes$ and $\oplus$. Aggregator $\oplus$ follows the global aggregation function setting shared by the network, while $\otimes$ on the other hand can be defined as a concatenation or as the global aggregation function. \Citet{RobinRuede2021} only uses a concatenation. The concatenation is more expensive as the input dimension of the MLP of the node-, or global-module is larger. Though it is more expressive than the alternative of using aggregation. In tasks like multi evader pursuit, if the different node-types are aggregated, it is harder for agents to distinguish stimuli from other agents or from the evaders.
 
 \iffalse
 An overview of the heterogeneous message passing block can be seen in \Cref{fig:heterogeneous_message_passing_block}.

@@ -13,6 +13,89 @@
 %   - Show and describe the actual results:
 
 % Basically all of the experiments have the goal to show the value of multiple-hops in comparison to robins architecture.
+
+%during the evaluation of the experiments, we experienced unexpected hardware issues that caused a small subset of our runs to crush. Due to time constraints we were not able to fully replicate the respective experiments. Note that we do not include these crashed runs in our evaluation, and that the resulting grid searches are thus partially incomplete. The general findings of this thesis remain unchanged.
+
+\section{Rendezvous}
+Proof of concept\par
+
+Number of Hops: Rendezvous + Observation:
+\par
+
+Ablation (Optional)
+\par
+
+node-wise or graph-wise value function (Optional)
+
+
+
+\section{Dispersion}
+Aggregationfunction and Rewardtype
+Questions to answer:
+\begin{itemize}[noitemsep,nolistsep]
+    \item How do different aggregation-functions and reward-type learn easier/harder?
+    \item How is this effected by num-layers? with certain aggregation-function/reward-type combinations?
+\end{itemize}
+Expected Answers:
+\begin{itemize}[noitemsep,nolistsep]
+    \item a
+\end{itemize}
+\begin{itemize}[noitemsep,nolistsep]
+    \item Environments: Dispersion
+    \item Environment: Culling Methods: more culling vs less culling, reward-type
+    \item Network: latent-dimension, aggregation-function, num-blocks
+\end{itemize}
+
+
+\section{Pursuit}
+Number of Hops: Single and Multi-Evader:
+\par
+
+(Optional) Directed vs. Undirected GNN: Single and Multi-Evader: \par
+Questions to answer:
+\begin{itemize}[noitemsep,nolistsep]
+    \item what "learns" better or has better information propagation
+\end{itemize}
+Expected Answers:
+\begin{itemize}[noitemsep,nolistsep]
+    \item 
+\end{itemize}
+\begin{itemize}[noitemsep,nolistsep]
+    \item Environments: Pursuit-Multi, Pursuit-Single
+    \item Just add this to each of the other experiments (?)
+    \item Environements: use-directed-graph.
+    \item Network: num-blocks, latent-dimension, aggregation-function, neighbor-aggregation, value-function-scope
+\end{itemize}
+\par
+
+(Optional) Neighbor Aggregation Type: Single and Multi-Evader \\
+Questions to answer:
+\begin{itemize}[noitemsep,nolistsep]
+    \item Agents better/worse being able to distinguish themselves from evaders for concat(aggr())?
+    \item How does this effect aggregation function for aggr(aggr()). Where do I get better performance?
+    \item How is the effect of more/less hopps here?
+\end{itemize}
+Expected Answers:
+\begin{itemize}[noitemsep,nolistsep]
+    \item concat(aggr()): worse iteration time, but easier to learn heterogeneous graphs.
+    \item aggr(aggr()): probably mean aggregation, there are more features "preserved".
+    \item num-hops: more hops should have more of an effect in concat(aggr()).
+\end{itemize}
+aggr(aggr()) vs concat(aggr())
+\begin{itemize}[noitemsep,nolistsep]
+    \item Environments: Pursuit-Single, Pursuit-Multi
+    \item Environment: Base-Pursuit-Multi with 3+ Hops?
+    \item Network: latent-dimension, aggregation-function, neighbor-aggregation, num-blocks
+\end{itemize}
+\par
+
+(Optional) node-wise or graph-wise value function
+
+
+
+
+
+
 \section{Number of Hops}
 Questions to answer:
 \begin{itemize}[noitemsep,nolistsep]
@@ -33,75 +116,9 @@ Expected Answers:
 \begin{itemize}[noitemsep,nolistsep]
     \item Environments: Rendezvous, Pursuit-Multi
     \item Environment: Culling Methods: more culling vs less culling, num-agents and dynamics?
-    \item Network: num-blocks, latent-dimension?, aggregation-function?
+    \item Network: num-blocks, latent-dimension, aggregation-function?
 \end{itemize}
 
-
-\section{Neighbor Aggregation Type}
-Questions to answer:
-\begin{itemize}[noitemsep,nolistsep]
-    \item Agents better/worse being able to distinguish themselves from evaders for concat(aggr())?
-    \item How does this effect aggregation function for aggr(aggr()). Where do I get better performance?
-    \item How is the effect of more/less hopps here?
-\end{itemize}
-Expected Answers:
-\begin{itemize}[noitemsep,nolistsep]
-    \item concat(aggr()): worse iteration time, but easier to learn heterogeneous graphs.
-    \item aggr(aggr()): probably mean aggregation, there are more features "preserved".
-    \item num-hops: more hops should have more of an effect in concat(aggr()).
-\end{itemize}
-aggr(aggr()) vs concat(aggr())
-\begin{itemize}[noitemsep,nolistsep]
-    \item Environments: Pursuit-Single, Pursuit-Multi
-    \item Environment: Base-Pursuit-Multi with 3+ Hops?
-    \item Network: latent-dimension, aggregation-function, neighbor-aggregation, num-blocks
-\end{itemize}
-
-
-\section{Randomized Number of Agents and Evaders}
-Questions to answer:
-\begin{itemize}[noitemsep,nolistsep]
-    \item How good is the architecture able to abstract task to random number of agents?
-    \item How does this effect num-blocks?
-    \item Extrapolate number of agents? Range (5-10), Evaluate on 10, 15, 20? and without range? (5?)
-    \item How is this effected by culling?
-\end{itemize}
-Expected Answers:
-\begin{itemize}[noitemsep,nolistsep]
-    \item Random abstraction based on the range. More Randomness to train to => Better.
-    \item Extrapolate: Better with range or without? 
-    \item In theory GNN are not effected by rearranging input data and latent-dimension stays the same!
-    \item Culling: Should learn to work better with varying effective communication ranges (hops).
-\end{itemize}
-random number of agents
-\begin{itemize}[noitemsep,nolistsep]
-    \item Environments: Rendezvous
-    \item Environment: Rendezvous: Culling Methods: more culling vs less culling
-    \item Network: latent-dimension, num-blocks
-\end{itemize}
-random number of agents + random number of evaders
-\begin{itemize}[noitemsep,nolistsep]
-    \item Environments: Pursuit-Multi
-    \item Environment: Multi-Pursuit: Culling Methods: more culling vs less culling
-    \item Network: latent-dimension, num-blocks
-\end{itemize}
-
-
-\section{GNN - directed vs. undirected}
-Questions to answer:
-\begin{itemize}[noitemsep,nolistsep]
-    \item what "learns" better or has better information propagation
-\end{itemize}
-Expected Answers:
-\begin{itemize}[noitemsep,nolistsep]
-    \item 
-\end{itemize}
-\begin{itemize}[noitemsep,nolistsep]
-    \item Environments: Pursuit-Multi, Pursuit-Single
-    \item Just add this to each of the other experiments (?)
-    \item Environements: use-directed-graph.
-    \item Network: num-blocks, latent-dimension, aggregation-function, neighbor-aggregation, value-function-scope
-\end{itemize}
 
 \section{node-wise or graph-wise value function}
 Questions to answer:
@@ -118,44 +135,4 @@ Expected Answers:
     \item Just add this to each of the other experiments (?)
     \item Environements: 
     \item Network: num-blocks, latent-dimension, aggregation-function, neighbor-aggregation, value-function-scope
-\end{itemize}
-
-
-\section{PPO - Code Level optimizations}
-Questions to answer:
-\begin{itemize}[noitemsep,nolistsep]
-    \item How do these optimizations effect num-layers?
-\end{itemize}
-Expected Answers:
-\begin{itemize}[noitemsep,nolistsep]
-    \item a
-\end{itemize}
-%https://openreview.net/pdf?id=r1etN1rtPB
-29.11: list of new PPO features implemented!
-\begin{itemize}[noitemsep,nolistsep]
-    \item Environments: Rendezvous
-    \item value-function-clipping (0.0 - 1.0), 1.0 = no clipping
-    \item normalize rewards
-    \item reward-clipping: graph-normalized constructor: reward-clip = 5, currently no parameter
-    \item observation-normalization
-    \item global gradient clipping: max-grad-norm
-    \item tanh (insted of LeakyReLU)
-    \item can those have an effect on num-layers, aggregation-function and neighbor-aggregation?
-\end{itemize}
-
-
-\section{Dispersion}
-Questions to answer:
-\begin{itemize}[noitemsep,nolistsep]
-    \item How do different aggregation-functions and reward-type learn easier/harder?
-    \item How is this effected by num-layers? with certain aggregation-function/reward-type combinations?
-\end{itemize}
-Expected Answers:
-\begin{itemize}[noitemsep,nolistsep]
-    \item a
-\end{itemize}
-\begin{itemize}[noitemsep,nolistsep]
-    \item Environments: Dispersion
-    \item Environment: Culling Methods: more culling vs less culling, reward-type
-    \item Network: latent-dimension, aggregation-function, num-blocks
 \end{itemize}
