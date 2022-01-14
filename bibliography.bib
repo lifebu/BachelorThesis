@@ -129,3 +129,160 @@ keywords = {Hierarchical control, Self-organizing neural networks, Reinforcement
 abstract = {Coordinated control of multi-agent teams is an important task in many real-time strategy (RTS) games. In most prior work, micromanagement is the commonly used strategy whereby individual agents operate independently and make their own combat decisions. On the other extreme, some employ a macromanagement strategy whereby all agents are controlled by a single decision model. In this paper, we propose a hierarchical command and control architecture, consisting of a single high-level and multiple low-level reinforcement learning agents operating in a dynamic environment. This hierarchical model enables the low-level unit agents to make individual decisions while taking commands from the high-level commander agent. Compared with prior approaches, the proposed model provides the benefits of both flexibility and coordinated control. The performance of such hierarchical control model is demonstrated through empirical experiments in a real-time strategy game known as StarCraft: Brood War (SCBW).}
 }
 
+@article{ISHIWAKA2003245,
+title = {An approach to the pursuit problem on a heterogeneous multiagent system using reinforcement learning},
+journal = {Robotics and Autonomous Systems},
+volume = {43},
+number = {4},
+pages = {245-256},
+year = {2003},
+issn = {0921-8890},
+doi = {https://doi.org/10.1016/S0921-8890(03)00040-X},
+url = {https://www.sciencedirect.com/science/article/pii/S092188900300040X},
+author = {Yuko Ishiwaka and Takamasa Sato and Yukinori Kakazu},
+keywords = {Pursuit problem, Prediction, Q-learning, Emergence, Heterogeneous multiagent system},
+abstract = {Cooperation among agents is important for multiagent systems having a shared goal. In this paper, an example of the pursuit problem is studied, in which four hunters collaborate to catch a target. A reinforcement learning algorithm is employed to model how the hunters acquire this cooperative behavior to achieve the task. In order to apply Q-learning, which is one way of reinforcement learning, two kinds of prediction are needed for each hunter agent. One is the location of the other hunter agents and target agent, and the other is the movement direction of the target agent at next time step t. In our treatment we extend the standard problem to systems with heterogeneous agents. One motivation for this is that the target agent and hunter agents have differing abilities. In addition, even though those hunter agents are homogeneous at the beginning of the problem, their abilities become heterogeneous in the learning process. Simulations of this pursuit problem were performed on a continuous action state space, the results of which are displayed, accompanied by a discussion of their outcomes’ dependence upon the initial locations of the hunters and the speeds of the hunters and a target.}
+}
+
+@InProceedings{Intrusion2008,
+author="Servin, Arturo
+and Kudenko, Daniel",
+editor="Tuyls, Karl
+and Nowe, Ann
+and Guessoum, Zahia
+and Kudenko, Daniel",
+title="Multi-agent Reinforcement Learning for Intrusion Detection",
+booktitle="Adaptive Agents and Multi-Agent Systems III. Adaptation and Multi-Agent Learning",
+year="2008",
+publisher="Springer Berlin Heidelberg",
+address="Berlin, Heidelberg",
+pages="211--223",
+abstract="Intrusion Detection Systems (IDS) have been investigated for many years and the field has matured. Nevertheless, there are still important challenges, e.g., how an IDS can detect new and complex distributed attacks. To tackle these problems, we propose a distributed Reinforcement Learning (RL) approach in a hierarchical architecture of network sensor agents. Each network sensor agent learns to interpret local state observations, and communicates them to a central agent higher up in the agent hierarchy. These central agents, in turn, learn to send signals up the hierarchy, based on the signals that they receive. Finally, the agent at the top of the hierarchy learns when to signal an intrusion alarm. We evaluate our approach in an abstract network domain.",
+isbn="978-3-540-77949-0"
+}
+
+@article{koestler1968ghost,
+  title={The ghost in the machine.},
+  author={Koestler, Arthur},
+  year={1968},
+  publisher={Macmillan}
+}
+
+@article{Holonic2013,
+title = {Holonic multi-agent system for traffic signals control},
+journal = {Engineering Applications of Artificial Intelligence},
+volume = {26},
+number = {5},
+pages = {1575-1587},
+year = {2013},
+issn = {0952-1976},
+doi = {https://doi.org/10.1016/j.engappai.2013.01.007},
+url = {https://www.sciencedirect.com/science/article/pii/S0952197613000171},
+author = {Monireh Abdoos and Nasser Mozayani and Ana L.C. Bazzan},
+keywords = {Holonic multi-agent system, Q-learning, Hierarchical control, Traffic signals control, Large network},
+abstract = {Agent-based technologies are rapidly growing as a powerful tool for modelling and developing large-scale distributed systems. Recently, multi-agent systems are largely used for intelligent transportation systems modelling. Traffic signals control is a challenging issue in this area, especially in a large-scale urban network. In a large traffic network, where each agent represents a traffic signals controller, there are many entities interacting with each other and hence it is a complex system. An approach to reduce the complexity of such systems is using organisation-based multi-agent system. In this paper, we use an organisation called holonic multi-agent system (HMAS) to model a large traffic network. A traffic network containing fifty intersections is partitioned into a number of regions and holons are assigned to control each region. The holons are hierarchically arranged in two levels, intersection controller holons in the first level and region controller holons in the second level. We introduce holonic Q-learning to control the signals in both levels. The inter-level interactions between the holons in the two levels contribute to the learning process. Experimental results show that the holonic Q-learning prevents the network to be over-saturated while it causes less average delay time and higher flow rate.}
+}
+
+@ARTICLE{Teams2019,
+       author = {{Baker}, Bowen and {Kanitscheider}, Ingmar and {Markov}, Todor and {Wu}, Yi and {Powell}, Glenn and {McGrew}, Bob and {Mordatch}, Igor},
+        title = "{Emergent Tool Use From Multi-Agent Autocurricula}",
+      journal = {arXiv e-prints},
+     keywords = {Computer Science - Machine Learning, Computer Science - Artificial Intelligence, Computer Science - Multiagent Systems, Statistics - Machine Learning},
+         year = 2019,
+        month = sep,
+          eid = {arXiv:1909.07528},
+        pages = {arXiv:1909.07528},
+archivePrefix = {arXiv},
+       eprint = {1909.07528},
+ primaryClass = {cs.LG},
+       adsurl = {https://ui.adsabs.harvard.edu/abs/2019arXiv190907528B},
+      adsnote = {Provided by the SAO/NASA Astrophysics Data System}
+}
+
+@article{MAgent2018, 
+  title={MAgent: A Many-Agent Reinforcement Learning Platform for Artificial Collective Intelligence}, 
+  volume={32}, 
+  url={https://ojs.aaai.org/index.php/AAAI/article/view/11371}, 
+  abstractNote={ &lt;p&gt; We introduce MAgent, a platform to support research and development of many-agent reinforcement learning. Unlike previous research platforms on single or multi-agent reinforcement learning, MAgent focuses on supporting the tasks and the applications that require hundreds to millions of agents. Within the interactions among a population of agents, it enables not only the study of learning algorithms for agents’ optimal polices, but more importantly, the observation and understanding of individual agent’s behaviors and social phenomena emerging from the AI society, including communication languages, leaderships, altruism. MAgent is highly scalable and can host up to one million agents on a single GPU server. MAgent also provides flexible configurations for AI researchers to design their customized environments and agents. In this demo, we present three environments designed on MAgent and show emerged collective intelligence by learning from scratch. &lt;/p&gt; }, 
+  number={1}, 
+  journal={Proceedings of the AAAI Conference on Artificial Intelligence}, 
+  author={Zheng, Lianmin and Yang, Jiacheng and Cai, Han and Zhou, Ming and Zhang, Weinan and Wang, Jun and Yu, Yong}, 
+  year={2018}, 
+  month={Apr.} 
+}
+
+
+@INPROCEEDINGS{Foraging2013,
+
+  author={Yogeswaran, M. and Ponnambalam, S.G. and Kanagaraj, G.},
+
+  booktitle={2013 IEEE Symposium on Swarm Intelligence (SIS)}, 
+
+  title={Reinforcement learning in swarm-robotics for multi-agent foraging-task domain}, 
+
+  year={2013},
+
+  volume={},
+
+  number={},
+
+  pages={15-21},
+
+  doi={10.1109/SIS.2013.6615154}}
+
+
+@InProceedings{GNS2020,
+  title = 	 {Learning to Simulate Complex Physics with Graph Networks},
+  author =       {Sanchez-Gonzalez, Alvaro and Godwin, Jonathan and Pfaff, Tobias and Ying, Rex and Leskovec, Jure and Battaglia, Peter},
+  booktitle = 	 {Proceedings of the 37th International Conference on Machine Learning},
+  pages = 	 {8459--8468},
+  year = 	 {2020},
+  editor = 	 {III, Hal Daumé and Singh, Aarti},
+  volume = 	 {119},
+  series = 	 {Proceedings of Machine Learning Research},
+  month = 	 {13--18 Jul},
+  publisher =    {PMLR},
+  pdf = 	 {http://proceedings.mlr.press/v119/sanchez-gonzalez20a/sanchez-gonzalez20a.pdf},
+  url = 	 {https://proceedings.mlr.press/v119/sanchez-gonzalez20a.html},
+  abstract = 	 {Here we present a machine learning framework and model implementation that can learn to simulate a wide variety of challenging physical domains, involving fluids, rigid solids, and deformable materials interacting with one another. Our framework—which we term "Graph Network-based Simulators" (GNS)—represents the state of a physical system with particles, expressed as nodes in a graph, and computes dynamics via learned message-passing. Our results show that our model can generalize from single-timestep predictions with thousands of particles during training, to different initial conditions, thousands of timesteps, and at least an order of magnitude more particles at test time. Our model was robust to hyperparameter choices across various evaluation metrics: the main determinants of long-term performance were the number of message-passing steps, and mitigating the accumulation of error by corrupting the training data with noise. Our GNS framework advances the state-of-the-art in learned physical simulation, and holds promise for solving a wide range of complex forward and inverse problems.}
+}
+
+
+@InProceedings{SGCN2019,
+  title = 	 {Simplifying Graph Convolutional Networks},
+  author =       {Wu, Felix and Souza, Amauri and Zhang, Tianyi and Fifty, Christopher and Yu, Tao and Weinberger, Kilian},
+  booktitle = 	 {Proceedings of the 36th International Conference on Machine Learning},
+  pages = 	 {6861--6871},
+  year = 	 {2019},
+  editor = 	 {Chaudhuri, Kamalika and Salakhutdinov, Ruslan},
+  volume = 	 {97},
+  series = 	 {Proceedings of Machine Learning Research},
+  month = 	 {09--15 Jun},
+  publisher =    {PMLR},
+  pdf = 	 {http://proceedings.mlr.press/v97/wu19e/wu19e.pdf},
+  url = 	 {https://proceedings.mlr.press/v97/wu19e.html},
+  abstract = 	 {Graph Convolutional Networks (GCNs) and their variants have experienced significant attention and have become the de facto methods for learning graph representations. GCNs derive inspiration primarily from recent deep learning approaches, and as a result, may inherit unnecessary complexity and redundant computation. In this paper, we reduce this excess complexity through successively removing nonlinearities and collapsing weight matrices between consecutive layers. We theoretically analyze the resulting linear model and show that it corresponds to a fixed low-pass filter followed by a linear classifier. Notably, our experimental evaluation demonstrates that these simplifications do not negatively impact accuracy in many downstream applications. Moreover, the resulting model scales to larger datasets, is naturally interpretable, and yields up to two orders of magnitude speedup over FastGCN.}
+}
+
+@misc{GAT2017,
+      title={Graph Attention Networks}, 
+      author={Petar Veličković and Guillem Cucurull and Arantxa Casanova and Adriana Romero and Pietro Liò and Yoshua Bengio},
+      year={2018},
+      eprint={1710.10903},
+      archivePrefix={arXiv},
+      primaryClass={stat.ML}
+}
+
+@article{G2ANet2020, 
+  title={Multi-Agent Game Abstraction via Graph Attention Neural Network}, 
+  volume={34}, 
+  url={https://ojs.aaai.org/index.php/AAAI/article/view/6211}, 
+  DOI={10.1609/aaai.v34i05.6211}, 
+  abstractNote={&lt;p&gt;In large-scale multi-agent systems, the large number of agents and complex game relationship cause great difficulty for policy learning. Therefore, simplifying the learning process is an important research issue. In many multi-agent systems, the interactions between agents often happen locally, which means that agents neither need to coordinate with all other agents nor need to coordinate with others all the time. Traditional methods attempt to use pre-defined rules to capture the interaction relationship between agents. However, the methods cannot be directly used in a large-scale environment due to the difficulty of transforming the complex interactions between agents into rules. In this paper, we model the relationship between agents by a complete graph and propose a novel game abstraction mechanism based on two-stage attention network (G2ANet), which can indicate whether there is an interaction between two agents and the importance of the interaction. We integrate this detection mechanism into graph neural network-based multi-agent reinforcement learning for conducting game abstraction and propose two novel learning algorithms GA-Comm and GA-AC. We conduct experiments in Traffic Junction and Predator-Prey. The results indicate that the proposed methods can simplify the learning process and meanwhile get better asymptotic performance compared with state-of-the-art algorithms.&lt;/p&gt;}, 
+  number={05}, 
+  journal={Proceedings of the AAAI Conference on Artificial Intelligence}, 
+  author={Liu, Yong and Wang, Weixun and Hu, Yujing and Hao, Jianye and Chen, Xingguo and Gao, Yang}, 
+  year={2020}, 
+  month={Apr.}, 
+  pages={7211-7218} 
+}

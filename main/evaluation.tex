@@ -49,7 +49,6 @@ This proof of concept experiment used rendezvous. We wanted to show in a simpler
     \label{fig:proof_of_concept_rendezvous}
 \end{figure}
 
-
 \Cref{fig:proof_of_concept_rendezvous} clearly shows that most of the training environments were able to successfully solve the task. With at least 2 hops, the task was solved after 200 to 350 iterations. The difference in Rendezvous for more than 2 hops is pretty noisy. In early iterations, performance is directly tied to more hops. But later the difference between 2-4 gets smaller. 4 Even struggles to optimize beyond a ceratin threshhold for a while. It is clear that the architecture is able effect the observation input more strongly, and learn faster. Each extra hop added roughly 13$\%$ to the time needed to learn, so the benefit is rather small. This was expected though for a rather simple task. If we look at the right site, we can see the effect of different latent dimension to the effectiveness of learning. Only a latent-dimension of 8 was not enough for the agents to meet up in the alotted time. It is clear that the architecture was not able to correctly represent and process observation data for 10 agents.\par
 
 \begin{figure}[htp]
@@ -61,7 +60,7 @@ This proof of concept experiment used rendezvous. We wanted to show in a simpler
     \label{fig:proof_of_concept_rendezvous_ld}
 \end{figure}
 
-If we investigate the behavior for the different latent-dimensions, we can see a large difference in performance shown in \Cref{fig:proof_of_concept_rendezvous_ld}. Latent-dimensions 16 or more were able to solve the task easily. Here the gain of 4 hops is even stronger than comparing it to the general case. If we look at latent-dimension 8 it is clear that a single hop is a very strong outlier. The general performance is much worse, as it is not able to correctly represent the problem at hand. But the overall performance gain of 2 and more hops is much stronger. This shows in larger constraints the ability to process more of the observation data leads to a larger gain.
+If we investigate the behavior for the different latent-dimensions, we can see a large difference in performance shown in \Cref{fig:proof_of_concept_rendezvous_ld}. Latent-dimensions 16 or more were able to solve the task easily. Here the gain of 4 hops is even stronger than comparing it to the general case. If we look at latent-dimension 8 it is clear that a single hop is a very strong outlier. The general performance is much worse, as it is not able to correctly represent the problem at hand. But the overall performance gain of 2 and more hops is much stronger. This shows in larger constraints the ability to process more of the observation data leads to a larger gain. Doubling the latent-dimensions roughly doubled the total time needed, much more than increasing the number of hops. This leads to the conclusion that more hops lead to larger runtime efficiency compared to higher latent dimension.
 
 
 \section{Ablation}
