@@ -58,11 +58,11 @@ A culling method is used, so that the agents have a finite sensor range, either 
 \subsection{Dispersion}
 \begin{figure}[htp]
     \centering
-    \subfigure[]{\label{fig:dispersion_example_01}\includegraphics[width=0.32\textwidth]{figures/dispersion_example_01.png}}  
-    \subfigure[]{\label{fig:dispersion_example_02}\includegraphics[width=0.32\textwidth]{figures/dispersion_example_02.png}} 
-    \subfigure[]{\label{fig:dispersion_example_03}\includegraphics[width=0.32\textwidth]{figures/dispersion_example_03.png}}   
+    \subfigure[$f(x) = \min(x)$]{\label{fig:dispersion_example_01}\includegraphics[width=0.32\textwidth]{figures/dispersion_rt_min.png}}  
+    \subfigure[$f(x) = x^2$]{\label{fig:dispersion_example_02}\includegraphics[width=0.32\textwidth]{figures/dispersion_rt_squared.png}} 
+    \subfigure[$f(x) = \sqrt(x)$]{\label{fig:dispersion_example_03}\includegraphics[width=0.32\textwidth]{figures/dispersion_rt_sqrt.png}}   
     \hspace{1cm}                       
-    \caption{Three example episodes for Dispersion. The circular start position used for evaluation can be seen. The agents try to disperse and organize into four distinct groups. Each example used $f(x) = x$, so they just calculated the mean.}
+    \caption{Three example episodes for Dispersion. The circular start position used for evaluation can be seen. The agents try to disperse and organize into distinct groups. The examples used different reward functions.}
     \label{fig:dispersion_example}
 \end{figure}
 
