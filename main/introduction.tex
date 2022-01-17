@@ -4,46 +4,16 @@
 
 \chapter{Introduction}
 % pages: 0.9-1.2 ~ 369-715 words, ~62-120 words per paragraph
-% 130 words
-% Niklas: I'd restructure this a little to make clear what is a gneral overview, and what is specific examples.
-Multi-Agent Systems has several real-world applications. Any System that requires multiple agents to work together or against each other can be modeled in a Multi-Agent fashion. For example, in \citet{MARLTraffic2020} the authors define a traffic control system in which they create a grid of traffic lights, where each of them is an agent. They then learn the agents to optimize minimal sum of queue and waiting times at the intersections. Similarly, robot swarms can also be used to solve pathfinding problems in indoor, maze-like scenarios as discussed in \citet{SwarmPathFinding2013}. Given the structure of the environment communication is severly limited. 
-% 2 more real-world problems. (Biology, Ants, Bees?)
+Any system that requires multiple agents to work together or against each other can be modelled as a Multi-Agent System (MAS). They are able to achieve more for a common goal than alone. An Agent usually has a limited sensory perception range, so cooperation is required. Observations can be shared to improve performance of the group. These agents can organize themselves and achieve more complex behavior as a group. They can improve the reliability and robustness of systems, as single failures can be compensated. Additionally, a MAS allows for flexibility in the number of participants. Agents can be added to the group as and when necessary. \par
+
+Multi-Agent Systems have several real-world applications. For example, in \citet{MARLTraffic2020} the authors defined a traffic control system using MAS. They created a grid of traffic lights, where each of them is an agent. Then the agents learned to optimize the total waiting times at the intersections. Similarly, robot swarms can also be used to solve pathfinding problems. For example, indoor and maze-like scenarios are discussed in \citet{SwarmPathFinding2013}. The structure of the environment causes the communication to be severely limited, which does not pose a problem for the MAS System. These Swarms are used to simulate physical systems of liquids, solids and deformable materials \citep{GNS2020}.
 \par
 
-% ~62-120 words
-Recent applications and research in MARL and GNN.
-\begin{itemize}[noitemsep,nolistsep]
-	\item GNN really hot right now! Alot of research in this topic.
-	\item MARL: Robin Paper (this thesis is based on his!). 
-	\item Multi-Agent RL: RTS Games: \citet{RTSMARL2021}.
-	\item GNN: Graph Convolutional reinforcement learning.
-\end{itemize} \par
+Reinforcement Learning (RL) was originally designed for environments with a single agent. More advancement has come from the field of deep reinforcement learning. Because of those, it has become possible to adapt single-agent RL to Multi-Agent Systems. This is called Multi-Agent Reinforcement Learning (MARL). We will focus on simple homogeneous agents that will cooperate to solve a common task. For example, MARL has been used to solve complex strategic and tactical problems found in videogames. More specifically research can be found that focuses on Real-Time Strategy games \citep{RTSMARL2021}. \par
 
-% ~62-120 words
-% Smoother formulations
-In Multi-Agent Reinforcement Learning we have multiple agents that work together or against in an environment. We use adapted versions of the Reinforcement Learning techniques used for single agents. Graph Neural Networks are learning methods for Neural Networks. The function they learn are designed in a way to preserve Graph structure. They take graphs as Inputs and have graphs as outputs. In our ...???
+With more and more agents the needs for a more sophisticated structure to process observation data is needed in MARL. We want to explore the viability of using Graph Neural Networks (GNNs) as a processing step for Multi-Agent Reinforcement Learning. GNNs allow for learning of Neural Networks with graphs inputs. Graphs are a natural and fitting representation for the communication between agents. They also allow for data processing between agents that are spatially adjacent, which fits with many real-world applications. \par
 
-What is GNN, What is MARL, what can GNNs it do for MARL? (the main thing we want to talk about, more conceptually)
-\begin{itemize}[noitemsep,nolistsep]
-	\item MARL: Multiple Agents are trying to learn in an environment using RL Methods. Adapting RL algorithms designed for single agent environments for MAS.
-	\item GNN: 
-	\item What can GNN do for MARL:
-\end{itemize} \par
+Our Approach is based on the previously published work found in \citet{RobinRuede2021}. It already describes a GNN for processing observation data. We improve on that by implementing multiple GNN passes inspired by \citet{graphconvolutionMARL}. We want to run our experiments in continuous environment, which is why we chose not to use the learning approach found in \citet{graphconvolutionMARL}, but to the same algorithm as \citet{RobinRuede2021}. We want to show that multiple GNN passes can be a benefit to the training results.\par
 
-% ~62-120 words
-What is my approach I want to talk about here? What was our goal?
-\begin{itemize}[noitemsep,nolistsep]
-	\item Approach: Based on Robin Paper => Expand on his with GNN! (this is a bachelor thesis) \citet{RobinRuede2021}
-	\item restriction on MARL, restriction about agents, environment etc. (Robin, 2.4)
-	\item Goal: Show that MARL especially under harsh communication ranges can benefit alot from GNN structures with multiple hops.
-\end{itemize} \par
 
-% ~62-120 words
-My work relative to other work. What has other research focused on?
-\begin{itemize}[noitemsep,nolistsep]
-	\item Robin Paper => Expand on his with GNN! (this is a bachelor thesis) \citet{RobinRuede2021}
-	\item And Graph Convolutional reinforcement learning paper.
-\end{itemize} \par
-
-% 142 words
-This thesis is structured like this: Firstly we will go over the necessary preliminaries and notation needed to understand this thesis in \Cref{ch:Preliminaries}. This includes Reinforcement Learning basics in the single-agent case, then adresses how it is applied in multi-agent tasks and is followed by a brief overview of Graph Neural Networks. In \Cref{ch:Related Work} related work will be discussed. The subsequent \Cref{ch:Architecture} is focused on the details of our proposed model. It will describe our policy architecture respect to both homogeneous and heterogeneous Graph Neural Networks. Our experiments, including the general setup and the specific tasks that we trained our mode on, are described in \Cref{ch:Experiments}. The goal of our expermiments, their interpretation and evaluation of our results can be found in \Cref{ch:Evaluation}. We will complete this thesis by distilling the conclusions about our findings and provide future avenues for improvements in \Cref{ch:Conclusion}. 
+This thesis is structured like this: Firstly we will go over the necessary preliminaries and notation needed to understand this thesis in \Cref{ch:Preliminaries}. This includes Reinforcement Learning basics in the single-agent case, then addresses how it is applied in multi-agent tasks and is followed by a brief overview of Graph Neural Networks. In \Cref{ch:Related Work} related work will be discussed. The subsequent \Cref{ch:Architecture} is focused on the details of our proposed model. It will describe our policy architecture respect to both homogeneous and heterogeneous Graph Neural Networks. Our experiments, including the general setup and the specific tasks that we trained our mode on, are described in \Cref{ch:Experiments}. The goal of our experiments, their interpretation and evaluation of our results can be found in \Cref{ch:Evaluation}. We will complete this thesis by distilling the conclusions about our findings and provide future avenues for improvements in \Cref{ch:Conclusion}. 

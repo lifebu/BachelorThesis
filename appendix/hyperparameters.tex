@@ -1,0 +1,35 @@
+% !TeX spellcheck = de_DE
+% !TeX encoding = UTF-8
+% !TeX root = ../thesis.tex
+
+\chapter{Experiment Hyperparameters}
+\label{ch:Hyperparameters}
+\begin{table}[ht!]
+	\caption{General PPO Parameters \citep{SchulmanWDRK17} and Code Optimizations \citep{PPOHacks2020}}
+	\vspace*{0.5cm}
+	\centering
+	\begin{tabular}{ll}
+		\toprule
+		Parameter & Value \\
+        \midrule
+        \midrule
+		batch size & 256 \\
+        number of rollout steps & 2048 \\
+        discount factor & 0.99 \\
+        epochs per iteration & 5 \\     
+        entropy coefficient & 0.0 \\
+        value function coefficient & 0.5 \\
+        $\lambda_{gae}$ & 0.95 \\
+        learning rate & $3.0e^{-4}$ \\
+        $l_2$ norm & 0.0 \\
+        max gradient norm & 0.5 \\
+        value function clip range & 0.2 \\
+        clip range & 0.2 \\
+        reward normalization & True \\
+        observation normalization & True \\
+        \midrule
+        MLP layers & 2\\
+        MLP activation function & $\tanh()$\\
+		\bottomrule
+	\end{tabular}
+\end{table}

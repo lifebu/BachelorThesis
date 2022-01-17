@@ -83,13 +83,13 @@ This environment is a variation of Rendezvous and therefore shares most of it's 
 
 \subsection{Single Evader Pursuit}
 \label{sec:Single Evader Pursuit}
+
+
 \begin{figure}[htp]
     \centering
-    \subfigure[10 Agents]{\label{fig:single_evader_example_01}\includegraphics[width=0.32\textwidth]{figures/rendezvous_example_01.png}}  
-    \subfigure[15 Agents]{\label{fig:single_evader_example_02}\includegraphics[width=0.32\textwidth]{figures/rendezvous_example_02.png}} 
-    \subfigure[20 Agents]{\label{fig:single_evader_example_03}\includegraphics[width=0.32\textwidth]{figures/rendezvous_example_03.png}}   
+    \subfigure[]{\label{fig:single_evader_example_01}\includegraphics[width=1.0\textwidth]{figures/pursuit_example.png}}  
     \hspace{1cm}                       
-    \caption{An example for a successfull Single Evader Pursuit episode}
+    \caption{An example for a successfull Single Evader Pursuit episode, taken from \citet{KIT2019Max}}
     \label{fig:single_evader_example}
 \end{figure}
 
@@ -132,17 +132,8 @@ Single Evader Pursuit also supports the same culling methods as Rendezvous. The 
 
 
 \subsection{Multi Evader Pursuit}
-\begin{figure}[htp]
-    \centering
-    \subfigure[10 Agents]{\label{fig:multi_evader_example_01}\includegraphics[width=0.32\textwidth]{figures/rendezvous_example_01.png}}  
-    \subfigure[15 Agents]{\label{fig:multi_evader_example_02}\includegraphics[width=0.32\textwidth]{figures/rendezvous_example_02.png}} 
-    \subfigure[20 Agents]{\label{fig:multi_evader_example_03}\includegraphics[width=0.32\textwidth]{figures/rendezvous_example_03.png}}   
-    \hspace{1cm}                       
-    \caption{An example for a successfull Multi Evader Pursuit episode}
-    \label{fig:multi_evader_example}
-\end{figure}
 
-In Multi Evader Pursuit the agents have to catch multiple evaders. An example episode can be seen in \Cref{fig:multi_evader_example}.\par
+In Multi Evader Pursuit the agents have to catch multiple evaders.\par
 
 This task is largely the same as single evader pursuit. The catch threshhold is changed to less than 2\% of world size.
 The reward uses the established velocity penalty $v_p$ and a catch count $c$. It will reward the agents with +1 every time they catch an evader:
