@@ -8,20 +8,15 @@
 
 
 \section{Conclusion}
-% 109 (David), 195 (Niklar), 229 (Robin) Words
-% What comparison we made on different tasks, What we observed. What have we shown of results. Basically a summary of "evaluation".
-\begin{itemize}[noitemsep,nolistsep]
-	\item harsher culling => more layers better. partially compensate, but interpreted data about neighbor's neighbors.
-	\item more hops, better but has limit (more complex, more hops).
-	\item randomized: good abstractions.
-	\item heterogeneous: concat(aggr())?
-	\item GNN Structure: undirected vs directed.
-	\item node-wise or graph-wise value function.
-\end{itemize}
-
+Generally we have shown the overall validity of our approach and architecture. Furthermore under different constraints multiple homogeneous GNN hops can improve upon the results. Firstly with a low latent dimension. Here more hops did help and were more efficient than increasing the latent dimension. This suggests a higher observation efficiency than without them. Secondly, in the ablation tests with downward ablation, the benefit was also much higher. In observation constrained environment the architecture performed better, if the setup was reasonable solvable. If it isn't more hops did not improve the result much. Here in low latent dimension and low observation radius, the benefit was most pronounced. Which leads to the conclusion that the high processing capabilities of mulitple hops did improve upon learning.
 
 \section{Future Work}
 More can be done to expand on the work already finished in this bachelor thesis.\par
+
+% maybe add a small paragraph that talks about that some more experiments would be needed to explore and solidify our findings in more extreme scenarios. like more iterations in observation! especially kNN!
+
+% also some of the architecture parameters that we could additionally test
+% Neighbor Aggregation Types, Directed vs Undirected GNN, Node-wise vs Graph-wise Value-function
 
 All of the experiments in this paper only considered using Proximal Policy Optimization (PPO) \citet{SchulmanWDRK17}, as it is a very common baseline training algorithm.
 However recent research shows that other methods might lead to better results for Multi-Agent Reinforcement Learning.
