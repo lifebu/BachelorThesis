@@ -11,10 +11,4 @@ Multi-Agent Reinforcement Learning (MARL) is an ever expanding field of research
 This work will introduce an architecture that uses Proximal Policy Optimization (PPO) for training with a graph base that allows scaling to multiple GNN passes. Our approach is based on the previosly proposed multi-agent deep reinforcement learning architecture found in \citet{RobinRuede2021}. Furthermore we expand the architecture to work on heterogeneous graphs, which is required for our observation model of more complex tasks. We then evaluate this architecture in multiple multi-agent tasks to show the benefit of multiple GNN passes. 
 \par
 
-Our results show that ... % 2-3 sentences!
-Results/Conclusion
-\begin{itemize}[noitemsep,nolistsep]
-    \item Summarize main result (most important): improvements on policy fitness for multiple hops. little culling => small effect. tight culling => larger effect. Effect larger for more complex tasks and in heterogeneous. evaluate compared to robin?
-    \item Main Conclusions: GNN good fit for describing inter agent communication and cooperation. MARL can greatly benefit from multiple hops.
-\end{itemize}
-
+Our results show that under different kinds of constraints, multiple GNN passes do improve performance. These include small latent dimensions, small observation radii and low amount of observation information. Therefore, MARL Problems can benefit from multiple hops.
