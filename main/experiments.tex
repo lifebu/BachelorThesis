@@ -41,14 +41,15 @@ The reward function $r$ consists of two terms. First we use the mean of the norm
 \end{equation}
 
 A culling method is used, so that the agents have a finite sensor range, either kNN or euclidean distance. The observation graph is homogeneous and composed of the following aspects:
+
 \begin{itemize}[noitemsep,nolistsep]
     \item node features:
     \begin{enumerate}[noitemsep,nolistsep]
-        \item normalized agent positions (optional)
+        \item agent positions, normalized to world size (for debugging, otherwise constant placeholder)
     \end{enumerate} 
     \item edge features:
     \begin{enumerate}[noitemsep,nolistsep]
-        \item normalized pairwise agent distances
+        \item pairwise agent distances, normalized to world size
     \end{enumerate} 
     \item global features: None
 \end{itemize}
@@ -112,19 +113,19 @@ Single Evader Pursuit also supports the same culling methods as Rendezvous. The 
 \begin{itemize}[noitemsep,nolistsep]
     \item agent node features:
     \begin{enumerate}[noitemsep,nolistsep]
-        \item normalized agent positions (optional)
+        \item agent positions, normalized to world size  (for debugging, otherwise constant placeholder)
     \end{enumerate} 
     \item evader node features:
     \begin{enumerate}[noitemsep,nolistsep]
-        \item normalized evader positions (optional)
+        \item evader positions, normalized to world size  (for debugging, otherwise constant placeholder)
     \end{enumerate}
     \item agent-to-agent edge features:
     \begin{enumerate}[noitemsep,nolistsep]
-        \item normalized pairwise agent distances
+        \item pairwise agent distances, normalized to world size
     \end{enumerate} 
     \item agent-to-evader edge features:
     \begin{enumerate}[noitemsep,nolistsep]
-        \item normalized agent to evader distances
+        \item agent to evader distances, normalized to world size
     \end{enumerate} 
     \item global features: None
 \end{itemize}

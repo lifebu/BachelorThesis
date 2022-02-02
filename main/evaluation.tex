@@ -14,7 +14,7 @@ This section elaborates on the results of our experiments. As a proof of concept
 %\end{itemize} 
 \par
 
-Evaluation of the results used different environments compared to training. While the agents trained on randomized starting positions, they were tested with fixed starting positions to allow comparable results. A similar setting was used for evader starting position in Pursuit environments. We considered the average reward per training step and the last reward per training step as performance metrics. The mean gave us a meaningful metric for the progress of the RL algorithm, while the last reward had a more geometric importance for solving the tasks like Rendezvous.  \par
+Evaluation of the results used different environments compared to training. While the agents trained on randomized starting positions, they were tested with fixed starting positions to allow comparable results. A similar setting was used for evader starting position in Pursuit environments. We considered the average reward per training step and the last reward per training step as performance metrics. The mean gave us a meaningful metric for the progress of the RL algorithm, while the last reward had a more geometric importance for solving tasks like Rendezvous.  \par
 
 A more detailed overview of the PPO parameters we use can be found as an appendix \Cref{ch:Hyperparameters}. Unless mentioned otherwise, the following experimental settings were used:
 \begin{itemize}[noitemsep,nolistsep]
@@ -35,7 +35,7 @@ During the evaluation of the experiments, we experienced unexpected hardware iss
 \section{Proof of Concept}
 \label{sec:Proof of Concept}
 % ~ 1 page
-This proof-of-concept experiment used rendezvous. We wanted to show that our architecture works in general. Furthermore, we wanted to investigate if multiple can already have an impact on learning for rendezvous without any observation culling. We chose to use 10 agents that have 24 timesteps to meet each other in a torus-world of size 12. For these runs we used latent dimension in the range of 8 to 64 and 1 to 4 number of hops. The last reward of a given iteration tells us if the agents were able to meet up in the allotted time and therefore we choose that as a comparison.
+This proof-of-concept experiment used rendezvous. We wanted to show that our architecture works in general. Furthermore, we wanted to investigate if multiple GNN hops can already have an impact on learning for rendezvous without any observation restrictions. We chose to use 10 agents that have 24 timesteps to meet each other in a torus-world of size 12. For these runs we used a latent dimension in the range of 8 to 64 and 1 to 4 number of hops. The last reward of a given iteration tells us if the agents were able to meet up in the allotted time and therefore we choose that as a metric.
 
 \begin{figure}[htp]
     \centering
@@ -46,7 +46,7 @@ This proof-of-concept experiment used rendezvous. We wanted to show that our arc
     \label{fig:proof_of_concept_rendezvous}
 \end{figure}
 
-\Cref{fig:proof_of_concept_rendezvous} clearly shows that most of the training environments were able to successfully solve the task. With at least 2 hops, the task was solved, and no extra benefit can be seen for more than 2 hops. Earlier in training, the performance shows some difference for more hops. It is clear that the architecture is able effect the observation input more strongly and learn faster. Each extra hop added roughly 13$\%$ to the time needed to learn, so the benefit is rather small. For simple task, this was expected. If we look at the right site, we can see the effect of different latent dimension to the effectiveness of learning. Only a latent dimension of 8 was not enough for the agents to meet up in the allotted time. In that case, it is clear that the architecture was not able to correctly represent and process observation data for 10 agents.\par
+\Cref{fig:proof_of_concept_rendezvous} clearly shows that most of the training environments were able to successfully solve the task. With at least 2 hops, the task was solved and no extra benefit can be seen for more than 2 hops. Earlier in training, the performance shows some difference for more hops. It is clear that the architecture is able to use the observation input more effectively and learn faster. Each extra hop added roughly 13$\%$ to the training time needed. If we look at the right site, we can see the effect of different latent dimension to the effectiveness of learning. Only a latent dimension of 8 was not enough for the agents to meet up in the allotted time. In that case, it is clear that the architecture was not able to correctly represent and process observation data for 10 agents.\par
 
 \begin{figure}[htp]
     \centering
@@ -57,13 +57,13 @@ This proof-of-concept experiment used rendezvous. We wanted to show that our arc
     \label{fig:proof_of_concept_rendezvous_ld}
 \end{figure}
 
-If we investigate the behavior for the different latent dimensions, we can see a large difference in performance shown in \Cref{fig:proof_of_concept_rendezvous_ld}. For a latent dimension of at least 16 the difference between the number of hops is quite small, as can be seen on the right side. If we filter the results for a latent dimension of 8, the general performance is expectedly worse. But the difference between the number of GNN hops is much more pronounced. This shows that, in larger constraints, the ability to process more of the observation data leads to a larger gain. As doubling the latent dimension also roughly doubles the total time needed, we conclude that more hops can be more efficient than a higher latent dimension.
+If we investigate the behavior for the different latent dimensions, we can see a large difference in performance shown in \Cref{fig:proof_of_concept_rendezvous_ld}. For a latent dimension of at least 16, the difference between the number of hops is quite small, as can be seen on the right side. If we filter the results for a latent dimension of 8, the general performance is expectedly worse. But the difference between the number of GNN hops is much more pronounced. This shows that, in larger constraints, the ability to process more of the observation data leads to a larger gain. As doubling the latent dimension also roughly doubles the total time needed, we conclude that more hops can be more efficient than a higher latent dimension.
 
 
 \section{Ablation}
 \label{sec:Ablation}
 % ~ 1 page
-In these experiments we want to examine how good our architecture was in ablation tests. In other words, how good the it would be able to abstract the task at hand while using a different amount of agents to train than to evaluate. Overall, we chose to use the same number of timesteps and same torus-size then the proof of concept. We used a latent dimension in the range of 8 to 32 and 1 to 4 number of hops. We trained on 5,10, or 20 agents and evaluated on 5,10, or 20 agents.
+In these experiments we want to examine how good our architecture was in ablation tests. In other words, how good it would be able to abstract the task at hand, while using a different amount of agents to train than to evaluate. Overall, we chose to use the same number of timesteps and the same torus-size then the proof-of-concept. We used a latent dimension in the range of 8 to 32 and 1 to 4 number of hops. We trained on 5,10, or 20 agents and evaluated on 5,10, or 20 agents.
 
 \begin{figure}[htp]
     \centering
@@ -74,7 +74,7 @@ In these experiments we want to examine how good our architecture was in ablatio
     \label{fig:ablation-5-20-20-5}
 \end{figure}
 
-\Cref{fig:ablation-5-20-20-5} examines the two extreme cases of our ablation test. We did not feature learning on 10 agents, as it did not prove any results. On the left side we see no discernable difference between 2 to 4 GNN Hops. All of them were able to solve the task in roughly the same time. A single hop is shown as an outlier which performed considerably worse. It took more than double the time to solve the task. No real benefit for more than a single hop can be found for an upwards ablation. The right side shows the downward ablation of 20 training agents and 5 evaluation agents. Given that this is a harder task to learn, we can clearly see that the solutions still led to a gap between the agents. Though noisy, 2-3 hops performed better overall than a single hop. However, a sizeable difference for 4 hops can be observed. This holds true if we filter the results for 20 training agents and 20 evaluation agents. This might indicate that the architecture with more hops is better suited for larger amounts of agents. 
+\Cref{fig:ablation-5-20-20-5} examines the two extreme cases of our ablation test. Learning on 10 agents did not prove any interesting results. On the left side we see no discernable difference between 2 to 4 GNN Hops. All of them were able to solve the task in roughly the same time. A single hop is shown as an outlier, which performed considerably worse. It took more than double the time to solve the task, compared to more hops. No real benefit for more than a single hop can be found for an upwards ablation of 5 training agents and 20 evaluation agents. The right side shows the downward ablation of 20 training agents and 5 evaluation agents. Given, that this is a harder task to learn, we can clearly see that the solutions still led to a gap between the agents. It therefore did not completely solve Rendezvous. Though noisy, 2-3 hops performed better overall than a single hop. However, a sizeable difference for 4 hops can be observed. This holds true, if we filter the results for 20 training agents and 20 evaluation agents. This might indicate, that the architecture with more hops is better suited for larger amounts of agents. 
 
 \begin{figure}[htp]
     \centering
@@ -85,12 +85,12 @@ In these experiments we want to examine how good our architecture was in ablatio
     \label{fig:ablation-ld-no-ld8}
 \end{figure}
 
-We wanted to examine the results for 20 training agents and 5 learning agents a bit more. If we take a look at the performance of different latent dimensions on the left side of \Cref{fig:ablation-ld-no-ld8}, again we are able to that a latent dimension of 8 clearly lags behind. Filtering for latent dimension 8, which is not shown here, shows us very similar results to \Cref{fig:proof_of_concept_rendezvous_ld} in the proof of concept experiments. Because of this, we wanted to exclude latent dimension of 8 in the results. The right side clearly demonstrates a more pronounced difference for 4 GNN hops. It is the only setup that was able to solve the task. With a singular constraint, the downsizing of information gathered by agents and the resulting information sparseness, the results were much more pronounced.
+We wanted to examine the results for 20 training agents and 5 learning agents a bit more. If we take a look at the performance of different latent dimensions on the left side of \Cref{fig:ablation-ld-no-ld8}, we are able to see that a latent dimension of 8 clearly lags behind. Filtering for latent dimension 8, which is not shown here, shows us very similar results to \Cref{fig:proof_of_concept_rendezvous_ld} in the proof of concept experiments. Because of this, we wanted to exclude latent dimension of 8 in the results. The right side clearly demonstrates a more pronounced difference for 4 GNN hops. It is the only setup, that was able to solve the task. With a singular constraint, the downsizing of information gathered by agents and the resulting information sparseness, the results were much more pronounced.
 
 
 \section{Different Aggregation Functions}
 \label{sec:Different Aggregation Functions}
-For these experiments we looked at the dispersion environment and different aggregation functions used by the architecture. The goal was to examine the effect of aggregation functions to the learning effectiveness under different reward types. Dispersion used very similar parameters to Rendezvous. We used a latent dimension in the range of 8 to 32 and 1 to 3 number of hops.
+For these experiments, we looked at the dispersion environment and different aggregation functions used by the architecture. The goal was, to examine the effect of aggregation functions to the learning effectiveness, under different reward types. Dispersion used very similar parameters to Rendezvous. We used a latent dimension in the range of 8 to 32 and 1 to 3 number of hops.
 
 
 \begin{figure}[htp]
@@ -102,13 +102,13 @@ For these experiments we looked at the dispersion environment and different aggr
     \label{fig:aggregation-compare}
 \end{figure}
 
-\Cref{fig:aggregation-compare} shows our results for dispersion. We can generally see that the architecture was not able to learn for reward types mean, min and max. Furthermore, it shows that the number of hops did not make any difference in learning. If we filter for the different aggregation functions, we either observed no difference in the number of hops, or the setup did not learn at all. If we filter out mean, min and max, the results show no difference. This suggests that dispersion is either an outlier, not properly implemented, or shows that the GNN hops may not help in certain tasks. 
+\Cref{fig:aggregation-compare} shows our results for dispersion. We can generally see, that the architecture was not able to learn for reward types mean, min and max. Furthermore, it shows that the number of hops did not make any difference in learning. If we filter for the different aggregation functions, we either observed no difference in the number of hops, or the setup did not learn at all. If we filter out mean, min and max, the results show no difference. This suggests that dispersion is either an outlier, not properly implemented, or shows that the GNN hops may not help in certain tasks. 
 
 
 \section{Under Observation Constraints}
 \label{sec:Under Observation Constraints}
 % ~ 1 page
-The goal for these experiments was to determine if the GNN hops had a larger impact when we use a limited observation range for our agents. For this we looked at kNN and Euclidean distance culling of 50, 25 and 12.5$\%$ respectively. In the case of Euclidean distance, the percentage is relative to the world size. For kNN it denotes how many agents of the total are visible. Tests were run from 8 to 64 latent dimension and 1 to 4 GNN hops.
+The goal for these experiments was to determine, if the GNN hops had a larger impact, when we use a limited observation range for our agents. For this we looked at kNN and Euclidean distance culling of 50, 25 and 12.5$\%$ respectively. In the case of Euclidean distance, the percentage is relative to the world size. For kNN it denotes how many agents of the total number are visible. Tests were run from 8 to 64 latent dimension and 1 to 4 GNN hops.
 
 \begin{figure}[htp]
     \centering
@@ -128,7 +128,7 @@ The goal for these experiments was to determine if the GNN hops had a larger imp
     \label{fig:observation-examples}
 \end{figure}
 
-The first \Cref{fig:observation-knnvsdistance} shows that in general, the architecture struggled a lot with learning kNN culling. The Euclidean distance is symmetrical, if a sees b then b sees a. but kNN is highly asymmetrical. This leads to a directed graph between agents. So, information flow is very restricted and even incomplete locally. Some observations might never reach parts of the agents. The example episodes shown in \Cref{fig:observation-examples} clearly demonstrate this behavior. It demonstrates how the agents converge on local groups first followed by each group trying the find the other groups and converging globally. This breaks for small k in kNN. For 12.5$\%$ and 25$\%$ culling in kNN, no learning was achieved.
+The first \Cref{fig:observation-knnvsdistance} shows that in general, the architecture struggled a lot with learning kNN culling. The Euclidean distance is symmetrical, if a sees b then b sees a. But kNN is highly asymmetrical. This leads to a directed graph between agents. So, information flow is very restricted and even locally incomplete. Some observations might never reach some of the agents. The example episodes shown in \Cref{fig:observation-examples} clearly demonstrate this behavior. It demonstrates how the agents converge on local groups first, followed by each group trying to find the other groups and converging globally. This breaks for small k in kNN. For 12.5$\%$ and 25$\%$ culling in kNN, no learning was achieved.
 
 
 \begin{figure}[htp]
@@ -140,12 +140,12 @@ The first \Cref{fig:observation-knnvsdistance} shows that in general, the archit
     \label{fig:observation-distancecompare}
 \end{figure}
 
-For distance culling, 50$\%$ was generally not different than our proof of concept. This might be because of our specific evaluation setup. The agents always spawn in a circle with the radius being half the world size. 50$\%$ is just enough so that each agent can see each other.
-In \Cref{fig:observation-distancecompare} we examined distance culling in a little bit more detail. The right side shows that the number of hops did not make a difference, as the architecture struggled to learn under these constraints. For 25$\%$, which is shown on the left side, we observed large differences between the number of hops for a latent dimension of 8. For higher latent dimension this was still the case, but not as pronounced. This seems to suggest that if the constraints are even more severe and the task itself is solvable for the number of iterations provided, the gain for multiple GNN Hops is large. Though with more than 3 hops, no real benefit is shown.
+For distance culling, 50$\%$ was generally not different than to our proof-of-concept. This might be, because of our specific evaluation setup. The agents always spawn in a circle, with the radius being half the world size. 50$\%$ is just enough so that each agent can see each other at the start of the environment.
+In \Cref{fig:observation-distancecompare} we examined distance culling in a little bit more detail. The right side shows that the number of hops did not make a difference, as the architecture struggled to learn under these constraints. For 25$\%$, which is shown on the left side, we observed larger differences between the number of hops for a latent dimension of 8. For higher latent dimension this was still the case, but not as pronounced. This seems to suggest that, if the constraints are even more severe and the task itself is solvable for the number of iterations provided, the gain for multiple GNN Hops is large. Though with more than 3 hops, no real benefit is shown.
 
 
 \section{Pursuit Results}
-We originally intended to also run our experiments on the Pursuit environment. This included observation tests and examining both heterogeneous aggregation types. We hoped that a more complex task could lead to even more pronounced evidence for the advantage of multiple GNN Hops. Unfortunately, due to the aforementioned hardware issues and time constraints, we were not able to produce adequate results. We found that even simple Single-Evader Pursuit test cases oscillated heavily. We tried running multiple experiments with increasing difficulty. Our investigations showed, that when the evader has a randomized starting position, the experiments break. Even with extensive debugging we were not able to find a logical or mathematical error in either the environment itself or the heterogeneous graphs. We additionally tried to extend our architecture with one MLP per Node-, or Edge-Type in the heterogeneous modules. This showed a more stable solution in the resulting policy, which still did not learn the task at hand. At the point of writing, it is unclear if the problem exists within our implementation of the environment or the heterogeneous GNN.
+We originally intended to also run our experiments on the Pursuit environment. This included observation tests and examining both heterogeneous aggregation types. We hoped, that a more complex task could lead to even more pronounced evidence for the advantage of multiple GNN Hops. Unfortunately, due to the aforementioned hardware issues and time constraints, we were not able to produce adequate results. We found, that even simple Single-Evader Pursuit test cases oscillated heavily. We tried running multiple experiments with increasing difficulty. Our investigations showed, that when the evader has a randomized starting position, the experiments break. Even with extensive debugging, we were not able to find a logical or mathematical error in either the environment itself, or the heterogeneous graphs. We additionally tried to extend our architecture by having one MLP per Node-, or Edge-Type in the heterogeneous modules. This showed a more stable solution in the resulting policy, which still did not learn the task at hand. At the point of writing, it is unclear if the problem exists within our implementation of the environment, or the heterogeneous GNN.
 
 
 \iffalse
