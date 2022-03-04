@@ -1,8 +1,9 @@
 # Swarm Reinforcement Learning with Graph Neural Networks
+![](https://img.shields.io/badge/Tool-LaTeX-informational?style=plastic&logo=latex&logoColor=white&color=283443)
+<br>
 This bachelor thesis was written during my bachelor for computer science at the Karlsruher Institut for Technology (KIT). It was created with the help of the [Autonomous Learning Robots (ALR) Lab](https://alr.anthropomatik.kit.edu/index.php) of the KIT. 
 
 ## Table of Contents
-  - [Table of Contents](#table-of-contents)
   - [General Information](#general-information)
   - [Template](#template)
   - [Compiled Thesis](#compiled-thesis)
