@@ -45,6 +45,7 @@ parskip]{scrreprt} % scrartcl
 \usepackage[inkscapearea=page, inkscapepath=figures/generated]{svg}
 \usepackage[round]{natbib}
 
+
 % hyperref userpackage moved down here because hyperref should be loaded as the
 % last package: http://tex.stackexchange.com/questions/16268/warning-with-footnotes-namehfootnote-xx-has-been-referenced-but-does-not-exi
 %\usepackage[raiselinks=true,
@@ -321,7 +322,6 @@ breaklines=true,
 %\cleardoublepage
 }
 
-
 \newcommand{\makedeclaration}
 {
 % Backup currently used language and set ngerman for this page.
@@ -344,6 +344,7 @@ Stellen als solche kenntlich gemacht habe und die Satzung des Karlsruher Institu
 \noindent
 Karlsruhe, den \timeend{}
 \begin{flushright}
+    \includegraphics[scale=1]{figures/signature.jpg} \\
     $\overline{\mbox{\myname{}}}$
 \end{flushright}
 
